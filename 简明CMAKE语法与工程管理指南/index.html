@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>简明CMAKE语法与工程管理指南 | Just Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="快速认识CMake，并掌握简单的工程化的能力, 补充内容，如果还有遗漏可以到完全手册中查询相关说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简明CMAKE语法与工程管理指南">
+<meta property="og:url" content="http://example.com/%E7%AE%80%E6%98%8ECMAKE%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="Just Note">
+<meta property="og:description" content="快速认识CMake，并掌握简单的工程化的能力, 补充内容，如果还有遗漏可以到完全手册中查询相关说明">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-10-12T17:33:37.000Z">
+<meta property="article:modified_time" content="2025-10-12T17:46:44.648Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Just Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Just Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-简明CMAKE语法与工程管理指南" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/%E7%AE%80%E6%98%8ECMAKE%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/" class="article-date">
+  <time class="dt-published" datetime="2025-10-12T17:33:37.000Z" itemprop="datePublished">2025-10-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      简明CMAKE语法与工程管理指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="快速认识CMake，并掌握简单的工程化的能力-补充内容，如果还有遗漏可以到完全手册中查询相关说明"><a href="#快速认识CMake，并掌握简单的工程化的能力-补充内容，如果还有遗漏可以到完全手册中查询相关说明" class="headerlink" title="快速认识CMake，并掌握简单的工程化的能力, 补充内容，如果还有遗漏可以到完全手册中查询相关说明"></a>快速认识CMake，并掌握简单的工程化的能力, 补充内容，如果还有遗漏可以到完全手册中查询相关说明<br><span id="more"></span></h2><h1 id="第一部分：原文稿"><a href="#第一部分：原文稿" class="headerlink" title="第一部分：原文稿"></a>第一部分：原文稿</h1><hr>
+<hr>
+<h1 id="🧭-总览结构"><a href="#🧭-总览结构" class="headerlink" title="🧭 总览结构"></a>🧭 总览结构</h1><ol>
+<li><strong>CMake 概念速览与层次关系</strong>  <ul>
+<li>命令行语法 vs. 脚本语法</li>
+<li>工程组织思想</li>
+</ul>
+</li>
+<li><strong>CMake 语法大全（脚本语法 + 命令行语法）</strong><ul>
+<li>语言结构、控制流、变量、函数、宏</li>
+<li>常用命令（add、target、link、install、export等）</li>
+<li>命令行工具（<code>cmake</code>、<code>ctest</code>、<code>cpack</code>）</li>
+</ul>
+</li>
+<li><strong>工程实战模板与范例</strong><ul>
+<li>标准项目结构 + 含多子库&#x2F;动态&#x2F;静态 + 外部库 + 头文件引用 + install&#x2F;export</li>
+<li>附带易理解的 C++ 示例代码</li>
+<li>分级解释作用、可直接编译运行</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="🧩-PART-I：CMake-概念与结构"><a href="#🧩-PART-I：CMake-概念与结构" class="headerlink" title="🧩 PART I：CMake 概念与结构"></a>🧩 PART I：CMake 概念与结构</h1><h2 id="🍀-CMake-是“两层语言”"><a href="#🍀-CMake-是“两层语言”" class="headerlink" title="🍀 CMake 是“两层语言”"></a>🍀 CMake 是“两层语言”</h2><table>
+<thead>
+<tr>
+<th>层</th>
+<th>描述</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>脚本语法</strong></td>
+<td>CMakeLists.txt 文件，由 CMake 语法组成，用来描述工程规则</td>
+<td>Shell 脚本</td>
+</tr>
+<tr>
+<td><strong>命令行接口</strong></td>
+<td>cmake CLI 命令，用于配置、构建、安装、测试、打包</td>
+<td>控制面板</td>
+</tr>
+</tbody></table>
+<p>!&gt; <strong>CMake 不是编译器，也不执行 make，它生成编译系统（Makefile&#x2F;Ninja&#x2F;VS）后再委托编译。</strong></p>
+<hr>
+<h1 id="🧱-PART-II：CMake-语法大全"><a href="#🧱-PART-II：CMake-语法大全" class="headerlink" title="🧱 PART II：CMake 语法大全"></a>🧱 PART II：CMake 语法大全</h1><hr>
+<h2 id="📘-1-基本脚本语法结构"><a href="#📘-1-基本脚本语法结构" class="headerlink" title="📘 1. 基本脚本语法结构"></a>📘 1. 基本脚本语法结构</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注释</span></span><br><span class="line"><span class="comment"># 单行注以 # 开头</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 语句格式：命令(参数1 参数2 ...)</span></span><br><span class="line"><span class="keyword">project</span>(MyProject VERSION <span class="number">1.0</span> LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定最小版本</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.16</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔤-2-变量与作用域"><a href="#🔤-2-变量与作用域" class="headerlink" title="🔤 2. 变量与作用域"></a>🔤 2. 变量与作用域</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下方有补充解释</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通变量</td>
+<td><code>set(VAR value)</code></td>
+<td>定义变量</td>
+</tr>
+<tr>
+<td>访问变量</td>
+<td><code>$&#123;VAR&#125;</code></td>
+<td>取值</td>
+</tr>
+<tr>
+<td>环境变量</td>
+<td><code>$ENV&#123;PATH&#125;</code></td>
+<td>环境访问</td>
+</tr>
+<tr>
+<td>缓存变量</td>
+<td><code>set(VAR value CACHE STRING &quot;desc&quot;)</code></td>
+<td>跨运行</td>
+</tr>
+<tr>
+<td>条件判断</td>
+<td><code>if(VAR)</code> … <code>elseif(...)</code> … <code>endif()</code></td>
+<td>控制流</td>
+</tr>
+<tr>
+<td>比较</td>
+<td><code>if(VALUE STREQUAL &quot;abc&quot;)</code></td>
+<td>字符串比较</td>
+</tr>
+<tr>
+<td>列表</td>
+<td><code>set(LIST a b c)</code></td>
+<td>定义列表</td>
+</tr>
+<tr>
+<td>操作</td>
+<td><code>list(APPEND LST val)</code></td>
+<td>列表操作</td>
+</tr>
+</tbody></table>
+<p>❗常用变量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_SOURCE_DIR            # 顶层源码目录</span><br><span class="line">CMAKE_BINARY_DIR            # 构建输出目录</span><br><span class="line">PROJECT_NAME                # 当前project()</span><br><span class="line">CMAKE_BUILD_TYPE            # Debug/Release</span><br><span class="line">CMAKE_INSTALL_PREFIX         # 安装路径</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="⚙️-3-函数与宏"><a href="#⚙️-3-函数与宏" class="headerlink" title="⚙️ 3. 函数与宏"></a>⚙️ 3. 函数与宏</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>(print_status msg)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;&gt;&gt;&gt; $&#123;msg&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endfunction</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">macro</span>(print_debug VAR)</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;DBG: $&#123;VAR&#125;=$&#123;$&#123;VAR&#125;&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endmacro</span>()</span><br></pre></td></tr></table></figure>
+
+<p>区别：</p>
+<ul>
+<li><code>function()</code> 创建独立作用域；</li>
+<li><code>macro()</code> 没有作用域（变量变化会传出）。</li>
+</ul>
+<hr>
+<h2 id="🧭-4-流程控制与逻辑表达式"><a href="#🧭-4-流程控制与逻辑表达式" class="headerlink" title="🧭 4. 流程控制与逻辑表达式"></a>🧭 4. 流程控制与逻辑表达式</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(WIN32)</span><br><span class="line"> <span class="keyword">message</span>(<span class="string">&quot;Windows build&quot;</span>)</span><br><span class="line"><span class="keyword">elseif</span>(UNIX)</span><br><span class="line"> <span class="keyword">message</span>(<span class="string">&quot;Linux build&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(<span class="keyword">file</span> IN LISTS myfiles)</span><br><span class="line"> <span class="keyword">message</span>(<span class="variable">$&#123;file&#125;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(cond)</span><br><span class="line"> ...</span><br><span class="line"><span class="keyword">endwhile</span>()</span><br></pre></td></tr></table></figure>
+
+<p>运算符：</p>
+<ul>
+<li><code>STREQUAL</code>, <code>EQUAL</code>, <code>LESS</code>, <code>GREATER</code></li>
+<li><code>AND</code>, <code>OR</code>, <code>NOT</code></li>
+<li>文件判断：<code>if(EXISTS path)</code>, <code>if(IS_DIRECTORY dir)</code></li>
+</ul>
+<hr>
+<h2 id="🪶-5-输入输出与消息"><a href="#🪶-5-输入输出与消息" class="headerlink" title="🪶 5. 输入输出与消息"></a>🪶 5. 输入输出与消息</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;Compiling...&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(WARNING <span class="string">&quot;dangerous&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(FATAL_ERROR <span class="string">&quot;stop!&quot;</span>)</span><br><span class="line"><span class="keyword">file</span>(<span class="keyword">MAKE_DIRECTORY</span> path)</span><br><span class="line"><span class="keyword">file</span>(GLOB SRCS <span class="string">&quot;*.cpp&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🧩-6-核心构建指令"><a href="#🧩-6-核心构建指令" class="headerlink" title="🧩 6. 核心构建指令"></a>🧩 6. 核心构建指令</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>使用语法</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可执行程序</td>
+<td><code>add_executable(target src...)</code></td>
+<td><code>add_executable(App main.cpp)</code></td>
+</tr>
+<tr>
+<td>静态&#x2F;动态库</td>
+<td><code>add_library(name STATIC/SHARED src...)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>目标属性</td>
+<td><code>set_target_properties(tgt PROPERTIES OUTPUT_NAME &quot;libcore&quot;)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>链接依赖</td>
+<td><code>target_link_libraries(A B PRIVATE C)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>包含目录</td>
+<td><code>target_include_directories(A PUBLIC include/)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>定义宏</td>
+<td><code>target_compile_definitions(A PRIVATE BUILD_DLL)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>选项</td>
+<td><code>option(ENABLE_LOG &quot;enable log&quot; ON)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>条件编译</td>
+<td><code>if(ENABLE_LOG)</code>…<code>endif()</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>三种可见性关键字：</strong></p>
+<ul>
+<li><strong>PRIVATE</strong>：仅当前 target；</li>
+<li><strong>PUBLIC</strong>：当前和依赖当前的 target；</li>
+<li><strong>INTERFACE</strong>：只有调用者可见。</li>
+</ul>
+<hr>
+<h2 id="🏗️-7-全局与子目录构建"><a href="#🏗️-7-全局与子目录构建" class="headerlink" title="🏗️ 7. 全局与子目录构建"></a>🏗️ 7. 全局与子目录构建</h2><h3 id="主次结构"><a href="#主次结构" class="headerlink" title="主次结构"></a>主次结构</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_subdirectory</span>(Core)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(Modules)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(App)</span><br></pre></td></tr></table></figure>
+
+<h3 id="include-引用模块"><a href="#include-引用模块" class="headerlink" title="include 引用模块"></a>include 引用模块</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/cmake/MyUtil.cmake)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🗂️-8-安装与导出（Install-Export）"><a href="#🗂️-8-安装与导出（Install-Export）" class="headerlink" title="🗂️ 8. 安装与导出（Install &#x2F; Export）"></a>🗂️ 8. 安装与导出（Install &#x2F; Export）</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">install</span>(TARGETS Core Model</span><br><span class="line">  <span class="keyword">EXPORT</span> MyProjTargets</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  RUNTIME DESTINATION bin</span><br><span class="line">)</span><br><span class="line"><span class="keyword">install</span>(<span class="keyword">EXPORT</span> MyProjTargets</span><br><span class="line">  <span class="keyword">FILE</span> MyProjConfig.cmake</span><br><span class="line">  NAMESPACE MyProj::</span><br><span class="line">  DESTINATION lib/cmake/MyProj</span><br><span class="line">)</span><br><span class="line"><span class="keyword">install</span>(DIRECTORY <span class="keyword">include</span>/ DESTINATION <span class="keyword">include</span>/MyProj)</span><br></pre></td></tr></table></figure>
+
+<p>这样 <code>find_package(MyProj REQUIRED)</code> 即可导入。</p>
+<hr>
+<h2 id="💼-9-导入外部库与-find-package"><a href="#💼-9-导入外部库与-find-package" class="headerlink" title="💼 9. 导入外部库与 find_package"></a>💼 9. 导入外部库与 find_package</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(OpenCV REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(App PRIVATE <span class="variable">$&#123;OpenCV_LIBS&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>自定义 <code>FindXXX.cmake</code>：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cmake/FindMylib.cmake</span></span><br><span class="line"><span class="keyword">find_path</span>(MYLIB_INCLUDE_DIR mylib.h PATHS /opt/mylib/<span class="keyword">include</span>)</span><br><span class="line"><span class="keyword">find_library</span>(MYLIB_LIB NAMES mylib PATHS /opt/mylib/lib)</span><br><span class="line"><span class="keyword">mark_as_advanced</span>(MYLIB_INCLUDE_DIR MYLIB_LIB)</span><br><span class="line"><span class="keyword">if</span>(MYLIB_INCLUDE_DIR <span class="keyword">AND</span> MYLIB_LIB)</span><br><span class="line">  <span class="keyword">set</span>(MYLIB_FOUND <span class="keyword">TRUE</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔗-10-工程属性与配置"><a href="#🔗-10-工程属性与配置" class="headerlink" title="🔗 10. 工程属性与配置"></a>🔗 10. 工程属性与配置</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>project(NAME VERSION 1.0)</code></td>
+<td>—</td>
+<td>工程名和版本</td>
+</tr>
+<tr>
+<td><code>configure_file(in out @ONLY)</code></td>
+<td>模板生成配置头</td>
+<td></td>
+</tr>
+<tr>
+<td><code>add_compile_options(-Wall)</code></td>
+<td>全局编译选项</td>
+<td></td>
+</tr>
+<tr>
+<td><code>set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ...)</code></td>
+<td>二进制输出目录</td>
+<td></td>
+</tr>
+<tr>
+<td><code>include(GNUInstallDirs)</code></td>
+<td>平台标准路径</td>
+<td></td>
+</tr>
+<tr>
+<td><code>add_custom_command</code> &#x2F; <code>add_custom_target</code></td>
+<td>自定义命令</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>自定义命令例：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_custom_command</span>(</span><br><span class="line">  <span class="keyword">TARGET</span> App POST_BUILD</span><br><span class="line">  <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_COMMAND&#125;</span> -E copy $&lt;TARGET_FILE:App&gt; <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🧩-11-测试与打包"><a href="#🧩-11-测试与打包" class="headerlink" title="🧩 11. 测试与打包"></a>🧩 11. 测试与打包</h2><ul>
+<li>测试：<code>enable_testing()</code> + <code>add_test(NAME test1 COMMAND App arg)</code></li>
+<li>打包：  <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(CPack)</span><br><span class="line"><span class="keyword">set</span>(CPACK_GENERATOR <span class="string">&quot;TGZ&quot;</span>)</span><br><span class="line">make package</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="⚙️-12-命令行工具语法速查"><a href="#⚙️-12-命令行工具语法速查" class="headerlink" title="⚙️ 12. 命令行工具语法速查"></a>⚙️ 12. 命令行工具语法速查</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能&#x2F;示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建构建系统</td>
+<td><code>cmake -S . -B build</code></td>
+</tr>
+<tr>
+<td>构建</td>
+<td><code>cmake --build build -j</code></td>
+</tr>
+<tr>
+<td>安装</td>
+<td><code>cmake --install build --prefix ./install</code></td>
+</tr>
+<tr>
+<td>清理</td>
+<td><code>cmake --build build --target clean</code></td>
+</tr>
+<tr>
+<td>列变量</td>
+<td><code>cmake -LAH</code></td>
+</tr>
+<tr>
+<td>测试</td>
+<td><code>ctest --output-on-failure</code></td>
+</tr>
+<tr>
+<td>打包</td>
+<td><code>cpack -G TGZ</code></td>
+</tr>
+<tr>
+<td>缓存修改</td>
+<td><code>cmake -DVAR=VALUE</code></td>
+</tr>
+<tr>
+<td>GUI (可选)</td>
+<td><code>cmake-gui</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="⚒️-PART-III：实战工程模板"><a href="#⚒️-PART-III：实战工程模板" class="headerlink" title="⚒️ PART III：实战工程模板"></a>⚒️ PART III：实战工程模板</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">工程已作废，下方补充说明部分有更新版本</span><br></pre></td></tr></table></figure>
+
+<h2 id="🎯-工程目标"><a href="#🎯-工程目标" class="headerlink" title="🎯 工程目标"></a>🎯 工程目标</h2><ul>
+<li>主项目： <code>MyProject</code></li>
+<li>子组件：<ul>
+<li><code>Core</code>（静态库）</li>
+<li><code>Network</code>（动态库）</li>
+<li><code>App</code>（主程序）</li>
+</ul>
+</li>
+<li>额外引入第三方库如 <code>fmt</code>（header-only）</li>
+</ul>
+<hr>
+<h2 id="📁-文件结构"><a href="#📁-文件结构" class="headerlink" title="📁 文件结构"></a>📁 文件结构</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MyProject/</span><br><span class="line">│</span><br><span class="line">├─ CMakeLists.txt</span><br><span class="line">├─ Core/</span><br><span class="line">│   ├─ CMakeLists.txt</span><br><span class="line">│   └─ core.cpp / core.h</span><br><span class="line">├─ Network/</span><br><span class="line">│   ├─ CMakeLists.txt</span><br><span class="line">│   └─ network.cpp / network.h</span><br><span class="line">├─ App/</span><br><span class="line">│   ├─ CMakeLists.txt</span><br><span class="line">│   └─ main.cpp</span><br><span class="line">├─ cmake/</span><br><span class="line">│   └─ FindFMT.cmake</span><br><span class="line">└─ bin/</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🏷️-顶层-CMakeLists-txt"><a href="#🏷️-顶层-CMakeLists-txt" class="headerlink" title="🏷️ 顶层 CMakeLists.txt"></a>🏷️ 顶层 CMakeLists.txt</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.16</span>)</span><br><span class="line"><span class="keyword">project</span>(MyProject LANGUAGES CXX VERSION <span class="number">1.0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_LIBRARY_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin/lib)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_ARCHIVE_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin/lib)</span><br><span class="line"></span><br><span class="line"><span class="keyword">option</span>(BUILD_SHARED_LIBS <span class="string">&quot;Build shared instead of static&quot;</span> <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(Core)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(Network)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(App)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装导出</span></span><br><span class="line"><span class="keyword">install</span>(<span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">  <span class="keyword">FILE</span> MyProjectConfig.cmake</span><br><span class="line">  NAMESPACE MyProject::</span><br><span class="line">  DESTINATION lib/cmake/MyProject</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-Core-CMakeLists-txt"><a href="#🔹-Core-CMakeLists-txt" class="headerlink" title="🔹 Core&#x2F;CMakeLists.txt"></a>🔹 Core&#x2F;CMakeLists.txt</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(Core STATIC core.cpp core.h)</span><br><span class="line"><span class="keyword">target_include_directories</span>(Core PUBLIC <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">target_compile_definitions</span>(Core PRIVATE CORE_INTERNAL)</span><br><span class="line"><span class="keyword">install</span>(TARGETS Core <span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">  PUBLIC_HEADER DESTINATION <span class="keyword">include</span>/Core</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>core.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;core.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">core_init</span><span class="params">()</span> </span>&#123; std::cout &lt;&lt; <span class="string">&quot;Core initialized\n&quot;</span>; &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>core.h</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">core_init</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-Network-CMakeLists-txt"><a href="#🔹-Network-CMakeLists-txt" class="headerlink" title="🔹 Network&#x2F;CMakeLists.txt"></a>🔹 Network&#x2F;CMakeLists.txt</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(Network SHARED network.cpp network.h)</span><br><span class="line"><span class="keyword">target_include_directories</span>(Network PUBLIC <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(Network PRIVATE Core)</span><br><span class="line"><span class="keyword">find_package</span>(FMT REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(Network PRIVATE fmt::fmt)</span><br><span class="line"><span class="keyword">install</span>(TARGETS Network <span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  PUBLIC_HEADER DESTINATION <span class="keyword">include</span>/Network</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><strong>network.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;network.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;core.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fmt/core.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">network_run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">core_init</span>();</span><br><span class="line">    fmt::<span class="built_in">print</span>(<span class="string">&quot;Network module online.\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>network.h</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">network_run</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-App-CMakeLists-txt"><a href="#🔹-App-CMakeLists-txt" class="headerlink" title="🔹 App&#x2F;CMakeLists.txt"></a>🔹 App&#x2F;CMakeLists.txt</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(App main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(App PRIVATE Core Network)</span><br><span class="line"><span class="keyword">install</span>(TARGETS App RUNTIME DESTINATION bin)</span><br></pre></td></tr></table></figure>
+
+<p><strong>main.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;network.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">network_run</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="📦-构建与安装"><a href="#📦-构建与安装" class="headerlink" title="📦 构建与安装"></a>📦 构建与安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -S . -B build -DCMAKE_BUILD_TYPE=Release</span><br><span class="line">cmake --build build -j</span><br><span class="line">cmake --install build --prefix ./install</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">install/</span><br><span class="line">├─ bin/App</span><br><span class="line">├─ lib/libCore.a</span><br><span class="line">├─ lib/libNetwork.so</span><br><span class="line">└─ include/(Core|Network)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🌍-外部使用（SDK形式）"><a href="#🌍-外部使用（SDK形式）" class="headerlink" title="🌍 外部使用（SDK形式）"></a>🌍 外部使用（SDK形式）</h2><p>在另一个 CMake 项目的 CMakeLists.txt：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(MyProject REQUIRED)</span><br><span class="line"><span class="keyword">add_executable</span>(UserApp main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(UserApp PRIVATE MyProject::Network)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="💡-附录：学习与心法"><a href="#💡-附录：学习与心法" class="headerlink" title="💡 附录：学习与心法"></a>💡 附录：学习与心法</h1><ol>
+<li><strong>CMake 是“描述”，不是“执行”</strong> - 它描述「如何构建」。  </li>
+<li><strong>最小暴露原则</strong> - 公共接口只通过 <code>target_include_directories(... PUBLIC)</code>。  </li>
+<li><strong>不全局污染</strong> - 避免 <code>include_directories(...)</code> 这种全局指令。  </li>
+<li><strong>导出&#x2F;Import 是工程复用根基。</strong>  </li>
+<li><strong>区分开发与部署</strong> - 使用 INSTALL 和 EXPORT。  </li>
+<li><strong>第三方库优先 find_package</strong> - 兼容 CMake生态。  </li>
+<li><strong>Debug&#x2F;Release 各独立构建目录。</strong>  </li>
+<li><strong>掌握目标依赖三修饰符：PRIVATE &#x2F; PUBLIC &#x2F; INTERFACE。</strong>  </li>
+<li><strong>用 configure_file 自动生成版本号头文件。</strong>  </li>
+<li><strong>始终在 CMake GUI &#x2F; Cache 里确认路径解析。</strong></li>
+</ol>
+<hr>
+<p>✅ <strong>结果</strong></p>
+<p>这份文档包含：</p>
+<ul>
+<li>全量脚本语法（变量、函数、逻辑、构建命令、安装导出）；</li>
+<li>所有命令行接口；</li>
+<li>完整高层模板（含三层子项目 + install&#x2F;export + 第三方依赖）；</li>
+<li>真实 C++ 示例可编译运行；</li>
+<li>行业通用工程组织理念。</li>
+</ul>
+<p>拷贝工程结构后执行三步：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -S . -B build</span><br><span class="line">cmake --build build</span><br><span class="line">cmake --install build --prefix ./install</span><br></pre></td></tr></table></figure>
+
+<p>你就拥有了一个标准、现代、可扩展且可复用的 CMake 工程基础框架。</p>
+<hr>
+<h1 id="第二部分：补充说明"><a href="#第二部分：补充说明" class="headerlink" title="第二部分：补充说明"></a>第二部分：补充说明</h1><hr>
+<h1 id="🧱-第一章：变量系统全解（CMake-脚本语法核心）"><a href="#🧱-第一章：变量系统全解（CMake-脚本语法核心）" class="headerlink" title="🧱 第一章：变量系统全解（CMake 脚本语法核心）"></a>🧱 第一章：变量系统全解（CMake 脚本语法核心）</h1><hr>
+<h2 id="🔤-1️⃣-定义变量"><a href="#🔤-1️⃣-定义变量" class="headerlink" title="🔤 1️⃣ 定义变量"></a>🔤 1️⃣ 定义变量</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set(&lt;变量名&gt; &lt;值&gt; [CACHE &lt;类型&gt; &lt;描述&gt; [FORCE]])</span></span><br><span class="line"><span class="keyword">set</span>(MY_NAME <span class="string">&quot;Alice&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="variable">$&#123;MY_NAME&#125;</span>) <span class="comment"># 打印变量值 =&gt; Alice</span></span><br></pre></td></tr></table></figure>
+
+<p>📘 <strong>说明</strong></p>
+<ul>
+<li>CMake 中变量只是。</li>
+<li>默认作用域是当前文件；function 有独立作用域，macro 没有。</li>
+<li>可跨文件使用 <code>$&#123;变量名&#125;</code> 取值。</li>
+</ul>
+<hr>
+<h2 id="🌍-2️⃣-预定义路径变量"><a href="#🌍-2️⃣-预定义路径变量" class="headerlink" title="🌍 2️⃣ 预定义路径变量"></a>🌍 2️⃣ 预定义路径变量</h2><table>
+<thead>
+<tr>
+<th>变量</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CMAKE_SOURCE_DIR</code> 最顶层 <code>CMakeLists.txt</code> 所在目录</td>
+<td><code>/home/user/MyProject</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>CMAKE_CURRENT_SOURCE_DIR</code></td>
+<td>当前这一层CMakeLists所在目录</td>
+<td><code>MyProject/Core</code></td>
+</tr>
+<tr>
+<td><code>CMAKE_BINARY_DIR</code></td>
+<td>构建目录根</td>
+<td><code>/home/user/MyProject/build</code></td>
+</tr>
+<tr>
+<td><code>CMAKE_CURRENT_BINARY_DIR</code></td>
+<td>当前构建子目录</td>
+<td><code>/home/user/MyProject/build</code></td>
+</tr>
+<tr>
+<td><code>PROJECT_SOURCE_DIR</code></td>
+<td><code>project()</code> 定义的项目源码根</td>
+<td>同 <code>CMAKE_SOURCE_DIR</code></td>
+</tr>
+<tr>
+<td><code>CMAKE_INSTALL_PREFIX</code></td>
+<td>安装根目录</td>
+<td><code>/usr/local</code> 或手动prefix</td>
+</tr>
+<tr>
+<td><code>CMAKE_RUNTIME_OUTPUT_DIRECTORY</code></td>
+<td>exe 输出路径</td>
+<td><code>MyProject/bin</code></td>
+</tr>
+<tr>
+<td><code>CMAKE_LIBRARY_OUTPUT_DIRECTORY</code></td>
+<td>动态库输出路径</td>
+<td><code>MyProject/bin/lib</code></td>
+</tr>
+<tr>
+<td><code>CMAKE_ARCHIVE_OUTPUT_DIRECTORY</code></td>
+<td>静态库输出路径</td>
+<td><code>MyProject/bin/lib</code></td>
+</tr>
+</tbody></table>
+<p>💬 用法示例：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin)</span><br><span class="line"><span class="keyword">add_executable</span>(app main.cpp)</span><br></pre></td></tr></table></figure>
+<p>→ 编译后 <code>app</code> 输出到 <code>bin/</code></p>
+<hr>
+<h2 id="📋-3️⃣-环境与缓存变量"><a href="#📋-3️⃣-环境与缓存变量" class="headerlink" title="📋 3️⃣ 环境与缓存变量"></a>📋 3️⃣ 环境与缓存变量</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(ENV&#123;PATH&#125; <span class="string">&quot;/extra/tools:$ENV&#123;PATH&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;PATH = $ENV&#123;PATH&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(VERSION_TAG <span class="string">&quot;v1&quot;</span> CACHE <span class="keyword">STRING</span> <span class="string">&quot;project version&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>📘 CACHE 会写入 <code>CMakeCache.txt</code>，下次 cmake 保留。</p>
+<hr>
+<h2 id="🧮-4️⃣-列表与操作"><a href="#🧮-4️⃣-列表与操作" class="headerlink" title="🧮 4️⃣ 列表与操作"></a>🧮 4️⃣ 列表与操作</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(MYLIST A B C)</span><br><span class="line"><span class="keyword">list</span>(APPEND MYLIST D)</span><br><span class="line"><span class="keyword">foreach</span>(item IN LISTS MYLIST)</span><br><span class="line">  <span class="keyword">message</span>(<span class="variable">$&#123;item&#125;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>()</span><br></pre></td></tr></table></figure>
+
+<p>字符串：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span>(REPLACE <span class="string">&quot;;&quot;</span> <span class="string">&quot;,&quot;</span> OUTPUT <span class="string">&quot;$&#123;MYLIST&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="⚙️-第二章：构建目标-Targets-与命名空间"><a href="#⚙️-第二章：构建目标-Targets-与命名空间" class="headerlink" title="⚙️ 第二章：构建目标(Targets) 与命名空间"></a>⚙️ 第二章：构建目标(Targets) 与命名空间</h1><hr>
+<h2 id="🧩-Target-是什么？"><a href="#🧩-Target-是什么？" class="headerlink" title="🧩 Target 是什么？"></a>🧩 Target 是什么？</h2><blockquote>
+<p>每个 <code>add_library()</code> 或 <code>add_executable()</code> 创建的实体目标是一个 <strong>Target</strong>。<br>一切引用、依赖、安装都绕着 Target 进行。</p>
+</blockquote>
+<p>例：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(Core STATIC core.cpp)</span><br><span class="line"><span class="keyword">add_executable</span>(App main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(App PRIVATE Core)</span><br></pre></td></tr></table></figure>
+
+<p>📘 <code>&quot;App&quot;</code> 目标链接 <code>&quot;Core&quot;</code>。</p>
+<blockquote>
+<p>Target 与变量不同，它是 CMake 内部的“构建对象”。</p>
+</blockquote>
+<hr>
+<h2 id="💡-target-link-libraries-的三修饰符"><a href="#💡-target-link-libraries-的三修饰符" class="headerlink" title="💡 target_link_libraries 的三修饰符"></a>💡 target_link_libraries 的三修饰符</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_link_libraries</span>(App</span><br><span class="line">    PRIVATE Core</span><br><span class="line">    PUBLIC OpenCV::opencv_core</span><br><span class="line">    INTERFACE Boost::boost)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PRIVATE</td>
+<td>仅 App 编译需要 Core 的头文件，不传播</td>
+</tr>
+<tr>
+<td>PUBLIC</td>
+<td>App 和依赖 App 的目标都要用</td>
+</tr>
+<tr>
+<td>INTERFACE</td>
+<td>当前目标不需要，但下游要用（多用于 header-only 库）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🌐-命名空间（Namespace）是什么？"><a href="#🌐-命名空间（Namespace）是什么？" class="headerlink" title="🌐 命名空间（Namespace）是什么？"></a>🌐 命名空间（Namespace）是什么？</h2><p><code>OpenCV::opencv_core</code> 其实是外部库 <code>OpenCV</code> 安装时导出的命名空间前缀。<br><code>find_package(OpenCV)</code> 返回的就是一系列 Target，如：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OpenCV::core</span><br><span class="line">OpenCV::imgproc</span><br><span class="line">OpenCV::highgui</span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;&gt; 它不是变量，而是<strong>target 名称空间引用</strong>。<br>在 <em>install(EXPORT)</em> 生成 Config 中我们也能自定义自己的命名空间。</p>
+<hr>
+<h1 id="🧰-第三章：install-与-export-机制"><a href="#🧰-第三章：install-与-export-机制" class="headerlink" title="🧰 第三章：install 与 export 机制"></a>🧰 第三章：install 与 export 机制</h1><hr>
+<h2 id="🧩-install-TARGETS-…-是装什么？"><a href="#🧩-install-TARGETS-…-是装什么？" class="headerlink" title="🧩 install(TARGETS …) 是装什么？"></a>🧩 install(TARGETS …) 是装什么？</h2><p>用于复制编译好的目标到指定安装目录。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">install</span>(TARGETS Core</span><br><span class="line">  RUNTIME DESTINATION bin</span><br><span class="line">  LIBRARY DESTINATION lib</span><br><span class="line">  ARCHIVE DESTINATION lib</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>对应</th>
+<th>平台差异</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RUNTIME</td>
+<td><code>.exe/.so</code> 可执行文件</td>
+<td>Windows&#x2F;Linux 共用</td>
+</tr>
+<tr>
+<td>LIBRARY</td>
+<td>动态库 <code>.so/.dll</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>ARCHIVE</td>
+<td>静态库 <code>.a/.lib</code></td>
+<td>-</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="📦-install-EXPORT-…-到底干嘛"><a href="#📦-install-EXPORT-…-到底干嘛" class="headerlink" title="📦 install(EXPORT …) 到底干嘛"></a>📦 install(EXPORT …) 到底干嘛</h2><p>这是导出一份 “<strong>目标描述文件</strong>”。<br>举例：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">install</span>(<span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">  <span class="keyword">FILE</span> MyProjectConfig.cmake</span><br><span class="line">  NAMESPACE MyProject::</span><br><span class="line">  DESTINATION lib/cmake/MyProject</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<ul>
+<li>在项目安装阶段会生成：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install/lib/cmake/MyProject/MyProjectConfig.cmake</span><br></pre></td></tr></table></figure></li>
+<li>里面记录了所有通过 <code>install(TARGETS ... EXPORT MyProjectTargets)</code> 注册过的 target。</li>
+<li>之后外部工程就可以：<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(MyProject REQUIRED)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(OtherApp MyProject::Core)</span><br></pre></td></tr></table></figure>
+来快速使用你的库。</li>
+</ul>
+<p>🪶 <strong>所以：</strong><br>1️⃣ <code>MyProjectTargets</code> 名是随便取的导出清单名；<br>2️⃣ 该清单由 install(TARGETS … EXPORT XXX) 收集形成；<br>3️⃣ 最终写入 Config 文件；<br>4️⃣ 命名空间只是一种前缀约定，通常和工程名一致。</p>
+<hr>
+<h1 id="🧩-第四章：find-package-用法实例"><a href="#🧩-第四章：find-package-用法实例" class="headerlink" title="🧩 第四章：find_package 用法实例"></a>🧩 第四章：find_package 用法实例</h1><hr>
+<h2 id="✅-查找系统库"><a href="#✅-查找系统库" class="headerlink" title="✅ 查找系统库"></a>✅ 查找系统库</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(OpenCV REQUIRED)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;OpenCV_INCLUDE_DIRS&#125;</span>)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(App PRIVATE <span class="variable">$&#123;OpenCV_LIBS&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<ul>
+<li>旧写法（兼容非现代导出库）：使用 <code>_INCLUDE_DIRS</code> <code>_LIBS</code> 变量；</li>
+<li>新写法：<code>target_link_libraries(App PRIVATE OpenCV::core)</code> ，这种依赖查找 <strong>需要 OpenCV 自身提供导出的 CMake 配置文件</strong>。</li>
+</ul>
+<hr>
+<h2 id="✅-自定义-FindXXX-cmake"><a href="#✅-自定义-FindXXX-cmake" class="headerlink" title="✅ 自定义 FindXXX.cmake"></a>✅ 自定义 FindXXX.cmake</h2><p>若库未提供Config，可自己写 <code>FindXxx.cmake</code> 并放入 <code>cmake/Modules/</code>。</p>
+<p>路径查找：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span>(OpenCV_DIR <span class="string">&quot;/opt/opencv/lib/cmake/opencv4&quot;</span>)</span><br><span class="line"><span class="keyword">find_package</span>(OpenCV REQUIRED)</span><br></pre></td></tr></table></figure>
+
+<p>这样 cmake 会去那个路径下找 <code>OpenCVConfig.cmake</code>。</p>
+<hr>
+<h1 id="🛠️-第五章：option-配置及-if-条件用法"><a href="#🛠️-第五章：option-配置及-if-条件用法" class="headerlink" title="🛠️ 第五章：option&#x2F;配置及 if 条件用法"></a>🛠️ 第五章：option&#x2F;配置及 if 条件用法</h1><hr>
+<h2 id="⚙️-定义开关"><a href="#⚙️-定义开关" class="headerlink" title="⚙️ 定义开关"></a>⚙️ 定义开关</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">option</span>(BUILD_SHARED_LIBS <span class="string">&quot;Build shared libraries&quot;</span> <span class="keyword">ON</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这会出现在 CMake GUI &#x2F; cache，可在命令行修改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -DBUILD_SHARED_LIBS=OFF ..</span><br></pre></td></tr></table></figure>
+
+<p>系统内置的常见 option：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CMAKE_BUILD_TYPE</code></td>
+<td>指定 Debug&#x2F;Release</td>
+</tr>
+<tr>
+<td><code>CMAKE_VERBOSE_MAKEFILE</code></td>
+<td>打印构建详细命令</td>
+</tr>
+<tr>
+<td><code>BUILD_SHARED_LIBS</code></td>
+<td>控制默认库类型</td>
+</tr>
+<tr>
+<td><code>CMAKE_INSTALL_PREFIX</code></td>
+<td>安装前缀</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🔧-第六章：file-命令详解（GLOB等）"><a href="#🔧-第六章：file-命令详解（GLOB等）" class="headerlink" title="🔧 第六章：file() 命令详解（GLOB等）"></a>🔧 第六章：file() 命令详解（GLOB等）</h1><hr>
+<h2 id="📂-file-GLOB-…-指令"><a href="#📂-file-GLOB-…-指令" class="headerlink" title="📂 file(GLOB …) 指令"></a>📂 file(GLOB …) 指令</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(GLOB SRC_FILES <span class="string">&quot;$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/*.cpp&quot;</span>)</span><br><span class="line"><span class="keyword">add_library</span>(MyLib <span class="variable">$&#123;SRC_FILES&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<ul>
+<li>GLOB 用于通配符收集文件；</li>
+<li>不会自动检测新增文件；</li>
+<li>通常不建议用在正式项目（因为新增源文件后不会触发重新配置）；</li>
+<li>推荐<strong>显式列出源码文件</strong>。</li>
+</ul>
+<p>还可用：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(<span class="keyword">MAKE_DIRECTORY</span> build/output)     <span class="comment"># 创建目录</span></span><br><span class="line"><span class="keyword">file</span>(<span class="keyword">REMOVE</span> old.txt)                  <span class="comment"># 删除</span></span><br><span class="line"><span class="keyword">file</span>(READ path OUTPUT)                <span class="comment"># 读文件</span></span><br><span class="line"><span class="keyword">file</span>(WRITE path <span class="string">&quot;content&quot;</span>)            <span class="comment"># 写文件</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="🚀-第七章：CMake-CLI-全功能表（带例子）"><a href="#🚀-第七章：CMake-CLI-全功能表（带例子）" class="headerlink" title="🚀 第七章：CMake CLI 全功能表（带例子）"></a>🚀 第七章：CMake CLI 全功能表（带例子）</h1><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cmake -S &lt;src&gt; -B &lt;build&gt;</code></td>
+<td>指定源码与构建目录</td>
+<td><code>cmake -S . -B build</code></td>
+</tr>
+<tr>
+<td><code>cmake --build &lt;dir&gt; --target &lt;t&gt;</code></td>
+<td>构建目标</td>
+<td><code>cmake --build build --target App</code></td>
+</tr>
+<tr>
+<td><code>cmake --install &lt;dir&gt; --prefix &lt;path&gt;</code></td>
+<td>执行 install 阶段</td>
+<td><code>cmake --install build --prefix ./release</code></td>
+</tr>
+<tr>
+<td><code>ctest</code></td>
+<td>运行测试</td>
+<td><code>ctest --output-on-failure</code></td>
+</tr>
+<tr>
+<td><code>cpack</code></td>
+<td>打包(使用CPack配置)</td>
+<td><code>cpack -G TGZ -C Release</code></td>
+</tr>
+<tr>
+<td><code>cmake -DVAR=value</code></td>
+<td>定义变量</td>
+<td><code>cmake -DBUILD_TESTS=ON ..</code></td>
+</tr>
+<tr>
+<td><code>cmake -G &quot;Ninja&quot;</code></td>
+<td>指定生成器</td>
+<td><code>cmake -G &quot;Unix Makefiles&quot;</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🧱-第八章：完整工程化模板逐行注释版（强化理解）"><a href="#🧱-第八章：完整工程化模板逐行注释版（强化理解）" class="headerlink" title="🧱 第八章：完整工程化模板逐行注释版（强化理解）"></a>🧱 第八章：完整工程化模板逐行注释版（强化理解）</h1><p>目录结构（带第三方、导出宏、pimpl）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MyProject/</span><br><span class="line">├─ Core/</span><br><span class="line">│  ├─ core.h core.cpp</span><br><span class="line">│  ├─ core_export.h</span><br><span class="line">│  └─ CMakeLists.txt</span><br><span class="line">├─ Net/</span><br><span class="line">│  ├─ net.h/net.cpp/net_export.h</span><br><span class="line">│  └─ CMakeLists.txt</span><br><span class="line">├─ App/</span><br><span class="line">│  ├─ main.cpp</span><br><span class="line">│  └─ CMakeLists.txt</span><br><span class="line">├─ include/        # 统一安装头</span><br><span class="line">├─ cmake/</span><br><span class="line">│  └─ FindFMT.cmake</span><br><span class="line">└─ CMakeLists.txt</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-顶层-CMakeLists-txt（讲解版）"><a href="#🔹-顶层-CMakeLists-txt（讲解版）" class="headerlink" title="🔹 顶层 CMakeLists.txt（讲解版）"></a>🔹 顶层 CMakeLists.txt（讲解版）</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(MyProject VERSION <span class="number">1.0</span> LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/bin)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 全局安装路径</span></span><br><span class="line"><span class="keyword">include</span>(GNUInstallDirs)  <span class="comment"># 提供 $&#123;CMAKE_INSTALL_LIBDIR&#125;, $&#123;CMAKE_INSTALL_INCLUDEDIR&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 依赖第三方 Header-only 库 fmt</span></span><br><span class="line"><span class="keyword">find_package</span>(fmt REQUIRED)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_subdirectory</span>(Core)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(Net)</span><br><span class="line"><span class="keyword">add_subdirectory</span>(App)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 导出所有目标描述文件（为 SDK 使用做准备）</span></span><br><span class="line"><span class="keyword">install</span>(<span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">    <span class="keyword">FILE</span> MyProjectConfig.cmake</span><br><span class="line">    NAMESPACE MyProject::</span><br><span class="line">    DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_LIBDIR&#125;</span>/cmake/MyProject)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-Core-模块"><a href="#🔹-Core-模块" class="headerlink" title="🔹 Core 模块"></a>🔹 Core 模块</h2><p><strong>core_export.h</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(_WIN32)</span></span><br><span class="line">  <span class="meta">#<span class="keyword">if</span> defined(CORE_EXPORTS)</span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> CORE_API __declspec(dllexport)</span></span><br><span class="line">  <span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> CORE_API __declspec(dllimport)</span></span><br><span class="line">  <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">  <span class="meta">#<span class="keyword">define</span> CORE_API</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>core.h &#x2F; core.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;core_export.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CORE_API</span> Core &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">Core</span>();</span><br><span class="line">  ~<span class="built_in">Core</span>();</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">hello</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">Impl</span>;</span><br><span class="line">  std::unique_ptr&lt;Impl&gt; pImpl; <span class="comment">// Pimpl隔离ABI</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>core.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;core.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Core</span>::Impl &#123; <span class="function"><span class="type">void</span> <span class="title">say</span><span class="params">()</span></span>&#123; std::cout&lt;&lt;<span class="string">&quot;Hello Core\n&quot;</span>; &#125; &#125;;</span><br><span class="line">Core::<span class="built_in">Core</span>() : <span class="built_in">pImpl</span>(std::<span class="built_in">make_unique</span>&lt;Impl&gt;()) &#123;&#125;</span><br><span class="line">Core::~<span class="built_in">Core</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Core::hello</span><span class="params">()</span> <span class="type">const</span> </span>&#123; pImpl-&gt;<span class="built_in">say</span>(); &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>CMakeLists.txt</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(Core SHARED core.cpp)</span><br><span class="line"><span class="keyword">target_include_directories</span>(Core PUBLIC <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">target_compile_definitions</span>(Core PRIVATE CORE_EXPORTS)</span><br><span class="line"><span class="keyword">install</span>(TARGETS Core <span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">  LIBRARY DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_LIBDIR&#125;</span></span><br><span class="line">  ARCHIVE DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_LIBDIR&#125;</span></span><br><span class="line">  PUBLIC_HEADER DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_INCLUDEDIR&#125;</span>/Core)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-Net-模块示例（依赖-Core-fmt）"><a href="#🔹-Net-模块示例（依赖-Core-fmt）" class="headerlink" title="🔹 Net 模块示例（依赖 Core + fmt）"></a>🔹 Net 模块示例（依赖 Core + fmt）</h2><p><strong>CMakeLists.txt</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(Net SHARED net.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(Net PUBLIC Core fmt::fmt)</span><br><span class="line"><span class="keyword">target_include_directories</span>(Net PUBLIC <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>)</span><br><span class="line"><span class="keyword">target_compile_definitions</span>(Net PRIVATE NET_EXPORTS)</span><br><span class="line"><span class="keyword">install</span>(TARGETS Net <span class="keyword">EXPORT</span> MyProjectTargets</span><br><span class="line">  LIBRARY DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_LIBDIR&#125;</span></span><br><span class="line">  PUBLIC_HEADER DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_INCLUDEDIR&#125;</span>/Net)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><strong>net.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;net.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fmt/core.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Net::connect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  fmt::<span class="built_in">print</span>(<span class="string">&quot;Net connecting...\n&quot;</span>);</span><br><span class="line">  Core core;</span><br><span class="line">  core.<span class="built_in">hello</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="🔹-App-模块"><a href="#🔹-App-模块" class="headerlink" title="🔹 App 模块"></a>🔹 App 模块</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(App main.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(App PRIVATE Core Net)</span><br><span class="line"><span class="keyword">install</span>(TARGETS App RUNTIME DESTINATION <span class="variable">$&#123;CMAKE_INSTALL_BINDIR&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>main.cpp</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;net.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123; Net net; net.<span class="built_in">connect</span>(); &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>✅ 编译流程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake -S . -B build</span><br><span class="line">cmake --build build</span><br><span class="line">cmake --install build --prefix ./install</span><br></pre></td></tr></table></figure>
+
+<p>安装产物：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">install/</span><br><span class="line">├─ bin/App</span><br><span class="line">├─ lib/libCore.so</span><br><span class="line">├─ lib/libNet.so</span><br><span class="line">├─ include/Core/core.h</span><br><span class="line">├─ include/Net/net.h</span><br><span class="line">└─ lib/cmake/MyProject/MyProjectConfig.cmake</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="🎁-小结"><a href="#🎁-小结" class="headerlink" title="🎁 小结"></a>🎁 小结</h1><p>这一套现在交代清楚了：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GLOB 干什么</td>
+<td>通配文件名，不建议常用</td>
+</tr>
+<tr>
+<td>TARGETS 是啥</td>
+<td>add_library&#x2F;add_executable 创建的目标</td>
+</tr>
+<tr>
+<td>MyProjTargets 从哪来</td>
+<td>你随便命名的导出清单名，install 时生成 Config</td>
+</tr>
+<tr>
+<td>OpenCV::OpenCV vs ${OpenCV_LIBS}</td>
+<td>前者是现代 target 写法，后者旧式变量写法</td>
+</tr>
+<tr>
+<td>option 是 CMake 内置，可自定义更多</td>
+<td><code>option(NAME DESC DEFAULT)</code></td>
+</tr>
+<tr>
+<td>install&#x2F;namespace 的意义</td>
+<td>用于生成供外部 find_package 的 SDK</td>
+</tr>
+<tr>
+<td>include 路径没见？</td>
+<td>通过 target_include_directories 公布路径</td>
+</tr>
+<tr>
+<td>模块导出宏？</td>
+<td>已展示 core_export.h 写法</td>
+</tr>
+<tr>
+<td>ABI 兼容？</td>
+<td>采用 pimpl 已实现</td>
+</tr>
+<tr>
+<td>SDK 引用？</td>
+<td>find_package(MyProject REQUIRED) 后 link MyProject::Core</td>
+</tr>
+</tbody></table>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/%E7%AE%80%E6%98%8ECMAKE%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/" data-id="cmgnzrz20000024rf8fvigodu" data-title="简明CMAKE语法与工程管理指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/CMAKE%E5%AE%8C%E5%85%A8%E6%89%8B%E5%86%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CMAKE完全手册
+        
+      </div>
+    </a>
+  
+  
+    <a href="/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">October 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/CMAKE%E5%AE%8C%E5%85%A8%E6%89%8B%E5%86%8C/">CMAKE完全手册</a>
+          </li>
+        
+          <li>
+            <a href="/%E7%AE%80%E6%98%8ECMAKE%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/">简明CMAKE语法与工程管理指南</a>
+          </li>
+        
+          <li>
+            <a href="/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/">GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread）</a>
+          </li>
+        
+          <li>
+            <a href="/%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0this-%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%A0%B7%E5%AD%90/">成员函数的隐藏参数this, 在C语言中的样子</a>
+          </li>
+        
+          <li>
+            <a href="/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">CMake学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Fravel Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
