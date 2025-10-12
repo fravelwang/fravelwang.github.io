@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread） | Just Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="✅ Cheat Sheet 完整覆盖绝大部分 GDB 实操语法、表达式、断点&#x2F;变量&#x2F;进程&#x2F;线程&#x2F;内存  操作等，足够作为日常 Linux x86_64 C&#x2F;C++ 调试的全功能清单与速查表。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GDB 全指令速查大全（for Linux x86_64 C&#x2F;C++ demo_multithread）">
+<meta property="og:url" content="http://example.com/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/index.html">
+<meta property="og:site_name" content="Just Note">
+<meta property="og:description" content="✅ Cheat Sheet 完整覆盖绝大部分 GDB 实操语法、表达式、断点&#x2F;变量&#x2F;进程&#x2F;线程&#x2F;内存  操作等，足够作为日常 Linux x86_64 C&#x2F;C++ 调试的全功能清单与速查表。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-10-12T04:51:55.000Z">
+<meta property="article:modified_time" content="2025-10-12T04:54:08.715Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Just Note" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Just Note</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-gdb全命令速查大全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-10-12T04:51:55.000Z" itemprop="datePublished">2025-10-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread）
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>✅ <strong>Cheat Sheet 完整覆盖绝大部分 GDB 实操语法、表达式、断点&#x2F;变量&#x2F;进程&#x2F;线程&#x2F;内存  操作等，足够作为日常 Linux x86_64 C&#x2F;C++ 调试的全功能清单与速查表。</strong></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="📘-目录"><a href="#📘-目录" class="headerlink" title="📘 目录"></a>📘 目录</h2><ol>
+<li>基本启动与退出  </li>
+<li>运行控制与进程管理  </li>
+<li>断点种类与高级断点  </li>
+<li>单步与继续执行  </li>
+<li>线程与进程调试  </li>
+<li>变量与表达式  </li>
+<li>内存读写与堆栈窥探  </li>
+<li>寄存器与上下文  </li>
+<li>汇编与反汇编  </li>
+<li>watchpoint &#x2F; 硬件断点  </li>
+<li>函数与调用栈  </li>
+<li>日志输出与格式化打印  </li>
+<li>脚本化与命令别名  </li>
+<li>TUI 交互模式  </li>
+<li>远程调试与 gdbserver  </li>
+<li>core dump 分析  </li>
+<li>GDB Python 简单示例  </li>
+<li>常用 alias 与 快捷组合  </li>
+<li>高危命令小心清单  </li>
+<li>学习与心法附注</li>
+</ol>
+<p>每条指令：<br><code>语法</code> + <code>示例</code> + <code>说明</code> + <code>停顿/风险</code>。</p>
+<hr>
+<h2 id="一、启动与退出"><a href="#一、启动与退出" class="headerlink" title="一、启动与退出"></a>一、启动与退出</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+<th>停顿风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gdb &lt;prog&gt;</code></td>
+<td><code>gdb ./demo_multithread</code></td>
+<td>启动调试</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>gdb --args &lt;prog&gt; &lt;arg...&gt;</code></td>
+<td><code>gdb --args ./demo_multithread -t 4</code></td>
+<td>可带参数启动</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>attach &lt;pid&gt;</code></td>
+<td><code>attach 12345</code></td>
+<td>附加到已运行进程</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>detach</code></td>
+<td>—</td>
+<td>从进程分离</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>quit</code></td>
+<td>—</td>
+<td>退出 GDB</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、运行控制与进程管理"><a href="#二、运行控制与进程管理" class="headerlink" title="二、运行控制与进程管理"></a>二、运行控制与进程管理</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>run [args]</code></td>
+<td><code>run 10 foo.txt</code></td>
+<td>启动程序</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>—</td>
+<td>启动并在 main 前暂停</td>
+</tr>
+<tr>
+<td><code>continue</code> &#x2F; <code>c</code></td>
+<td>—</td>
+<td>继续运行</td>
+</tr>
+<tr>
+<td><code>kill</code></td>
+<td>—</td>
+<td>停止被调试进程</td>
+</tr>
+<tr>
+<td><code>signal &lt;sig&gt;</code></td>
+<td><code>signal SIGUSR1</code></td>
+<td>向程序发送信号</td>
+</tr>
+<tr>
+<td><code>set args</code></td>
+<td><code>set args input1 input2</code></td>
+<td>设置运行参数</td>
+</tr>
+<tr>
+<td><code>show args</code></td>
+<td>—</td>
+<td>查看参数</td>
+</tr>
+<tr>
+<td>&#96;set follow-fork-mode [child</td>
+<td>parent]&#96;</td>
+<td><code>set follow-fork-mode child</code></td>
+</tr>
+<tr>
+<td><code>catch fork/vfork/exec/catch throw/catch catch</code></td>
+<td>—</td>
+<td>捕获事件</td>
+</tr>
+<tr>
+<td><code>info inferiors</code></td>
+<td>—</td>
+<td>多进程（inferior）信息</td>
+</tr>
+<tr>
+<td><code>inferior N</code></td>
+<td><code>inferior 2</code></td>
+<td>切换到第 N 个进程</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、断点系统详解"><a href="#三、断点系统详解" class="headerlink" title="三、断点系统详解"></a>三、断点系统详解</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>语法</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件行</td>
+<td><code>break file:line</code></td>
+<td><code>break main.cpp:42</code></td>
+<td>代码行断点</td>
+</tr>
+<tr>
+<td>函数</td>
+<td><code>break &lt;func&gt;</code></td>
+<td><code>break worker_thread</code></td>
+<td>函数入口</td>
+</tr>
+<tr>
+<td>地址</td>
+<td><code>break *addr</code></td>
+<td><code>break *0x401000</code></td>
+<td>指令地址</td>
+</tr>
+<tr>
+<td>临时</td>
+<td><code>tbreak</code></td>
+<td><code>tbreak foo</code></td>
+<td>一次性断点</td>
+</tr>
+<tr>
+<td>条件</td>
+<td><code>break &lt;func&gt; if &lt;expr&gt;</code></td>
+<td><code>break update if count&gt;100</code></td>
+<td>条件命中</td>
+</tr>
+<tr>
+<td>忽略次数</td>
+<td><code>ignore &lt;bp_no&gt; &lt;N&gt;</code></td>
+<td><code>ignore 1 5</code></td>
+<td>忽略前 5 次</td>
+</tr>
+<tr>
+<td>watch</td>
+<td><code>watch expr</code></td>
+<td><code>watch var</code></td>
+<td>写监视点</td>
+</tr>
+<tr>
+<td>rwatch</td>
+<td><code>rwatch expr</code></td>
+<td><code>rwatch counter</code></td>
+<td>读监视点</td>
+</tr>
+<tr>
+<td>awatch</td>
+<td><code>awatch expr</code></td>
+<td><code>awatch *ptr</code></td>
+<td>读写监视</td>
+</tr>
+<tr>
+<td>hardware bp</td>
+<td><code>hbreak</code></td>
+<td><code>hbreak *0x401200</code></td>
+<td>硬件断点</td>
+</tr>
+<tr>
+<td>disable</td>
+<td><code>disable &lt;bp_no&gt;</code></td>
+<td>—</td>
+<td>禁用断点</td>
+</tr>
+<tr>
+<td>enable</td>
+<td><code>enable &lt;bp_no&gt;</code></td>
+<td>—</td>
+<td>启用断点</td>
+</tr>
+<tr>
+<td>delete</td>
+<td><code>delete &lt;bp_no&gt;</code></td>
+<td>—</td>
+<td>删除断点</td>
+</tr>
+<tr>
+<td>info break</td>
+<td>—</td>
+<td>查看断点表</td>
+<td></td>
+</tr>
+<tr>
+<td>commands + end</td>
+<td>如下</td>
+<td>命中执行命令块</td>
+<td></td>
+</tr>
+<tr>
+<td>break thread-specific</td>
+<td><code>break func thread 3</code></td>
+<td>仅某线程命中</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>命令块示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">break process_request if id==42</span><br><span class="line">commands</span><br><span class="line">  silent</span><br><span class="line">  printf &quot;hit id=42 at %p\n&quot;,$rip</span><br><span class="line">  continue</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ 高风险：命令块内若 <code>continue</code>，会忽略用户交互。</p>
+</blockquote>
+<hr>
+<h2 id="四、单步与继续"><a href="#四、单步与继续" class="headerlink" title="四、单步与继续"></a>四、单步与继续</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>step</code> &#x2F; <code>s</code></td>
+<td>—</td>
+<td>单步（进入子函数）</td>
+</tr>
+<tr>
+<td><code>next</code> &#x2F; <code>n</code></td>
+<td>—</td>
+<td>单步（不进入）</td>
+</tr>
+<tr>
+<td><code>finish</code></td>
+<td>—</td>
+<td>运行至当前函数返回</td>
+</tr>
+<tr>
+<td><code>until [loc]</code></td>
+<td><code>until 100</code></td>
+<td>运行到指定行</td>
+</tr>
+<tr>
+<td><code>advance &lt;loc&gt;</code></td>
+<td><code>advance update</code></td>
+<td>快进到函数入口</td>
+</tr>
+<tr>
+<td><code>jump &lt;loc&gt;</code></td>
+<td><code>jump main.cpp:88</code></td>
+<td>强制跳转执行位置</td>
+</tr>
+<tr>
+<td><code>set scheduler-locking on</code></td>
+<td>—</td>
+<td>单线程执行锁</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、多线程调试"><a href="#五、多线程调试" class="headerlink" title="五、多线程调试"></a>五、多线程调试</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">info threads                  # 列出线程 (TID, 状态)</span><br><span class="line">thread &lt;N&gt;                    # 切换到线程 N</span><br><span class="line">thread apply all bt           # 全线程回溯</span><br><span class="line">thread apply all bt full      # 全栈详细信息</span><br><span class="line">thread apply 2 4 info locals  # 对特定线程执行命令</span><br><span class="line">set scheduler-locking step    # 单步时仅当前线程执行</span><br></pre></td></tr></table></figure>
+
+<p>在多线程程序中也可使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">break func thread 5 if value==1</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、变量与表达式"><a href="#六、变量与表达式" class="headerlink" title="六、变量与表达式"></a>六、变量与表达式</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>打印变量</td>
+<td><code>print expr</code></td>
+<td><code>print count</code></td>
+<td>显示变量值</td>
+</tr>
+<tr>
+<td>简写</td>
+<td><code>p</code></td>
+<td><code>p i</code></td>
+<td>快速显示</td>
+</tr>
+<tr>
+<td>修改变量</td>
+<td><code>set var &lt;name&gt;=&lt;value&gt;</code></td>
+<td><code>set var flag=1</code></td>
+<td>修改运行时变量</td>
+</tr>
+<tr>
+<td>监视变量变化</td>
+<td><code>display expr</code></td>
+<td><code>display x*y</code></td>
+<td>每步显示</td>
+</tr>
+<tr>
+<td>停止显示</td>
+<td><code>undisplay N</code></td>
+<td>—</td>
+<td>取消</td>
+</tr>
+<tr>
+<td>临时定义变量</td>
+<td><code>set $tmp=expr</code></td>
+<td><code>set $tmp=$eax+4</code></td>
+<td>自定义 GDB 内部变量</td>
+</tr>
+<tr>
+<td>使用内部变量</td>
+<td><code>$tmp</code></td>
+<td><code>p $tmp</code></td>
+<td>在表达式中复用计算值</td>
+</tr>
+<tr>
+<td>info locals</td>
+<td>—</td>
+<td>当前函数局部变量</td>
+<td></td>
+</tr>
+<tr>
+<td>info args</td>
+<td>—</td>
+<td>当前函数参数</td>
+<td></td>
+</tr>
+<tr>
+<td>whatis var</td>
+<td>—</td>
+<td>获取类型声明</td>
+<td></td>
+</tr>
+<tr>
+<td>ptype var</td>
+<td>—</td>
+<td>打印详细类型信息</td>
+<td></td>
+</tr>
+<tr>
+<td>call func()</td>
+<td><code>call compute_sum(3,5)</code></td>
+<td>调用函数（可带副作用）</td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ 若函数含锁&#x2F;IO&#x2F;状态依赖，<code>call</code> 可能修改程序行为。</p>
+</blockquote>
+<hr>
+<h2 id="七、内存与栈操作"><a href="#七、内存与栈操作" class="headerlink" title="七、内存与栈操作"></a>七、内存与栈操作</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x&#x2F;Nfu <expr></td>
+<td><code>x/16xb buf</code></td>
+<td>按格式查看内存</td>
+</tr>
+<tr>
+<td>格式字符</td>
+<td>x&#x3D;16进制、d&#x3D;十进制、s&#x3D;字符串、i&#x3D;指令</td>
+<td></td>
+</tr>
+<tr>
+<td>u&#x3D;单元字节</td>
+<td>b(1), h(2), w(4), g(8)</td>
+<td></td>
+</tr>
+<tr>
+<td>x&#x2F;32gx $rsp</td>
+<td>—</td>
+<td>查看栈顶</td>
+</tr>
+<tr>
+<td>set <em>(type</em>)addr &#x3D; value</td>
+<td><code>set *(int*)0x7ffeef = 10</code></td>
+<td>修改内存</td>
+</tr>
+<tr>
+<td>find <start>,<end>,<pat></td>
+<td><code>find 0x400000,0x410000,0x90</code></td>
+<td>内存搜索</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="八、寄存器与上下文"><a href="#八、寄存器与上下文" class="headerlink" title="八、寄存器与上下文"></a>八、寄存器与上下文</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">info registers</span><br><span class="line">info all-registers</span><br><span class="line">info float</span><br><span class="line">info vector</span><br><span class="line">set $rax = 0</span><br><span class="line">p $rip</span><br></pre></td></tr></table></figure>
+<p>寄存器变量 <code>$rip</code>, <code>$rsp</code>, <code>$rbp</code>, <code>$rax</code>, <code>$rbx</code>, … 可直接在表达式中使用。</p>
+<hr>
+<h2 id="九、反汇编与执行流"><a href="#九、反汇编与执行流" class="headerlink" title="九、反汇编与执行流"></a>九、反汇编与执行流</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#96;disassemble [func</td>
+<td>addr-range]&#96;</td>
+<td><code>disassemble main</code></td>
+</tr>
+<tr>
+<td><code>x/10i $pc</code></td>
+<td>—</td>
+<td>周边指令</td>
+</tr>
+<tr>
+<td><code>layout asm</code></td>
+<td>—</td>
+<td>TUI 模式中汇编</td>
+</tr>
+<tr>
+<td><code>si</code></td>
+<td>—</td>
+<td>单步汇编级</td>
+</tr>
+<tr>
+<td><code>ni</code></td>
+<td>—</td>
+<td>不入子调用步进</td>
+</tr>
+<tr>
+<td><code>info line *$rip</code></td>
+<td>—</td>
+<td>查看汇编对应源码</td>
+</tr>
+<tr>
+<td><code>info frame</code></td>
+<td>—</td>
+<td>当前调用帧寄存器与栈边界</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十、watchpoints-与硬件监控"><a href="#十、watchpoints-与硬件监控" class="headerlink" title="十、watchpoints 与硬件监控"></a>十、watchpoints 与硬件监控</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>watch var</td>
+<td><code>watch counter</code></td>
+<td>写时断点</td>
+</tr>
+<tr>
+<td>rwatch var</td>
+<td><code>rwatch *ptr</code></td>
+<td>读时断点</td>
+</tr>
+<tr>
+<td>awatch var</td>
+<td><code>awatch *p</code></td>
+<td>读写断点</td>
+</tr>
+<tr>
+<td>info watchpoints</td>
+<td>—</td>
+<td>查看当前 watch</td>
+</tr>
+<tr>
+<td>delete watchpoints</td>
+<td>—</td>
+<td>清除所有 watch</td>
+</tr>
+<tr>
+<td>hwatch expr</td>
+<td><code>hwatch *addr</code></td>
+<td>硬件 watch（部分平台）</td>
+</tr>
+<tr>
+<td>cond watch</td>
+<td><code>watch x if x&gt;100</code></td>
+<td>条件触发</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ x86 通常 4 个硬件断点资源限制。</p>
+</blockquote>
+<hr>
+<h2 id="十一、函数与调用栈"><a href="#十一、函数与调用栈" class="headerlink" title="十一、函数与调用栈"></a>十一、函数与调用栈</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">backtrace / bt                # 调用栈</span><br><span class="line">bt full                       # 带局部变量</span><br><span class="line">frame &lt;N&gt;                     # 切换帧</span><br><span class="line">up / down                     # 上/下一个帧</span><br><span class="line">info args                     # 当前帧参数</span><br><span class="line">return &lt;expr&gt;                 # 提前从当前函数返回</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="十二、输出与格式化"><a href="#十二、输出与格式化" class="headerlink" title="十二、输出与格式化"></a>十二、输出与格式化</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>printf “format”, vars</td>
+<td><code>printf &quot;len=%d\n&quot;, len</code></td>
+<td>自定义输出</td>
+</tr>
+<tr>
+<td>set logging on&#x2F;off</td>
+<td>—</td>
+<td>输出重定向到 to <code>gdb.txt</code></td>
+</tr>
+<tr>
+<td>set pagination off</td>
+<td>—</td>
+<td>输出全展开</td>
+</tr>
+<tr>
+<td>shell <cmd></td>
+<td><code>shell ls /tmp</code></td>
+<td>执行外部命令</td>
+</tr>
+<tr>
+<td>echo</td>
+<td><code>echo Hello\n</code></td>
+<td>控制台输出</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十三、脚本与别名"><a href="#十三、脚本与别名" class="headerlink" title="十三、脚本与别名"></a>十三、脚本与别名</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">define btf</span><br><span class="line">  thread apply all bt full</span><br><span class="line">end</span><br><span class="line">alias btf = btf</span><br><span class="line"></span><br><span class="line">define ctx</span><br><span class="line">  info registers</span><br><span class="line">  info locals</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>可放入 <code>.gdbinit</code> 内。<br>执行外部脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &lt;file.gdb&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="十四、TUI-模式"><a href="#十四、TUI-模式" class="headerlink" title="十四、TUI 模式"></a>十四、TUI 模式</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>layout src</code></td>
+<td>源码窗口</td>
+</tr>
+<tr>
+<td><code>layout asm</code></td>
+<td>汇编窗口</td>
+</tr>
+<tr>
+<td><code>layout regs</code></td>
+<td>寄存器窗口</td>
+</tr>
+<tr>
+<td><code>focus next/prev</code></td>
+<td>切换焦点</td>
+</tr>
+<tr>
+<td><code>refresh</code></td>
+<td>重绘 TUI 界面</td>
+</tr>
+</tbody></table>
+<p>在 CLI 模式中按 <code>Ctrl+X A</code> 可切换 TUI ↔ 普通模式。</p>
+<hr>
+<h2 id="十五、远程调试-gdbserver"><a href="#十五、远程调试-gdbserver" class="headerlink" title="十五、远程调试 (gdbserver)"></a>十五、远程调试 (gdbserver)</h2><p>目标机：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdbserver :1234 ./demo_multithread</span><br></pre></td></tr></table></figure>
+<p>本地：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gdb ./demo_multithread</span><br><span class="line">target remote &lt;ip&gt;:1234</span><br><span class="line"><span class="built_in">set</span> sysroot /usr/sysroot/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>⚠️ 若跨架构：用 <code>gdb-multiarch</code>。</p>
+</blockquote>
+<hr>
+<h2 id="十六、Core-Dump-分析"><a href="#十六、Core-Dump-分析" class="headerlink" title="十六、Core Dump 分析"></a>十六、Core Dump 分析</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -c unlimited</span><br><span class="line">./demo_multithread</span><br><span class="line"><span class="comment"># 崩溃后：</span></span><br><span class="line">gdb ./demo_multithread core</span><br><span class="line">(gdb) bt full</span><br><span class="line">(gdb) info sharedlibrary</span><br><span class="line">(gdb) info registers</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="十七、GDB-Python-基础"><a href="#十七、GDB-Python-基础" class="headerlink" title="十七、GDB Python 基础"></a>十七、GDB Python 基础</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line"><span class="keyword">import</span> gdb</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Hello</span>(gdb.Command):</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">s</span>): <span class="built_in">super</span>().__init__(<span class="string">&quot;hello&quot;</span>, gdb.COMMAND_USER)</span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">invoke</span>(<span class="params">s,arg,from_tty</span>): <span class="built_in">print</span>(<span class="string">&quot;Hello GDB!&quot;</span>)</span><br><span class="line">Hello()</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>→ 运行：<code>hello</code></p>
+<hr>
+<h2 id="十八、20-条高频可复制命令清单"><a href="#十八、20-条高频可复制命令清单" class="headerlink" title="十八、20 条高频可复制命令清单"></a>十八、20 条高频可复制命令清单</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>break main</code></td>
+<td>在主函数设置断点</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>break foo if x&gt;5</code></td>
+<td>条件断点</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>tbreak bar</code></td>
+<td>单次断点</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>info break</code></td>
+<td>查看所有断点</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>display var</code></td>
+<td>每步显示变量</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>thread apply all bt full</code></td>
+<td>所有线程栈</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>set scheduler-locking on</code></td>
+<td>单线程锁步</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>watch *ptr</code></td>
+<td>添加 watchpoint</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>info registers</code></td>
+<td>查看寄存器</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>disassemble /m main</code></td>
+<td>混合汇编源码</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>x/32gx $rsp</code></td>
+<td>查看当前栈 256B</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>info locals</code></td>
+<td>局部变量</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>call debug_dump()</code></td>
+<td>调用自定义函数</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>layout src</code></td>
+<td>打开源码视图</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>source script.gdb</code></td>
+<td>加载脚本</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>set logging on</code></td>
+<td>自动保存输出</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>attach 1234</code></td>
+<td>附加调试</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>detach</code></td>
+<td>分离目标</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>bt full</code></td>
+<td>报错回溯</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>quit</code></td>
+<td>退出调试器</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十九、高危命令注意"><a href="#十九、高危命令注意" class="headerlink" title="十九、高危命令注意"></a>十九、高危命令注意</h2><ul>
+<li><code>jump</code> &#x2F; <code>set $rip</code> → 改变执行流，可能破坏堆栈  </li>
+<li><code>call</code> → 调用目标代码可有副作用  </li>
+<li><code>set var</code> → 修改关键逻辑需谨慎  </li>
+<li><code>detach</code> → 会恢复执行，请确保安全  </li>
+<li><code>signal</code> → 可能导致即时终止或异常</li>
+</ul>
+<hr>
+<h2 id="二十、调试心法小结"><a href="#二十、调试心法小结" class="headerlink" title="二十、调试心法小结"></a>二十、调试心法小结</h2><ol>
+<li><strong>所有命令皆为工具，不为表演</strong> —— 优先录制自动化。  </li>
+<li><strong>先追条件，再断行为</strong> —— 用 <code>break if</code> 不要撒网。  </li>
+<li><strong>多线程永远采集全景</strong> —— 一线程异常多线程有因。  </li>
+<li><strong>善用脚本记录可重复性。</strong>  </li>
+<li><strong>core 是真相，不依赖复现。</strong>  </li>
+<li><strong>源码 + 汇编 &#x3D; 真图谱。</strong>  </li>
+<li><strong>越自动越低风险。</strong>  </li>
+<li><strong>永不在生产 attach 长时。</strong>  </li>
+<li><strong>多用 batch 模式采样。</strong>  </li>
+<li><strong>离线分析，安全优先。</strong></li>
+</ol>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/" data-id="cmgn8c6080000ahrfaj7pd37b" data-title="GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0this-%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%A0%B7%E5%AD%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">成员函数的隐藏参数this, 在C语言中的样子</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">October 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/">GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread）</a>
+          </li>
+        
+          <li>
+            <a href="/%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0this-%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%A0%B7%E5%AD%90/">成员函数的隐藏参数this, 在C语言中的样子</a>
+          </li>
+        
+          <li>
+            <a href="/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">CMake学习笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 Fravel Wang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

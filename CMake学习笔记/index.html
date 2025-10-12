@@ -6,19 +6,17 @@
   
   <title>CMake学习笔记 | Just Note</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="开篇先放两个链接, 一个是教程, 一个是小抄 12https:&#x2F;&#x2F;www.bookstack.cn&#x2F;read&#x2F;CMake-Cookbook&#x2F;content-preface-preface-chinese.mdhttps:&#x2F;&#x2F;usercontent.one&#x2F;wp&#x2F;cheatsheet.czutro.ch&#x2F;wp-content&#x2F;uploads&#x2F;2020&#x2F;09&#x2F;CMake_Cheatsheet.pdf">
+  <meta name="description" content="开篇先放两个链接, 一个教程，一个cheat sheet 12https:&#x2F;&#x2F;www.bookstack.cn&#x2F;read&#x2F;CMake-Cookbook&#x2F;content-preface-preface-chinese.mdhttps:&#x2F;&#x2F;usercontent.one&#x2F;wp&#x2F;cheatsheet.czutro.ch&#x2F;wp-content&#x2F;uploads&#x2F;2020&#x2F;09&#x2F;CMake_Cheatshee">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CMake学习笔记">
 <meta property="og:url" content="http://example.com/CMake%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Just Note">
-<meta property="og:description" content="开篇先放两个链接, 一个是教程, 一个是小抄 12https:&#x2F;&#x2F;www.bookstack.cn&#x2F;read&#x2F;CMake-Cookbook&#x2F;content-preface-preface-chinese.mdhttps:&#x2F;&#x2F;usercontent.one&#x2F;wp&#x2F;cheatsheet.czutro.ch&#x2F;wp-content&#x2F;uploads&#x2F;2020&#x2F;09&#x2F;CMake_Cheatsheet.pdf">
+<meta property="og:description" content="开篇先放两个链接, 一个教程，一个cheat sheet 12https:&#x2F;&#x2F;www.bookstack.cn&#x2F;read&#x2F;CMake-Cookbook&#x2F;content-preface-preface-chinese.mdhttps:&#x2F;&#x2F;usercontent.one&#x2F;wp&#x2F;cheatsheet.czutro.ch&#x2F;wp-content&#x2F;uploads&#x2F;2020&#x2F;09&#x2F;CMake_Cheatshee">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/cmake_time.png">
 <meta property="article:published_time" content="2024-12-30T17:06:21.000Z">
-<meta property="article:modified_time" content="2025-03-05T19:08:22.000Z">
+<meta property="article:modified_time" content="2025-10-07T20:45:27.396Z">
 <meta property="article:author" content="Fravel Wang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/cmake_time.png">
   
     <link rel="alternate" href="/atom.xml" title="Just Note" type="application/atom+xml">
   
@@ -95,32 +93,165 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>开篇先放两个链接, 一个是教程, 一个是小抄</p>
+        <p>开篇先放两个链接, 一个教程，一个cheat sheet</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.bookstack.cn/read/CMake-Cookbook/content-preface-preface-chinese.md</span><br><span class="line">https://usercontent.one/wp/cheatsheet.czutro.ch/wp-content/uploads/2020/09/CMake_Cheatsheet.pdf</span><br></pre></td></tr></table></figure>
 <span id="more"></span>
-<p>CMake的安装就不赘述, 官网下最新版本即可</p>
-<h2 id="CMake-Cookbook小抄"><a href="#CMake-Cookbook小抄" class="headerlink" title="CMake Cookbook小抄"></a>CMake Cookbook小抄</h2><p>源码构建工具集:</p>
-<ul>
-<li>cmake 描述 项目的 可执行文件&#x2F;库 在各种操作系统上的 配置 构建 和 安装</li>
-<li>ctest 定义测试 测试套件 及 如何执行</li>
-<li>cpack 打包专用DSL(domain-specific language)</li>
-<li>cdash 面板中 展示测试结果的工具</li>
-</ul>
-<p>书的内容: cmake系列基本使用, 模块化, 打包, 重构cmake工程文件</p>
-<h3 id="cmake-的-时序图"><a href="#cmake-的-时序图" class="headerlink" title="cmake 的 时序图"></a>cmake 的 时序图</h3><p><img src="/images/cmake_time.png" title="cmake time"></p>
-<h4 id="构建目录-build目录-中"><a href="#构建目录-build目录-中" class="headerlink" title="构建目录(build目录)中"></a>构建目录(build目录)中</h4><ul>
-<li>cmake time 或 configure time: cmake程序的运行时, 此过程处理CMakeLists.txt并配置</li>
-<li>generation time: cmake将生成本地原生构建工具(msbuild&#x2F;make…)构建脚本</li>
-<li>build time: cmake调用原生构建工具, 并执行脚本调用原生编译器进行编译</li>
-<li>ctest time 或 test time: 构建编译完成, 运行测试套件, 进行结果验证</li>
-<li>cdash time 或 report time: 将测试结果上传至面板, 供查看</li>
-</ul>
-<h4 id="构建目录外-一般项目目录"><a href="#构建目录外-一般项目目录" class="headerlink" title="构建目录外(一般项目目录)"></a>构建目录外(一般项目目录)</h4><ul>
-<li>install time: 将项目的 可执行文件, 库, 源文件, obj文件 从 构建目录 安装到 指定目录, 此时已经可以直接运行或作为库引入其他项目</li>
-</ul>
-<h4 id="全局安装"><a href="#全局安装" class="headerlink" title="全局安装"></a>全局安装</h4><ul>
-<li>cpack time 或 packaging time: 打包 程序和源码</li>
-<li>package install time: 系统范围内安装生成的包</li>
+<p>安装不再赘述，我看教程，挑点干的记，进入正题</p>
+<h2 id="CMake是什么"><a href="#CMake是什么" class="headerlink" title="CMake是什么"></a>CMake是什么</h2><p>一个生成工程文件的工具, linux下默认是makefile工程, windows默认是vs工程,<br>并且，生成工程文件后，可以直接调用make或者vs的编译工具链</p>
+<h3 id="扩展一下Linux-windows的编译工具链"><a href="#扩展一下Linux-windows的编译工具链" class="headerlink" title="扩展一下Linux&#x2F;windows的编译工具链"></a>扩展一下Linux&#x2F;windows的编译工具链</h3><h4 id="Linux工具链"><a href="#Linux工具链" class="headerlink" title="Linux工具链"></a>Linux工具链</h4><table>
+<thead>
+<tr>
+<th>工具名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gcc</code></td>
+<td>GNU C 编译器，用于编译 C 程序</td>
+</tr>
+<tr>
+<td><code>g++</code></td>
+<td>GNU C++ 编译器，用于编译 C++ 程序</td>
+</tr>
+<tr>
+<td><code>clang</code></td>
+<td>LLVM C 编译器，语法更严格，错误提示更清晰</td>
+</tr>
+<tr>
+<td><code>clang++</code></td>
+<td>LLVM C++ 编译器</td>
+</tr>
+<tr>
+<td><code>make</code></td>
+<td>构建工具，执行 Makefile 中的规则</td>
+</tr>
+<tr>
+<td><code>cmake</code></td>
+<td>构建系统生成器，生成 Makefile、Ninja 或 IDE 工程</td>
+</tr>
+<tr>
+<td><code>ninja</code></td>
+<td>高效构建工具，常与 CMake 配合使用</td>
+</tr>
+<tr>
+<td><code>ld</code></td>
+<td>链接器，负责将 <code>.o</code> 文件链接成可执行文件或库</td>
+</tr>
+<tr>
+<td><code>ar</code></td>
+<td>静态库打包工具，用于生成 <code>.a</code> 文件</td>
+</tr>
+<tr>
+<td><code>strip</code></td>
+<td>去除可执行文件中的符号表，减小体积</td>
+</tr>
+<tr>
+<td><code>objdump</code></td>
+<td>显示二进制文件的汇编、符号、节信息等</td>
+</tr>
+<tr>
+<td><code>readelf</code></td>
+<td>查看 ELF 文件结构和头信息</td>
+</tr>
+<tr>
+<td><code>pkg-config</code></td>
+<td>查询库的编译参数（如 <code>-I</code>, <code>-L</code>, <code>-l</code>）</td>
+</tr>
+<tr>
+<td><code>ldd</code></td>
+<td>查看可执行文件依赖的共享库</td>
+</tr>
+<tr>
+<td><code>gdb</code></td>
+<td>GNU 调试器，用于调试 C&#x2F;C++ 程序</td>
+</tr>
+<tr>
+<td><code>valgrind</code></td>
+<td>内存检查工具，检测泄漏和越界访问</td>
+</tr>
+</tbody></table>
+<h4 id="MSVC工具链-Windows"><a href="#MSVC工具链-Windows" class="headerlink" title="MSVC工具链(Windows)"></a>MSVC工具链(Windows)</h4><table>
+<thead>
+<tr>
+<th>工具名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cl.exe</code></td>
+<td>C&#x2F;C++ 编译器（MSVC）</td>
+</tr>
+<tr>
+<td><code>link.exe</code></td>
+<td>链接器，生成 <code>.exe</code> 或 <code>.dll</code></td>
+</tr>
+<tr>
+<td><code>nmake.exe</code></td>
+<td>类似 Unix 的 <code>make</code>，用于执行 Makefile</td>
+</tr>
+<tr>
+<td><code>ml.exe</code></td>
+<td>汇编器（MASM）</td>
+</tr>
+<tr>
+<td><code>dumpbin.exe</code></td>
+<td>查看 <code>.exe</code> 或 <code>.dll</code> 的符号和导出信息</td>
+</tr>
+<tr>
+<td><code>lib.exe</code></td>
+<td>创建或管理 <code>.lib</code> 静态库</td>
+</tr>
+<tr>
+<td><code>rc.exe</code></td>
+<td>编译资源文件 <code>.rc</code></td>
+</tr>
+<tr>
+<td><code>mt.exe</code></td>
+<td>管理清单文件（manifest）</td>
+</tr>
+<tr>
+<td><code>editbin.exe</code></td>
+<td>修改 PE 文件头（如设置子系统）</td>
+</tr>
+</tbody></table>
+<h4 id="其他-Windows"><a href="#其他-Windows" class="headerlink" title="其他(Windows)"></a>其他(Windows)</h4><table>
+<thead>
+<tr>
+<th>工具名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cmake</code></td>
+<td>跨平台构建系统，生成 MSVC 工程或 NMake 脚本</td>
+</tr>
+<tr>
+<td><code>ninja</code></td>
+<td>高效构建工具，常与 CMake 配合使用</td>
+</tr>
+<tr>
+<td><code>make</code></td>
+<td>GNU Make（通过 MSYS2 或 WSL 提供）</td>
+</tr>
+<tr>
+<td><code>mingw32-make</code></td>
+<td>MinGW 的 Make 工具</td>
+</tr>
+<tr>
+<td><code>msbuild.exe</code></td>
+<td>用于构建 Visual Studio 的 .sln 和 .vcxproj，内部也调用 cl 和 link</td>
+</tr>
+</tbody></table>
+<h2 id="一个简单的c-文件编译"><a href="#一个简单的c-文件编译" class="headerlink" title="一个简单的c++文件编译"></a>一个简单的c++文件编译</h2><ul>
+<li><p>目录结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source_dir/</span><br><span class="line">source_dir/CMakeLists.txt</span><br><span class="line">source_dir/hello-world.cpp // main中打印helloworld</span><br></pre></td></tr></table></figure></li>
+<li><p>CMakeLists.txt</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cmake语言本身不区分大小写，但是参数区分大小写</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.10</span> FATAL_ERROR)</span><br><span class="line"><span class="keyword">project</span>(demo LANGUAGE CXX)</span><br><span class="line">add_excutable(hello-world hello-world.cpp)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bash命令: 源码同级目录执行, 产生对应平台的工程相关文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p build &amp;&amp; <span class="built_in">cd</span> build &amp;&amp; cmake ..</span><br><span class="line"><span class="comment"># ## 1</span></span><br><span class="line"><span class="comment"># 整条命令可以替换成 cmake -H. -Bbuild</span></span><br><span class="line"><span class="comment"># -H选项代表在当前目录搜索 根CMakeLists.txt</span></span><br><span class="line"><span class="comment"># -Bbuild 代表在在build目录下生成所有文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 2</span></span><br><span class="line"><span class="comment"># build目录在哪里都可以, 就是一个缓存目录, 比如我们可以建一个叫tmp的目录，然后进入tmp目录</span></span><br><span class="line"><span class="comment"># 然后调用 cmake /path/to/source_code, 也就是cmake + 源码路径，这样就可以把通过CMakeLists.txt生成的文件缓存在tmp目录</span></span><br><span class="line"><span class="comment"># 接着在tmp目录调用 cmake --build . 完成对对应平台工程构建工具的调用，比如Unix Cmake</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 3</span></span><br><span class="line"><span class="comment"># GNU/Linux 系统上默认生成makefile来构建项目</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 4</span></span><br><span class="line"><span class="comment"># 缓存目录的组成</span></span><br><span class="line"><span class="comment"># 1&gt; Makefile: 给make命令用的makefile</span></span><br><span class="line"><span class="comment"># 2&gt; CMakeFIles: 包含临时文件目录，辅助CMake检测系统类型、编译器等等，还有针对构建工具的特定文件</span></span><br><span class="line"><span class="comment"># 3&gt; cmake_install.cmake： 处理安装规则的脚本， CMake安装模式的时候用</span></span><br><span class="line"><span class="comment"># 4&gt; CMakeCache.txt: CMake缓存，CMake命令重新配置时优先读取配置缓存</span></span><br></pre></td></tr></table></figure></li>
+<li><p>bash命令: build目录下执行, 调用平台工具编译</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --build .</span><br></pre></td></tr></table></figure></li>
 </ul>
 
       
@@ -168,7 +299,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">October 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li></ul>
     </div>
   </div>
 
@@ -179,6 +310,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/gdb%E5%85%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E5%A4%A7%E5%85%A8/">GDB 全指令速查大全（for Linux x86_64 C/C++ demo_multithread）</a>
+          </li>
         
           <li>
             <a href="/%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0this-%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%A0%B7%E5%AD%90/">成员函数的隐藏参数this, 在C语言中的样子</a>
