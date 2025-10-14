@@ -745,24 +745,12 @@
 ]]></content>
   </entry>
   <entry>
-    <title>成员函数的隐藏参数this, 在C语言中的样子</title>
-    <url>/%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0this-%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%A0%B7%E5%AD%90/</url>
-    <content><![CDATA[<p>在C++中，成员函数有一个隐藏参数 this，它是指向调用该函数的对象实例的指针。这个特性是C++面向对象编程的核心之一，但在C语言层面，C++的这种机制会被编译器“翻译”成更底层的实现方式。</p>
-<span id="more"></span>
-<h2 id="在C语言层面的表现"><a href="#在C语言层面的表现" class="headerlink" title="在C语言层面的表现"></a>在C语言层面的表现</h2><p>在C语言中, 没有类的概念, 因此C++的成员函数会被编译器转换为普通的全局函数, 而 this 指针会作为显式的参数传递给这个函数. 具体来说:<br>成员函数被转换为普通函数: 编译器会将类中的成员函数变成一个普通的C风格函数, 函数名通常会经过”名称修饰”(name mangling), 以避免命名冲突并保留类的信息(函数的唯一签名)<br>this 指针作为显式参数: this这个参数 会被替换成指向对象的结构体指针传入函数</p>
-<p>例如, 如下C++代码:</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setValue</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        value = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">MyClass obj;</span><br><span class="line">obj.<span class="built_in">setValue</span>(<span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+    <title>linux内核探秘pdf</title>
+    <url>/linux%E5%86%85%E6%A0%B8%E6%8E%A2%E7%A7%98pdf/</url>
+    <content><![CDATA[<span id="more"></span>
+<embed src="linux-filesystem-driver.pdf" width="100%" height="1000" type="application/pdf">
 
-<p>在C语言层面, 编译器可能会将其转换为类似如下的形式:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyClass</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">MyClass_setValue</span><span class="params">(<span class="keyword">struct</span> MyClass* this, <span class="type">int</span> x)</span> &#123;</span><br><span class="line">    this-&gt;value = x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyClass</span> <span class="title">obj</span>;</span></span><br><span class="line">MyClass_setValue(&amp;obj, <span class="number">42</span>);</span><br></pre></td></tr></table></figure>
 
-<p>MyClass 被转换为了一个 struct<br>setValue 成员函数被转换为一个签名唯一的全局函数 MyClass_setValue<br>this 指针被显式地作为第一个参数传递, 指向调用该函数的对象实例(&amp;obj)</p>
-<h2 id="this-参数在第几个位置"><a href="#this-参数在第几个位置" class="headerlink" title="this 参数在第几个位置"></a>this 参数在第几个位置</h2><p>在C语言层面，this 参数通常是函数的第一个参数. 这是C++编译器的惯例, 因为 this 必须在函数调用时明确知道它操作的是哪个对象实例. 其他显式参数(如 x)则依次排在后面<br>例如，对于一个带有多个参数的成员函数：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a, <span class="type">double</span> b)</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>在C语言层面可能是：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">MyClass_func</span><span class="params">(<span class="keyword">struct</span> MyClass* this, <span class="type">int</span> a, <span class="type">double</span> b)</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>this 是第 1 个参数<br>a 是第 2 个参数<br>b 是第 3 个参数</p>
-<p>所以在C语言层面，this 被显式地作为指向对象实例的指针参数传递<br>它通常是函数的第一个参数, 因为这是C++编译器实现调用约定时的标准做法<br>这种转换由编译器自动完成, 程序员在C++层面无需手动处理 this</p>
 ]]></content>
   </entry>
   <entry>
@@ -2998,6 +2986,41 @@
 ]]></content>
   </entry>
   <entry>
+    <title>你好并发世界文摘</title>
+    <url>/%E4%BD%A0%E5%A5%BD%E5%B9%B6%E5%8F%91%E4%B8%96%E7%95%8C%E6%96%87%E6%91%98/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p><a href="https://nj.gitbooks.io/c/content/"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.2 为什么使用并发？</span><br><span class="line">主要原因有两个：关注点分离(SOC)和性能。</span><br></pre></td></tr></table></figure>
+<p>2种并发方式，多进程 和 多线程<br>多进程： 开销更大，进程间通信更麻烦(IPC)</p>
+<p>进程内存布局(may 1Mb)<br>0x100000    high address<br>0x …         command-line arguments and variables<br>0x …         stack<br>0x …         heap<br>0x …         uninitialized data(bss), initialized to zero by exec<br>0x …         initialized data       , read from program file by exec<br>0x …         text                   , read from program file by exec<br>0x000000    low address                                         </p>
+<p>线程之间共享<br> uninitialized data(bss)<br> initialized data<br> text</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">两种方式利用并发提高性能：</span><br><span class="line">第一，将一个单个任务分成几部分，且各自并行运行，从而降低总运行时间。这就是任务并行（task parallelism）</span><br><span class="line">第二，一个线程执行算法的一部分, 另一个线程执行算法的另一个部分——或是在数据方面——每个线程在不同的数据部分上执行相同的操作, 数据并行（data parallelism）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.2.3 什么时候不使用并发</span><br><span class="line">操作系统需要分配内核相关资源和堆栈空间，所以在启动线程时存在固有的开销，然后才能把新线程加入调度器中，所有这一切都需要时间。如果在线程上的任务完成得很快，那么任务实际执行的时间要比启动线程的时间小很多，这就会导致应用程序的整体性能还不如直接使用“产生线程”的方式。</span><br><span class="line"></span><br><span class="line">运行越多的线程，操作系统就需要做越多的上下文切换，每个上下文切换都需要耗费本可以花在有价值工作上的时间。所以在某些时候，增加一个额外的线程实际上会降低，而非提高应用程序的整体性能。为此，如果你试图得到系统的最佳性能，可以考虑使用硬件并发(或不用)，并调整运行线程的数量。</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>成员函数的隐藏参数this, 在C语言中的样子</title>
+    <url>/%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0%E7%9A%84%E9%9A%90%E8%97%8F%E5%8F%82%E6%95%B0this-%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E6%A0%B7%E5%AD%90/</url>
+    <content><![CDATA[<p>在C++中，成员函数有一个隐藏参数 this，它是指向调用该函数的对象实例的指针。这个特性是C++面向对象编程的核心之一，但在C语言层面，C++的这种机制会被编译器“翻译”成更底层的实现方式。</p>
+<span id="more"></span>
+<h2 id="在C语言层面的表现"><a href="#在C语言层面的表现" class="headerlink" title="在C语言层面的表现"></a>在C语言层面的表现</h2><p>在C语言中, 没有类的概念, 因此C++的成员函数会被编译器转换为普通的全局函数, 而 this 指针会作为显式的参数传递给这个函数. 具体来说:<br>成员函数被转换为普通函数: 编译器会将类中的成员函数变成一个普通的C风格函数, 函数名通常会经过”名称修饰”(name mangling), 以避免命名冲突并保留类的信息(函数的唯一签名)<br>this 指针作为显式参数: this这个参数 会被替换成指向对象的结构体指针传入函数</p>
+<p>例如, 如下C++代码:</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">setValue</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        value = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">MyClass obj;</span><br><span class="line">obj.<span class="built_in">setValue</span>(<span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在C语言层面, 编译器可能会将其转换为类似如下的形式:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyClass</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">MyClass_setValue</span><span class="params">(<span class="keyword">struct</span> MyClass* this, <span class="type">int</span> x)</span> &#123;</span><br><span class="line">    this-&gt;value = x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MyClass</span> <span class="title">obj</span>;</span></span><br><span class="line">MyClass_setValue(&amp;obj, <span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+
+<p>MyClass 被转换为了一个 struct<br>setValue 成员函数被转换为一个签名唯一的全局函数 MyClass_setValue<br>this 指针被显式地作为第一个参数传递, 指向调用该函数的对象实例(&amp;obj)</p>
+<h2 id="this-参数在第几个位置"><a href="#this-参数在第几个位置" class="headerlink" title="this 参数在第几个位置"></a>this 参数在第几个位置</h2><p>在C语言层面，this 参数通常是函数的第一个参数. 这是C++编译器的惯例, 因为 this 必须在函数调用时明确知道它操作的是哪个对象实例. 其他显式参数(如 x)则依次排在后面<br>例如，对于一个带有多个参数的成员函数：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span> a, <span class="type">double</span> b)</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在C语言层面可能是：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">MyClass_func</span><span class="params">(<span class="keyword">struct</span> MyClass* this, <span class="type">int</span> a, <span class="type">double</span> b)</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>this 是第 1 个参数<br>a 是第 2 个参数<br>b 是第 3 个参数</p>
+<p>所以在C语言层面，this 被显式地作为指向对象实例的指针参数传递<br>它通常是函数的第一个参数, 因为这是C++编译器实现调用约定时的标准做法<br>这种转换由编译器自动完成, 程序员在C++层面无需手动处理 this</p>
+]]></content>
+  </entry>
+  <entry>
     <title>简明CMAKE语法与工程管理指南</title>
     <url>/%E7%AE%80%E6%98%8ECMAKE%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h2 id="快速认识CMake，并掌握简单的工程化的能力-补充内容，如果还有遗漏可以到完全手册中查询相关说明"><a href="#快速认识CMake，并掌握简单的工程化的能力-补充内容，如果还有遗漏可以到完全手册中查询相关说明" class="headerlink" title="快速认识CMake，并掌握简单的工程化的能力, 补充内容，如果还有遗漏可以到完全手册中查询相关说明"></a>快速认识CMake，并掌握简单的工程化的能力, 补充内容，如果还有遗漏可以到完全手册中查询相关说明<br><span id="more"></span></h2><h1 id="第一部分：原文稿"><a href="#第一部分：原文稿" class="headerlink" title="第一部分：原文稿"></a>第一部分：原文稿</h1><hr>
@@ -3724,27 +3747,5 @@
 </tbody></table>
 <hr>
 ]]></content>
-  </entry>
-  <entry>
-    <title>linux内核探秘pdf</title>
-    <url>/linux%E5%86%85%E6%A0%B8%E6%8E%A2%E7%A7%98pdf/</url>
-    <content><![CDATA[<span id="more"></span>
-<iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://fravel.github.io/_static/ebooks/linux-filesystem-driver.pdf" width="100%" height="600px"></iframe>
-
-]]></content>
-  </entry>
-  <entry>
-    <title>你好并发世界文摘</title>
-    <url>/%E4%BD%A0%E5%A5%BD%E5%B9%B6%E5%8F%91%E4%B8%96%E7%95%8C%E6%96%87%E6%91%98/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p><a href="https://nj.gitbooks.io/c/content/"></a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.2 为什么使用并发？</span><br><span class="line">主要原因有两个：关注点分离(SOC)和性能。</span><br></pre></td></tr></table></figure>
-<p>2种并发方式，多进程 和 多线程<br>多进程： 开销更大，进程间通信更麻烦(IPC)</p>
-<p>进程内存布局(may 1Mb)<br>0x100000    high address<br>0x …         command-line arguments and variables<br>0x …         stack<br>0x …         heap<br>0x …         uninitialized data(bss), initialized to zero by exec<br>0x …         initialized data       , read from program file by exec<br>0x …         text                   , read from program file by exec<br>0x000000    low address                                         </p>
-<p>线程之间共享<br> uninitialized data(bss)<br> initialized data<br> text</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">两种方式利用并发提高性能：</span><br><span class="line">第一，将一个单个任务分成几部分，且各自并行运行，从而降低总运行时间。这就是任务并行（task parallelism）</span><br><span class="line">第二，一个线程执行算法的一部分, 另一个线程执行算法的另一个部分——或是在数据方面——每个线程在不同的数据部分上执行相同的操作, 数据并行（data parallelism）</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.2.3 什么时候不使用并发</span><br><span class="line">操作系统需要分配内核相关资源和堆栈空间，所以在启动线程时存在固有的开销，然后才能把新线程加入调度器中，所有这一切都需要时间。如果在线程上的任务完成得很快，那么任务实际执行的时间要比启动线程的时间小很多，这就会导致应用程序的整体性能还不如直接使用“产生线程”的方式。</span><br><span class="line"></span><br><span class="line">运行越多的线程，操作系统就需要做越多的上下文切换，每个上下文切换都需要耗费本可以花在有价值工作上的时间。所以在某些时候，增加一个额外的线程实际上会降低，而非提高应用程序的整体性能。为此，如果你试图得到系统的最佳性能，可以考虑使用硬件并发(或不用)，并调整运行线程的数量。</span><br></pre></td></tr></table></figure>]]></content>
   </entry>
 </search>
