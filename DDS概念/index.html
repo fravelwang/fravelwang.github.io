@@ -1,0 +1,467 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>DDS概念 | JUST NOTE</title><meta name="author" content="Fravel Wang"><meta name="copyright" content="Fravel Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概要DDS 中用于区分实体与通信范围的主要唯一标识有：DomainId、Participant GUID、Topic 名称与类型、DataWriter&#x2F;DataReader（或 RTPS writer&#x2F;reader）GUID、以及 Topic 实例的 key 字段等.  主要标识项 DomainId    一个无符号整数（通常 32 位）用来划分独立的通信域，只有相同 Dom">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDS概念">
+<meta property="og:url" content="http://example.com/DDS%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="JUST NOTE">
+<meta property="og:description" content="概要DDS 中用于区分实体与通信范围的主要唯一标识有：DomainId、Participant GUID、Topic 名称与类型、DataWriter&#x2F;DataReader（或 RTPS writer&#x2F;reader）GUID、以及 Topic 实例的 key 字段等.  主要标识项 DomainId    一个无符号整数（通常 32 位）用来划分独立的通信域，只有相同 Dom">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/avatar.jpeg">
+<meta property="article:published_time" content="2025-10-18T16:03:34.000Z">
+<meta property="article:modified_time" content="2025-10-18T17:02:14.922Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpeg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "DDS概念",
+  "url": "http://example.com/DDS%E6%A6%82%E5%BF%B5/",
+  "image": "http://example.com/img/avatar.jpeg",
+  "datePublished": "2025-10-18T16:03:34.000Z",
+  "dateModified": "2025-10-18T17:02:14.922Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fravel Wang",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="http://example.com/DDS%E6%A6%82%E5%BF%B5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DDS概念',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/bg_img.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JUST NOTE</span></a><a class="nav-page-title" href="/"><span class="site-name">DDS概念</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div></div></nav><div id="post-info"><h1 class="post-title">DDS概念</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-18T16:03:34.000Z" title="Created 2025-10-19 00:03:34">2025-10-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-10-18T17:02:14.922Z" title="Updated 2025-10-19 01:02:14">2025-10-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><span id="more"></span>
+<h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p>DDS 中用于区分实体与通信范围的主要唯一标识有：DomainId、Participant GUID、Topic 名称与类型、DataWriter&#x2F;DataReader（或 RTPS writer&#x2F;reader）GUID、以及 Topic 实例的 key 字段等.</p>
+<hr>
+<h3 id="主要标识项"><a href="#主要标识项" class="headerlink" title="主要标识项"></a>主要标识项</h3><ul>
+<li><p>DomainId  </p>
+<ul>
+<li>一个无符号整数（通常 32 位）用来划分独立的通信域，只有相同 DomainId 的 Participant 才会发现彼此与通信.</li>
+</ul>
+</li>
+<li><p>DomainParticipant 标识（GUID）  </p>
+<ul>
+<li>每个 DomainParticipant 在底层有唯一的标识（通常为 GUID&#x2F;ParticipantId），由实现（RTPS 层）生成并用于发现与路由.</li>
+</ul>
+</li>
+<li><p>Topic 标识（name + type）  </p>
+<ul>
+<li>Topic 的唯一性由 TopicName 决定，通常还需要配合 typeName（数据类型名）来唯一识别一个主题；不同 type 或不同 name 的 Topic 被视为不同实体.</li>
+</ul>
+</li>
+<li><p>DataWriter &#x2F; DataReader（RTPS Writer&#x2F;Reader）GUID  </p>
+<ul>
+<li>发布者和订阅者在 RTPS 层有独立的 GUID，用于对等发现、流控与数据路由，多个 Writer 可以发布同一 Topic，但每个 Writer 由唯一 GUID 区分.</li>
+</ul>
+</li>
+<li><p>Topic 实例 key（Data Instance Key）  </p>
+<ul>
+<li>对于有 key 的类型，某条数据实例由 key 字段的值唯一标识，DDS 在 history、生命周期和读取语义上使用实例 key 做区分（即同一 Topic 下不同实例）.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="其它相关可用标识与属性"><a href="#其它相关可用标识与属性" class="headerlink" title="其它相关可用标识与属性"></a>其它相关可用标识与属性</h3><ul>
+<li>Participant 的 QoS、租约&#x2F;lease、participant name（可读性字段）等虽然不是唯一标识，但常用于选择、筛查与策略匹配.  </li>
+<li>Discovery 中还存在 locator（IP:port）与通道级别标识，用于路由与传输定位；这些与 GUID 结合实现端到端寻址.</li>
+</ul>
+<hr>
+<h3 id="使用建议（工程视角）"><a href="#使用建议（工程视角）" class="headerlink" title="使用建议（工程视角）"></a>使用建议（工程视角）</h3><ul>
+<li>当需要全局隔离或多租户，使用不同 DomainId；当需要同域中更细粒度控制，结合 Participant GUID、partition 或 content-filtered topic 来实现.  </li>
+<li>在程序层面将 Topic 唯一性视为 name+type，若需要区分实例数据则设计并使用 message key 字段.</li>
+</ul>
+<h3 id="场景概述"><a href="#场景概述" class="headerlink" title="场景概述"></a>场景概述</h3><p>把 DDS 的标识比喻成两辆汽车的仿真测试现场：两辆车 A 和 B 在同一测试场（或不同场），每辆车上有多个子系统（传感器、控制器、记录器），它们通过不同的“话题”互相交换信息。下面把 DDS 的主要唯一标识逐一对应到这个场景，给出直观示例与工程含义。</p>
+<hr>
+<h3 id="DomainId-——-测试场或车队隔离"><a href="#DomainId-——-测试场或车队隔离" class="headerlink" title="DomainId —— 测试场或车队隔离"></a>DomainId —— 测试场或车队隔离</h3><ul>
+<li>比喻：不同的测试场地或隔离的车队。DomainId 相同的参与者才能发现彼此并通信。  </li>
+<li>示例：DomainId&#x3D;1 表示“城市路况测试场”；DomainId&#x3D;2 表示“高速场景”。把车 A 和车 B 放在 DomainId&#x3D;1，就能互相看到对方的数据；若车 B 在 DomainId&#x3D;2，则看不到 A 的消息。</li>
+</ul>
+<hr>
+<h3 id="DomainParticipant（Participant-GUID）——-单辆车上的网络身份（或进程身份）"><a href="#DomainParticipant（Participant-GUID）——-单辆车上的网络身份（或进程身份）" class="headerlink" title="DomainParticipant（Participant GUID）—— 单辆车上的网络身份（或进程身份）"></a>DomainParticipant（Participant GUID）—— 单辆车上的网络身份（或进程身份）</h3><ul>
+<li>比喻：每辆车的车载网络节点（或车内某个进程&#x2F;ECU）的唯一车牌&#x2F;身份标识。  </li>
+<li>示例：车 A 上有“定位 ECU（Participant A_loc）”、“控制器（Participant A_ctrl）”、“记录器（Participant A_rec）”。每个 Participant 底层都有唯一 GUID，用于发现与路由。</li>
+</ul>
+<hr>
+<h3 id="Topic-名称-Type-——-车内-车间的数据通道（话题和数据格式）"><a href="#Topic-名称-Type-——-车内-车间的数据通道（话题和数据格式）" class="headerlink" title="Topic 名称 + Type —— 车内&#x2F;车间的数据通道（话题和数据格式）"></a>Topic 名称 + Type —— 车内&#x2F;车间的数据通道（话题和数据格式）</h3><ul>
+<li>比喻：通信频道的名称和数据格式，例如“里程表”“GPS位姿”“雷达点云”。  </li>
+<li>示例：Topic name &#x3D; “vehicle&#x2F;odometry”，type &#x3D; “Odometry”。车 A 的定位 ECU 和车 B 的控制器要交换位姿，就要订阅相同的 topic name 和兼容的 type。</li>
+</ul>
+<hr>
+<h3 id="DataWriter-DataReader（Writer-Reader-GUID）——-具体发布者或订阅器实例"><a href="#DataWriter-DataReader（Writer-Reader-GUID）——-具体发布者或订阅器实例" class="headerlink" title="DataWriter &#x2F; DataReader（Writer&#x2F;Reader GUID）—— 具体发布者或订阅器实例"></a>DataWriter &#x2F; DataReader（Writer&#x2F;Reader GUID）—— 具体发布者或订阅器实例</h3><ul>
+<li>比喻：同一话题上不同设备或不同实例的“发话人”和“听话人”。即使话题相同，不同的设备&#x2F;实例仍有各自身份。  </li>
+<li>示例：车 A 的前置雷达有一个 DataWriter（Writer GUID），后置雷达可能有另一个 Writer；同一控制台上可以有多个 Reader，每个 Reader 都有唯一标识，用于流量控制与点到点识别。</li>
+</ul>
+<hr>
+<h3 id="Topic-实例-Key（数据实例-key）——-相同话题下的具体对象（车辆-ID-传感器-ID）"><a href="#Topic-实例-Key（数据实例-key）——-相同话题下的具体对象（车辆-ID-传感器-ID）" class="headerlink" title="Topic 实例 Key（数据实例 key）—— 相同话题下的具体对象（车辆 ID &#x2F; 传感器 ID）"></a>Topic 实例 Key（数据实例 key）—— 相同话题下的具体对象（车辆 ID &#x2F; 传感器 ID）</h3><ul>
+<li>比喻：话题下的“对象身份”，比如“车辆ID&#x3D;CarA”或“轮胎ID&#x3D;rear_left”。Key 将同一 topic 中不同实体的数据区分开。  </li>
+<li>示例：Topic “vehicle&#x2F;pose” 有 key 字段 vehicle_id；来自 CarA 的实例 key&#x3D;”CarA”，来自 CarB 的 key&#x3D;”CarB”。Reader 可按实例选择性处理或保留历史（history per instance）。</li>
+</ul>
+<hr>
+<h3 id="Locator-IP-port-与网络层标识-——-物理连接位置"><a href="#Locator-IP-port-与网络层标识-——-物理连接位置" class="headerlink" title="Locator (IP:port) 与网络层标识 —— 物理连接位置"></a>Locator (IP:port) 与网络层标识 —— 物理连接位置</h3><ul>
+<li>比喻：车辆连接到哪根网线或哪个无线接口（具体到车内以太网端口或主机地址）。用于路由到具体的传输端点。  </li>
+<li>示例：Participant A 的 locator &#x3D; 192.168.1.10:7400，Participant B 在 192.168.1.11:7400，用于具体数据包发送&#x2F;接收定位。</li>
+</ul>
+<hr>
+<h3 id="辅助-策略性标识（partition、participant-name、QoS）"><a href="#辅助-策略性标识（partition、participant-name、QoS）" class="headerlink" title="辅助 &#x2F; 策略性标识（partition、participant name、QoS）"></a>辅助 &#x2F; 策略性标识（partition、participant name、QoS）</h3><ul>
+<li>Partition：比喻车内的逻辑隔间（如 infotainment 区、safety 区），即便在同 Domain 内也能将流量逻辑隔离。  </li>
+<li>Participant name：可读标签（如 “CarA_General”），便于人工识别但不是底层唯一 GUID（可用于筛查与日志）。  </li>
+<li>QoS：比喻话题的通信约定（可靠&#x2F;不可靠、历史深度、延迟容忍度），决定消息传输的行为和性能。</li>
+</ul>
+<hr>
+<h3 id="具体应用举例（两车仿真）"><a href="#具体应用举例（两车仿真）" class="headerlink" title="具体应用举例（两车仿真）"></a>具体应用举例（两车仿真）</h3><ul>
+<li>场景 1（同域交互）：两车都在 DomainId&#x3D;1；它们各自的定位 Participant 发布 topic “vehicle&#x2F;pose”；控制器订阅该 topic，并通过 key&#x3D;vehicle_id 区分 CarA&#x2F;CarB 的位姿。这样可以在同一仿真场内直接看到对方位置。  </li>
+<li>场景 2（隔离测试）：把车 B 放在 DomainId&#x3D;2，或在同 Domain 但放到 partition&#x3D;”internal”；则车 A 无法接收到 B 的数据，实现网络级或逻辑级隔离。  </li>
+<li>场景 3（多实例同 topic）：车 A 上两个相同型号的雷达分别作为两个 DataWriter 发布 “sensor&#x2F;pointcloud”；下游汇聚节点通过 writer GUID 或 source locator 区分并合并数据流。</li>
+</ul>
+<hr>
+<h3 id="工程建议（基于比喻）"><a href="#工程建议（基于比喻）" class="headerlink" title="工程建议（基于比喻）"></a>工程建议（基于比喻）</h3><ul>
+<li>需要全局隔离时改 DomainId；需要同域但逻辑隔离用 partition；需要数据级区分用 message key（vehicle_id）；需要识别具体发布源则依赖 Writer&#x2F;Participant GUID 或 locator。  </li>
+<li>设计 topic 和 key 时优先考虑可扩展性（例如对 fleet 仿真，使用 vehicle_id 作为 key），并配合合适的 QoS（实时控制用低延迟&#x2F;可靠性设置），以满足仿真精度与可靠性需求。</li>
+</ul>
+<hr>
+<h3 id="映射原则（物理世界到软件实体）"><a href="#映射原则（物理世界到软件实体）" class="headerlink" title="映射原则（物理世界到软件实体）"></a>映射原则（物理世界到软件实体）</h3><ul>
+<li>把每个 DDS 实体映射为一个物理角色或物理对象的“责任域”。  </li>
+<li>以“谁拥有&#x2F;发布&#x2F;感知这个通道”为核心来命名 channel 的归属。  </li>
+<li>保持两套标识：<strong>友好语义名</strong> 用于配置与阅读，<strong>底层标识</strong>（GUID、DomainId）用于调试和互操作。</li>
+</ul>
+<hr>
+<h3 id="建议的物理映射与命名模式"><a href="#建议的物理映射与命名模式" class="headerlink" title="建议的物理映射与命名模式"></a>建议的物理映射与命名模式</h3><ul>
+<li>DomainId → workspace_id  <ul>
+<li>表示一个物理测试场地、网络隔离域或车队。</li>
+</ul>
+</li>
+<li>DomainParticipant → owner 或 host 或 unit  <ul>
+<li>表示“谁”在该 workspace 内拥有设备或进程。优先用 owner 表达“归属关系”。</li>
+</ul>
+</li>
+<li>Topic → channel  <ul>
+<li>表示数据流的“通道”。channel 名应以“所属&#x2F;用途”前缀表示归属。</li>
+</ul>
+</li>
+<li>DataWriter → channel_sender 或 sender  <ul>
+<li>表示发送该 channel 数据的具体设备或进程。</li>
+</ul>
+</li>
+<li>DataReader → channel_receiver 或 receiver  <ul>
+<li>表示接收该 channel 数据的具体设备或进程。</li>
+</ul>
+</li>
+<li>Topic 实例 key → instance_id 或 object_id  <ul>
+<li>表示同一 channel 下不同物理对象的标识（例如 vehicle_id）。</li>
+</ul>
+</li>
+<li>Locator &#x2F; endpoint → endpoint 或 transport_address  <ul>
+<li>表示物理网络位置或接口。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="channel-的归属（如何表达“谁的-channel”）"><a href="#channel-的归属（如何表达“谁的-channel”）" class="headerlink" title="channel 的归属（如何表达“谁的 channel”）"></a>channel 的归属（如何表达“谁的 channel”）</h3><ul>
+<li>命名约定： <owner>“&#x2F;“<channel_purpose>  <ul>
+<li>例： CarA&#x2F;pose 表示属于 CarA 的位置通道。</li>
+</ul>
+</li>
+<li>当 channel 为共享资源（fleet 层）时使用 tenant 或 group 前缀： Fleet&#x2F;traffic&#x2F;pose。  </li>
+<li>若 channel 代表虚拟聚合或中间件服务，使用 service 前缀： Infra&#x2F;time_sync、Logger&#x2F;event_stream。</li>
+</ul>
+<hr>
+<h3 id="具体两车仿真命名示例"><a href="#具体两车仿真命名示例" class="headerlink" title="具体两车仿真命名示例"></a>具体两车仿真命名示例</h3><ul>
+<li>workspace_id &#x3D; 1  </li>
+<li>owner &#x3D; CarA; owner &#x3D; CarB  </li>
+<li>channel &#x3D; CarA&#x2F;pose; channel &#x3D; CarB&#x2F;pose; channel &#x3D; Fleet&#x2F;obstacles  </li>
+<li>channel_sender: CarA_gps_sender; CarA_radar_sender  </li>
+<li>channel_receiver: CarB_pose_receiver; Logger_event_receiver  </li>
+<li>instance_id: vehicle_id&#x3D;CarA; sensor_id&#x3D;front_radar_01  </li>
+<li>endpoint: CarA:192.168.10.11:7400</li>
+</ul>
+<hr>
+<h3 id="日志与配置建议（便于排查）"><a href="#日志与配置建议（便于排查）" class="headerlink" title="日志与配置建议（便于排查）"></a>日志与配置建议（便于排查）</h3><ul>
+<li>在日志和管理界面同时记录友好名与底层 id：<ul>
+<li>格式示例： workspace_id&#x3D;1 owner&#x3D;CarA owner_guid&#x3D;… channel&#x3D;CarA&#x2F;pose channel_type&#x3D;Odometry sender_id&#x3D;CarA_gps_sender writer_guid&#x3D;…</li>
+</ul>
+</li>
+<li>在配置文件中使用明确字段名：<ul>
+<li>workspace_id, owner.name, owner.guid, channel.name, channel.type, channel.instance_id, endpoint.address</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="最终推荐简短命名表"><a href="#最终推荐简短命名表" class="headerlink" title="最终推荐简短命名表"></a>最终推荐简短命名表</h3><ul>
+<li>DomainId -&gt; <strong>workspace_id</strong>  </li>
+<li>DomainParticipant -&gt; <strong>owner</strong> 或 <strong>unit</strong>（推荐 <strong>owner</strong>）  </li>
+<li>Topic -&gt; <strong>channel</strong>  </li>
+<li>DataWriter -&gt; <strong>channel_sender</strong> 或 <strong>sender</strong>  </li>
+<li>DataReader -&gt; <strong>channel_receiver</strong> 或 <strong>receiver</strong>  </li>
+<li>Topic instance key -&gt; <strong>instance_id</strong> 或 <strong>object_id</strong>  </li>
+<li>Locator -&gt; <strong>endpoint</strong></li>
+</ul>
+<hr>
+<h3 id="根本概念与核心实体"><a href="#根本概念与核心实体" class="headerlink" title="根本概念与核心实体"></a>根本概念与核心实体</h3><ul>
+<li>DomainId  <ul>
+<li>通信域边界，决定能否相互发现与通信。类似不同测试场地或车队。</li>
+</ul>
+</li>
+<li>DomainParticipant  <ul>
+<li>域内的进程或实体代理，负责注册本进程内的发布&#x2F;订阅并参与发现。每个 Participant 有底层 GUID 和可读 name。</li>
+</ul>
+</li>
+<li>Topic  <ul>
+<li>主题名和类型联合定义的数据通道，声明消息格式与语义。Topic 本身不发送数据，只描述通道。</li>
+</ul>
+</li>
+<li>Publisher 和 DataWriter  <ul>
+<li>Publisher 是发布端的集合&#x2F;容器，DataWriter 是具体的发送者实例。Writer 对应底层 writer GUID 和传输 endpoint。</li>
+</ul>
+</li>
+<li>Subscriber 和 DataReader  <ul>
+<li>Subscriber 是订阅端的集合&#x2F;容器，DataReader 是具体的接收者实例。Reader 对应 reader GUID。</li>
+</ul>
+</li>
+<li>Instance Key  <ul>
+<li>如果消息类型定义了 key 字段，同一 Topic 下不同 key 代表不同数据实例（历史、生命周期按实例区分）。</li>
+</ul>
+</li>
+<li>Locator 和 QoS 等元信息  <ul>
+<li>Locator 表示网络地址，QoS&#x2F;partition 等为策略与逻辑隔离参数，用于控制可见性、可靠性、历史等。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="父子关系与基数（谁属于谁-一对一-一对多）"><a href="#父子关系与基数（谁属于谁-一对一-一对多）" class="headerlink" title="父子关系与基数（谁属于谁 一对一 一对多）"></a>父子关系与基数（谁属于谁 一对一 一对多）</h3><ul>
+<li>DomainId 包含 0..N DomainParticipant。  <ul>
+<li>基数 1..N：一个 workspace 可以有多参与者。</li>
+</ul>
+</li>
+<li>DomainParticipant 包含 0..N Publisher 和 0..N Subscriber，以及可创建的 Topic (引用全域 Topic)。  <ul>
+<li>Participant 是 publisher&#x2F;subscriber 的宿主（ownership）。</li>
+</ul>
+</li>
+<li>Publisher 包含 0..N DataWriter；Subscriber 包含 0..N DataReader。  <ul>
+<li>一对多：一个 Publisher 管理多个 Writer；一个 Subscriber 管理多个 Reader。</li>
+</ul>
+</li>
+<li>DataWriter 和 DataReader 指向同一个 Topic（多对多关系）：多个 Writers 可写同一 Topic，多 Readers 可读同一 Topic。  </li>
+<li>Topic 下可存在 0..N instance_id（若定义 key）  <ul>
+<li>一个 Topic 对应多实例；读写&#x2F;历史按 instance key 区分。</li>
+</ul>
+</li>
+<li>Writer&#x2F;Reader GUID 与 endpoint 一一对应（运行时唯一标识）。</li>
+</ul>
+<p>简化链路视图：</p>
+<ul>
+<li>DomainId -&gt; DomainParticipant -&gt; {Publisher -&gt; DataWriter, Subscriber -&gt; DataReader} -&gt; Topic -&gt; instance_id</li>
+</ul>
+<hr>
+<h3 id="各实体职责（聚焦行为与边界）"><a href="#各实体职责（聚焦行为与边界）" class="headerlink" title="各实体职责（聚焦行为与边界）"></a>各实体职责（聚焦行为与边界）</h3><ul>
+<li>DomainId  <ul>
+<li>职责：划分发现和路由边界，隔离租户或测试场地。</li>
+</ul>
+</li>
+<li>DomainParticipant  <ul>
+<li>职责：在域内注册本进程的 Topics、Publisher、Subscriber；参与 discovery；持有 participant 级 QoS（lease、liveliness）。</li>
+</ul>
+</li>
+<li>Topic  <ul>
+<li>职责：定义消息格式、name&#x2F;type 唯一性、是否有 key；不直接传输数据。</li>
+</ul>
+</li>
+<li>Publisher  <ul>
+<li>职责：管理一组 Writer，共享某些 QoS（可选）；负责数据发送策略的上层封装。</li>
+</ul>
+</li>
+<li>DataWriter  <ul>
+<li>职责：把样本序列化并发送到网络；维护 writer GUID、history、deadline、lifespan 等 writer 级 QoS。</li>
+</ul>
+</li>
+<li>Subscriber  <ul>
+<li>职责：管理一组 Reader，接收和分派数据到应用回调或队列。</li>
+</ul>
+</li>
+<li>DataReader  <ul>
+<li>职责：接收样本、维护实例状态、按 QoS 交付给应用（读取、监听），支持按 instance key 过滤&#x2F;历史。</li>
+</ul>
+</li>
+<li>Locator &#x2F; Endpoint  <ul>
+<li>职责：物理地址定位与路由，RTPS 层用于建立点到点传输路径。</li>
+</ul>
+</li>
+<li>QoS 与 Partition  <ul>
+<li>职责：控制可见性、可靠性、保留历史、延迟容忍等行为；partition 提供逻辑隔离。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="Publisher-Subscriber-与-Writer-Reader-的对应与差异"><a href="#Publisher-Subscriber-与-Writer-Reader-的对应与差异" class="headerlink" title="Publisher Subscriber 与 Writer Reader 的对应与差异"></a>Publisher Subscriber 与 Writer Reader 的对应与差异</h3><ul>
+<li>对应关系  <ul>
+<li>Publisher 包含 DataWriter；Subscriber 包含 DataReader。  </li>
+<li>DataWriter 对应发送端具体实体，DataReader 对应接收端具体实体。</li>
+</ul>
+</li>
+<li>角色差异与使用场景  <ul>
+<li>Publisher&#x2F;Subscriber 是更上层的管理抽象，便于批量管理 QoS 与生命周期。  </li>
+<li>Writer&#x2F;Reader 是实际发送&#x2F;接收单元，控制序列号、instance 历史、心跳、流控。</li>
+</ul>
+</li>
+<li>多对多模型与路由  <ul>
+<li>多个 Writers -&gt; 同一 Topic -&gt; 多个 Readers。Reader 按 QoS 决定是否接收、按 instance key 组织历史。</li>
+</ul>
+</li>
+<li>discovery 与匹配  <ul>
+<li>Participant 发现彼此后，Writer&#x2F;Reader 在 RTPS 层通过匹配对方的 Topic name&#x2F;type 与 QoS 来建立数据路径。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="物理世界比喻结合代码理解（两车仿真快速对应）"><a href="#物理世界比喻结合代码理解（两车仿真快速对应）" class="headerlink" title="物理世界比喻结合代码理解（两车仿真快速对应）"></a>物理世界比喻结合代码理解（两车仿真快速对应）</h3><ul>
+<li>workspace_id &#x3D; 车场（DomainId）  </li>
+<li>owner &#x3D; 每辆车上的进程&#x2F;ECU（DomainParticipant）  </li>
+<li>channel &#x3D; 某条数据流（Topic name+type），例如 CarA&#x2F;pose  </li>
+<li>channel_sender &#x3D; GPS 进程的 DataWriter；channel_receiver &#x3D; 控制器的 DataReader  </li>
+<li>多个 GPS（前后）就是多个 DataWriter 发布同一 channel；多个控制器或记录器就是多个 DataReader 订阅同一 channel  </li>
+<li>instance_id &#x3D; vehicle_id 字段把 CarA&#x2F;CarB 在同一 channel 下区分开  </li>
+<li>在代码层面（伪结构）：<ul>
+<li>participant &#x3D; DomainParticipant(domainId)</li>
+<li>topic &#x3D; participant.create_topic(“CarA&#x2F;pose”, Odometry)</li>
+<li>pub &#x3D; participant.create_publisher(qos)</li>
+<li>writer &#x3D; pub.create_datawriter(topic, writer_qos)</li>
+<li>sub &#x3D; participant.create_subscriber(qos)</li>
+<li>reader &#x3D; sub.create_datareader(topic, reader_qos)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="实践要点（帮助理解架构）"><a href="#实践要点（帮助理解架构）" class="headerlink" title="实践要点（帮助理解架构）"></a>实践要点（帮助理解架构）</h3><ul>
+<li>想清楚“所有权”時首看 DomainParticipant：它是进程&#x2F;车上实体的根，负责注册和持有 publishers&#x2F;subscribers。  </li>
+<li>想清楚“数据流”時看 Topic：Topic 定义消息语义，Writer&#x2F;Reader 是运行时的实际发&#x2F;收端。  </li>
+<li>观察匹配与隔离：DomainId 与 partition 决定能否看见对方；QoS 决定是否能通信（可靠性、历史、延迟等）。  </li>
+<li>日志设计：在每条日志同时记录 friendly name（owner&#x2F;channel&#x2F;sender）与底层 id（participant GUID &#x2F; writer GUID &#x2F; domainId &#x2F; endpoint）以便排查。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Fravel Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/DDS%E6%A6%82%E5%BF%B5/">http://example.com/DDS%E6%A6%82%E5%BF%B5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpeg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/Ntp%E5%90%8C%E6%AD%A5%E5%AE%A2%E6%88%B7%E7%AB%AF/" title="Ntp同步客户端"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Ntp同步客户端</div></div><div class="info-2"><div class="info-item-1"> QtNtpClient 类 — 头文件 (qt_ntp_client.h)123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107#pragma once#include &lt;QObject&gt;#include &lt;QUdpSocket&gt;#include &lt;QElapsedTimer&gt;#include &lt;QDateTime&gt;#include &lt;QTimer&gt;#include &lt;QHostAddress&gt;#include &lt;QMutex&gt;/* * QtNtpClient * * - 异步通过 QUdpSocket 向 NTP/SNTP 服务...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fravel Wang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fravelwang"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">概要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%A0%87%E8%AF%86%E9%A1%B9"><span class="toc-number">2.</span> <span class="toc-text">主要标识项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E7%9B%B8%E5%85%B3%E5%8F%AF%E7%94%A8%E6%A0%87%E8%AF%86%E4%B8%8E%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">其它相关可用标识与属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE%EF%BC%88%E5%B7%A5%E7%A8%8B%E8%A7%86%E8%A7%92%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">使用建议（工程视角）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E6%A6%82%E8%BF%B0"><span class="toc-number">5.</span> <span class="toc-text">场景概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DomainId-%E2%80%94%E2%80%94-%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%88%96%E8%BD%A6%E9%98%9F%E9%9A%94%E7%A6%BB"><span class="toc-number">6.</span> <span class="toc-text">DomainId —— 测试场或车队隔离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DomainParticipant%EF%BC%88Participant-GUID%EF%BC%89%E2%80%94%E2%80%94-%E5%8D%95%E8%BE%86%E8%BD%A6%E4%B8%8A%E7%9A%84%E7%BD%91%E7%BB%9C%E8%BA%AB%E4%BB%BD%EF%BC%88%E6%88%96%E8%BF%9B%E7%A8%8B%E8%BA%AB%E4%BB%BD%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">DomainParticipant（Participant GUID）—— 单辆车上的网络身份（或进程身份）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Topic-%E5%90%8D%E7%A7%B0-Type-%E2%80%94%E2%80%94-%E8%BD%A6%E5%86%85-%E8%BD%A6%E9%97%B4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E9%81%93%EF%BC%88%E8%AF%9D%E9%A2%98%E5%92%8C%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">Topic 名称 + Type —— 车内&#x2F;车间的数据通道（话题和数据格式）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataWriter-DataReader%EF%BC%88Writer-Reader-GUID%EF%BC%89%E2%80%94%E2%80%94-%E5%85%B7%E4%BD%93%E5%8F%91%E5%B8%83%E8%80%85%E6%88%96%E8%AE%A2%E9%98%85%E5%99%A8%E5%AE%9E%E4%BE%8B"><span class="toc-number">9.</span> <span class="toc-text">DataWriter &#x2F; DataReader（Writer&#x2F;Reader GUID）—— 具体发布者或订阅器实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Topic-%E5%AE%9E%E4%BE%8B-Key%EF%BC%88%E6%95%B0%E6%8D%AE%E5%AE%9E%E4%BE%8B-key%EF%BC%89%E2%80%94%E2%80%94-%E7%9B%B8%E5%90%8C%E8%AF%9D%E9%A2%98%E4%B8%8B%E7%9A%84%E5%85%B7%E4%BD%93%E5%AF%B9%E8%B1%A1%EF%BC%88%E8%BD%A6%E8%BE%86-ID-%E4%BC%A0%E6%84%9F%E5%99%A8-ID%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">Topic 实例 Key（数据实例 key）—— 相同话题下的具体对象（车辆 ID &#x2F; 传感器 ID）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Locator-IP-port-%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%B1%82%E6%A0%87%E8%AF%86-%E2%80%94%E2%80%94-%E7%89%A9%E7%90%86%E8%BF%9E%E6%8E%A5%E4%BD%8D%E7%BD%AE"><span class="toc-number">11.</span> <span class="toc-text">Locator (IP:port) 与网络层标识 —— 物理连接位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9-%E7%AD%96%E7%95%A5%E6%80%A7%E6%A0%87%E8%AF%86%EF%BC%88partition%E3%80%81participant-name%E3%80%81QoS%EF%BC%89"><span class="toc-number">12.</span> <span class="toc-text">辅助 &#x2F; 策略性标识（partition、participant name、QoS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B%EF%BC%88%E4%B8%A4%E8%BD%A6%E4%BB%BF%E7%9C%9F%EF%BC%89"><span class="toc-number">13.</span> <span class="toc-text">具体应用举例（两车仿真）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E5%BB%BA%E8%AE%AE%EF%BC%88%E5%9F%BA%E4%BA%8E%E6%AF%94%E5%96%BB%EF%BC%89"><span class="toc-number">14.</span> <span class="toc-text">工程建议（基于比喻）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E5%8E%9F%E5%88%99%EF%BC%88%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E5%88%B0%E8%BD%AF%E4%BB%B6%E5%AE%9E%E4%BD%93%EF%BC%89"><span class="toc-number">15.</span> <span class="toc-text">映射原则（物理世界到软件实体）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE%E7%9A%84%E7%89%A9%E7%90%86%E6%98%A0%E5%B0%84%E4%B8%8E%E5%91%BD%E5%90%8D%E6%A8%A1%E5%BC%8F"><span class="toc-number">16.</span> <span class="toc-text">建议的物理映射与命名模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#channel-%E7%9A%84%E5%BD%92%E5%B1%9E%EF%BC%88%E5%A6%82%E4%BD%95%E8%A1%A8%E8%BE%BE%E2%80%9C%E8%B0%81%E7%9A%84-channel%E2%80%9D%EF%BC%89"><span class="toc-number">17.</span> <span class="toc-text">channel 的归属（如何表达“谁的 channel”）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E4%B8%A4%E8%BD%A6%E4%BB%BF%E7%9C%9F%E5%91%BD%E5%90%8D%E7%A4%BA%E4%BE%8B"><span class="toc-number">18.</span> <span class="toc-text">具体两车仿真命名示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E4%B8%8E%E9%85%8D%E7%BD%AE%E5%BB%BA%E8%AE%AE%EF%BC%88%E4%BE%BF%E4%BA%8E%E6%8E%92%E6%9F%A5%EF%BC%89"><span class="toc-number">19.</span> <span class="toc-text">日志与配置建议（便于排查）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E6%8E%A8%E8%8D%90%E7%AE%80%E7%9F%AD%E5%91%BD%E5%90%8D%E8%A1%A8"><span class="toc-number">20.</span> <span class="toc-text">最终推荐简短命名表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%B8%8E%E6%A0%B8%E5%BF%83%E5%AE%9E%E4%BD%93"><span class="toc-number">21.</span> <span class="toc-text">根本概念与核心实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%B8%8E%E5%9F%BA%E6%95%B0%EF%BC%88%E8%B0%81%E5%B1%9E%E4%BA%8E%E8%B0%81-%E4%B8%80%E5%AF%B9%E4%B8%80-%E4%B8%80%E5%AF%B9%E5%A4%9A%EF%BC%89"><span class="toc-number">22.</span> <span class="toc-text">父子关系与基数（谁属于谁 一对一 一对多）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E5%AE%9E%E4%BD%93%E8%81%8C%E8%B4%A3%EF%BC%88%E8%81%9A%E7%84%A6%E8%A1%8C%E4%B8%BA%E4%B8%8E%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="toc-number">23.</span> <span class="toc-text">各实体职责（聚焦行为与边界）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Publisher-Subscriber-%E4%B8%8E-Writer-Reader-%E7%9A%84%E5%AF%B9%E5%BA%94%E4%B8%8E%E5%B7%AE%E5%BC%82"><span class="toc-number">24.</span> <span class="toc-text">Publisher Subscriber 与 Writer Reader 的对应与差异</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E4%B8%96%E7%95%8C%E6%AF%94%E5%96%BB%E7%BB%93%E5%90%88%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3%EF%BC%88%E4%B8%A4%E8%BD%A6%E4%BB%BF%E7%9C%9F%E5%BF%AB%E9%80%9F%E5%AF%B9%E5%BA%94%EF%BC%89"><span class="toc-number">25.</span> <span class="toc-text">物理世界比喻结合代码理解（两车仿真快速对应）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E8%A6%81%E7%82%B9%EF%BC%88%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3%E6%9E%B6%E6%9E%84%EF%BC%89"><span class="toc-number">26.</span> <span class="toc-text">实践要点（帮助理解架构）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/DDS%E6%A6%82%E5%BF%B5/" title="DDS概念">DDS概念</a><time datetime="2025-10-18T16:03:34.000Z" title="Created 2025-10-19 00:03:34">2025-10-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Ntp%E5%90%8C%E6%AD%A5%E5%AE%A2%E6%88%B7%E7%AB%AF/" title="Ntp同步客户端">Ntp同步客户端</a><time datetime="2025-10-18T13:28:13.000Z" title="Created 2025-10-18 21:28:13">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Mermaid-cheatsheet/" title="Mermaid cheatsheet">Mermaid cheatsheet</a><time datetime="2025-10-18T04:44:55.000Z" title="Created 2025-10-18 12:44:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet">Graphviz cheatsheet</a><time datetime="2025-10-18T04:41:55.000Z" title="Created 2025-10-18 12:41:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/PlantUML-cheatsheet/" title="PlantUML cheatsheet">PlantUML cheatsheet</a><time datetime="2025-10-18T04:28:52.000Z" title="Created 2025-10-18 12:28:52">2025-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Fravel Wang</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
