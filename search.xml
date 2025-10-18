@@ -3748,4 +3748,473 @@
 <hr>
 ]]></content>
   </entry>
+  <entry>
+    <title>PlantUML cheatsheet</title>
+    <url>/PlantUML-cheatsheet/</url>
+    <content><![CDATA[<span id="more"></span>
+<h3 id="PlantUML-语法说明（语法-示例-说明-停顿-风险）"><a href="#PlantUML-语法说明（语法-示例-说明-停顿-风险）" class="headerlink" title="PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险）"></a>PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险）</h3><hr>
+<h3 id="基础启动与退出"><a href="#基础启动与退出" class="headerlink" title="基础启动与退出"></a>基础启动与退出</h3><ul>
+<li><p>语法<br>@startuml … @enduml</p>
+</li>
+<li><p>示例<br>@startuml<br>Alice -&gt; Bob: hello<br>@enduml</p>
+</li>
+<li><p>说明<br>定界一个 PlantUML 图块，渲染工具会识别 @startuml 到 @enduml 之间的内容并生成图像。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>忘记闭合 @enduml 会导致渲染失败或超时；在批量渲染脚本中务必校验每个文件完整性。</p>
+</li>
+<li><p>语法（文件包含）<br>!include <file></p>
+</li>
+<li><p>示例<br>!include common&#x2F;colors.puml</p>
+</li>
+<li><p>说明<br>将外部 puml 文件或库包含进当前图，用于复用样式&#x2F;宏。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>包含不存在文件会报错；相对路径在渲染环境中可能不同，CI&#x2F;工具链中需使用绝对或一致的相对路径。</p>
+</li>
+</ul>
+<hr>
+<h3 id="图类型与启动模板（快速索引）"><a href="#图类型与启动模板（快速索引）" class="headerlink" title="图类型与启动模板（快速索引）"></a>图类型与启动模板（快速索引）</h3><ul>
+<li><p>Sequence（时序图）<br>语法<br>participant A; participant B; A -&gt; B: msg<br>示例<br>@startuml<br>Alice -&gt; Bob: Hello<br>@enduml<br>说明<br>描述消息流与交互顺序。<br>停顿&#x2F;风险<br>大量消息会造成图像拥挤，必要时分片或用 note&#x2F;alt 分支简化。</p>
+</li>
+<li><p>Class（类图）<br>语法<br>class Name { +field; -method() }<br>示例<br>@startuml<br>class User {<br>  +id: int<br>  +login()<br>}<br>@enduml<br>说明<br>定义类、属性与方法，支持继承、接口、组合关系。<br>停顿&#x2F;风险<br>过度细化属性&#x2F;方法会使类图难读，按关注点抽象即可。</p>
+</li>
+<li><p>Activity（活动图）<br>语法<br>start; :action; if (cond) then (yes) :do; else (no) :skip; endif; stop<br>示例<br>@startuml<br>start<br>:initialize;<br>if (ok?) then (yes)<br>  :process;<br>else (no)<br>  :abort;<br>endif<br>stop<br>@enduml<br>说明<br>描述流程控制、分支与并行（fork&#x2F;merge）。<br>停顿&#x2F;风险<br>并行分支（fork&#x2F;merge）滥用会复杂化视图，需标注同步点。</p>
+</li>
+<li><p>State（状态图）<br>语法<br>[<em>] –&gt; State; State –&gt; AnotherState : event<br>示例<br>@startuml<br>[</em>] –&gt; Idle<br>Idle –&gt; Running : start<br>Running –&gt; Idle : stop<br>@enduml<br>说明<br>表示实体生命周期与事件触发的状态变迁。<br>停顿&#x2F;风险<br>状态过多要分层（state inside）以保持可读性。</p>
+</li>
+<li><p>Component &#x2F; Deployment（组件与部署）<br>语法<br>component A; node N; A -[#]-&gt; B;<br>示例<br>@startuml<br>node “Server” {<br>  component WebApp<br>}<br>component Database<br>WebApp –&gt; Database : JDBC<br>@enduml<br>说明<br>展示系统组件、网络与部署位置。<br>停顿&#x2F;风险<br>部署图含环境信息可能泄露敏感架构，发布前审查。</p>
+</li>
+<li><p>Usecase（用例图）<br>语法<br>actor User; usecase “Login” as UC1; User –&gt; UC1<br>示例<br>@startuml<br>actor Customer<br>Customer –&gt; (Place order)<br>@enduml<br>说明<br>高层次用户与系统功能映射。<br>停顿&#x2F;风险<br>用例图不适合展示实现细节，避免混用类图语义。</p>
+</li>
+</ul>
+<hr>
+<h3 id="元素语法与关系（常用速查）"><a href="#元素语法与关系（常用速查）" class="headerlink" title="元素语法与关系（常用速查）"></a>元素语法与关系（常用速查）</h3><ul>
+<li><p>元素定义（参与者 &#x2F; 对象）<br>语法<br>participant Name; actor Name; object Name; boundary Name<br>示例<br>participant Service</p>
+</li>
+<li><p>说明<br>不同关键字影响图语义与样式（actor 常带人形图标）。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>名称含空格时用引号或别名；重复定义会被合并或覆盖。</p>
+</li>
+<li><p>关系箭头（方向、类型、文本）<br>语法<br>A -&gt; B : msg ; A &lt;– B ; A -[#color]-&gt; B ; A ..&gt; B : note<br>示例<br>A –&gt; B : request</p>
+</li>
+<li><p>说明<br>箭头可表示同步&#x2F;异步调用、依赖、泛化（–|&gt;）等；可加颜色与样式。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>复杂箭头嵌套会影响布局，必要时拆图或使用 left&#x2F;right 指令微调。</p>
+</li>
+<li><p>继承 &#x2F; 实现 &#x2F; 关联<br>语法<br>Child –|&gt; Parent; Impl ..|&gt; Interface</p>
+</li>
+<li><p>示例<br>Dog –|&gt; Animal</p>
+</li>
+<li><p>说明<br>使用 UML 标准箭头表示类之间的继承或实现关系。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>误用箭头方向会导致语义反转，保持一致的方向约定。</p>
+</li>
+<li><p>注释与说明（note）<br>语法<br>note left of A : text ; note right of A ; note as N: text</p>
+</li>
+<li><p>示例<br>A -&gt; B : call<br>note right of B : validate input</p>
+</li>
+<li><p>说明<br>用于补充说明、注释或折叠复杂逻辑。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>太多 note 会遮挡元素，优先用外部文档链接或图例。</p>
+</li>
+</ul>
+<hr>
+<h3 id="样式、布局与配置"><a href="#样式、布局与配置" class="headerlink" title="样式、布局与配置"></a>样式、布局与配置</h3><ul>
+<li><p>全局皮肤参数（skinparam）<br>语法<br>skinparam Parameter Value</p>
+</li>
+<li><p>示例<br>skinparam backgroundColor #F8F8F8<br>skinparam classFontSize 12</p>
+</li>
+<li><p>说明<br>控制颜色、字体、边距、节点圆角等全局外观。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>不同渲染器或版本对参数支持不一致；在团队中固定一套样式文件避免差异。</p>
+</li>
+<li><p>主题与样式表（!theme &#x2F; skinparam include）<br>语法<br>!include &lt;theme.puml&gt;</p>
+</li>
+<li><p>示例<br>!include <a href="https://raw.githubusercontent.com/xxx/theme.puml">https://raw.githubusercontent.com/xxx/theme.puml</a></p>
+</li>
+<li><p>说明<br>使用共享主题确保跨图一致性。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>远程包含依赖网络，CI 环境中应缓存或 vendor 本地副本。</p>
+</li>
+<li><p>分组与包（package &#x2F; rectangle）<br>语法<br>package “Name” { … } ; rectangle “box” { … }</p>
+</li>
+<li><p>示例<br>package “Auth” {<br>  class Login<br>  class Token<br>}</p>
+</li>
+<li><p>说明<br>用于逻辑分组、模块边界或可视化分箱。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>过深嵌套影响可读性；优先扁平化或拆分子图。</p>
+</li>
+<li><p>布局控制（left to right direction &#x2F; newpage）<br>语法<br>left to right direction ; top to bottom direction ; newpage</p>
+</li>
+<li><p>示例<br>left to right direction</p>
+</li>
+<li><p>说明<br>强制图元素主要排列方向或分页。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>布局指令可能被局部元素大小覆盖，需配合组件分组调整。</p>
+</li>
+</ul>
+<hr>
+<h3 id="高级功能与脚本化"><a href="#高级功能与脚本化" class="headerlink" title="高级功能与脚本化"></a>高级功能与脚本化</h3><ul>
+<li><p>条件 &#x2F; 分支（alt &#x2F; else &#x2F; end）——时序图分支<br>语法<br>alt condition1<br>  A -&gt; B: x<br>else<br>  A -&gt; B: y<br>end</p>
+</li>
+<li><p>示例<br>@startuml<br>Alice -&gt; Bob: request<br>alt success<br>  Bob -&gt; Alice: ok<br>else failure<br>  Bob -&gt; Alice: error<br>end<br>@enduml</p>
+</li>
+<li><p>说明<br>表示分支路径或替代流程。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>嵌套太深会导致视觉复杂，考虑合并或拆图。</p>
+</li>
+<li><p>循环与重复（loop）<br>语法<br>loop description</p>
+</li>
+<li><p>示例<br>loop every second<br>  A -&gt; B: tick<br>end</p>
+</li>
+<li><p>说明<br>表示重复行为或周期性交互。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>用于抽象，不要试图展示真实无限循环细节。</p>
+</li>
+<li><p>皮肤参数条件化&#x2F;宏（!define &#x2F; !if &#x2F; !endif）<br>语法<br>!define NAME value<br>!if NAME<br>!endif</p>
+</li>
+<li><p>示例<br>!define PROD<br>!if PROD<br>  skinparam backgroundColor #fff<br>!endif</p>
+</li>
+<li><p>说明<br>在生成时切换主题或启用选项，适合 CI 多环境渲染。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>宏扩展错误会导致解析失败，先在本地验证。</p>
+</li>
+<li><p>布局微调（<backspace/> &#x2F; <size> &#x2F; order）<br>语法与示例<br>使用 skinparam 或隐藏标签调整元素尺寸、顺序或间距（具体参数见官方文档）。</p>
+</li>
+<li><p>说明<br>对复杂图必需进行微调。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>各版本对微调支持不同，版本不一致会导致图像差异。</p>
+</li>
+<li><p>导出与命令行渲染<br>语法<br>plantuml -tsvg file.puml ; plantuml -tpng file.puml</p>
+</li>
+<li><p>示例<br>plantuml -tsvg diagram.puml</p>
+</li>
+<li><p>说明<br>在 CI&#x2F;脚本中常用命令行生成 PNG&#x2F;SVG&#x2F;PDF，支持并行渲染。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>大量并发渲染可能耗尽内存&#x2F;CPU；加队列或并发限制。</p>
+</li>
+</ul>
+<hr>
+<h3 id="常用-alias、快捷组合与高危命令清单（模仿-GDB-Cheat-Sheet）"><a href="#常用-alias、快捷组合与高危命令清单（模仿-GDB-Cheat-Sheet）" class="headerlink" title="常用 alias、快捷组合与高危命令清单（模仿 GDB Cheat Sheet）"></a>常用 alias、快捷组合与高危命令清单（模仿 GDB Cheat Sheet）</h3><ul>
+<li><p>常用快捷片段（可放入 .puml 或模板）  </p>
+<ul>
+<li>组件模板<br>skinparam componentStyle rectangle</li>
+<li>标准页眉与版权<br>‘ Header: auto-generated</li>
+<li>标注图例<br>legend left<br>  |&#x3D; Symbol |&#x3D; Meaning |<br>  | –&gt; | call |<br>endlegend</li>
+</ul>
+</li>
+<li><p>说明<br>把常用片段抽成 include 文件便于复用。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>模板变化会影响大量图，变更需审查。</p>
+</li>
+<li><p>高危指令（需谨慎）  </p>
+<ul>
+<li>!include 指向外部 URL：依赖网络和第三方代码，可能带来不受控变化或安全风险。  </li>
+<li>过度宏定义（!define）与条件编译：增加调试复杂度与可维护性风险。  </li>
+<li>绝对路径（!include &#x2F; skinparam 指向本地绝对路径）：在跨机器&#x2F;CI 中失效。  </li>
+<li>大型单图（数千节点）：会导致渲染卡死或输出巨大文件，建议拆图或分层图。</li>
+</ul>
+</li>
+<li><p>停顿&#x2F;风险<br>在生产文档中使用外部 include 前执行安全与版本审计；在 CI 中锁定模板版本。</p>
+</li>
+</ul>
+<hr>
+<h3 id="学习与心法附注（如何高效使用-PlantUML）"><a href="#学习与心法附注（如何高效使用-PlantUML）" class="headerlink" title="学习与心法附注（如何高效使用 PlantUML）"></a>学习与心法附注（如何高效使用 PlantUML）</h3><ul>
+<li>先画大结构再细化：先确认图的目的与受众，避免把所有细节塞进一张图。  </li>
+<li>抽象优先于精确：设计交付物是沟通工具而非精确模型，保留必要细节。  </li>
+<li>模板化与复用：把皮肤参数、图例、常用组件抽成共享 include，保证风格一致性与维护性。  </li>
+<li>自动化渲染：在 CI 中加入 lint 与渲染步骤，发现语法错误与样式回归。  </li>
+<li>版本锁定：对外部 include 与主题进行版本管理，避免“今天可渲染、明天报错”的情况。  </li>
+<li>安全与隐私：部署&#x2F;网络&#x2F;环境图请先脱敏，发布前审查所有外部依赖。</li>
+</ul>
+<hr>
+<p>附：快速示例集合（可直接复制到 .puml）<br>@startuml<br>skinparam backgroundColor #F8F8F8<br>left to right direction</p>
+<p>actor Customer<br>rectangle “WebApp” {<br>  component UI<br>  component “Auth Service” as Auth<br>}<br>database DB</p>
+<p>Customer -&gt; UI: open page<br>UI -&gt; Auth: login(credentials)<br>Auth -&gt; DB: query user<br>Auth –&gt; UI: token<br>UI –&gt; Customer: success</p>
+<p>@enduml</p>
+<p>说明：复合示例包含 actor、component、database、箭头与全局 skinparam。停顿&#x2F;风险：示例为演示，不适合直接展示生产部署细节，请脱敏与分图表达。</p>
+<hr>
+]]></content>
+  </entry>
+  <entry>
+    <title>Graphviz cheatsheet</title>
+    <url>/Graphviz-cheatsheet/</url>
+    <content><![CDATA[<span id="more"></span>
+<h1 id="Graphviz-语法速查文档（语法-示例-说明-停顿-风险）"><a href="#Graphviz-语法速查文档（语法-示例-说明-停顿-风险）" class="headerlink" title="Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）"></a>Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）</h1><p>概览：Graphviz 使用 DOT 语言描述图。核心是 graph&#x2F; digraph、node、edge、subgraph、attributes。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。</p>
+<hr>
+<h3 id="基本结构与启动"><a href="#基本结构与启动" class="headerlink" title="基本结构与启动"></a>基本结构与启动</h3><ul>
+<li><p>语法<br>graph 名称 { … }<br>digraph 名称 { … }</p>
+</li>
+<li><p>示例<br>digraph G {<br>  A -&gt; B;<br>}</p>
+</li>
+<li><p>说明<br>graph 用于无向图（使用 –），digraph 用于有向图（使用 -&gt;）。块内放节点、边、属性与子图。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>忘记分号可能被允许但会引起解析歧义；严格遵守括号配对，缺少闭合会导致渲染失败。</p>
+</li>
+<li><p>命令行渲染<br>dot -Tpng in.dot -o out.png</p>
+</li>
+<li><p>示例<br>dot -Tsvg diagram.dot -o diagram.svg</p>
+</li>
+<li><p>说明<br>dot&#x2F;neato&#x2F;fdp&#x2F;twopi&#x2F;sfdp&#x2F;osage 等为不同布局引擎，-T 指定输出格式。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>选择错误布局引擎会使大图不可读或耗时显著，批量渲染注意资源限制。</p>
+</li>
+</ul>
+<hr>
+<h3 id="节点与边基础"><a href="#节点与边基础" class="headerlink" title="节点与边基础"></a>节点与边基础</h3><ul>
+<li><p>节点定义（隐式与显式）<br>语法<br>A;<br>A [label&#x3D;”User”, shape&#x3D;box];</p>
+</li>
+<li><p>示例<br>node1 [label&#x3D;”DB”, shape&#x3D;component];</p>
+</li>
+<li><p>说明<br>未显式定义的标识符在第一次用于边时自动创建。attributes 控制外观与行为。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>节点名含特殊字符或空格需用引号或用 label 保证可读性；大小写敏感。</p>
+</li>
+<li><p>边语法（无向&#x2F;有向）<br>语法<br>A – B;   (无向)<br>A -&gt; B;   (有向)</p>
+</li>
+<li><p>示例<br>A -&gt; B [label&#x3D;”req”, color&#x3D;blue];</p>
+</li>
+<li><p>说明<br>边可以带属性（label、color、style、taillabel&#x2F;headlabel、arrowhead 等）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>在 digraph 中使用 – 会被接受但语义混淆，保持一致使用 -&gt;。</p>
+</li>
+<li><p>多端&#x2F;复合边<br>语法<br>A -&gt; {B C D};  </p>
+</li>
+<li><p>示例<br>Service -&gt; {DB Cache};</p>
+</li>
+<li><p>说明<br>批量连接的简写，等价于多条独立边。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>对属性的作用域需注意：放在集合后面的属性通常应用到所有隐式生成的边。</p>
+</li>
+</ul>
+<hr>
+<h3 id="属性系统（节点-边-图）"><a href="#属性系统（节点-边-图）" class="headerlink" title="属性系统（节点&#x2F;边&#x2F;图）"></a>属性系统（节点&#x2F;边&#x2F;图）</h3><ul>
+<li><p>通用语法<br>target [attr1&#x3D;value1, attr2&#x3D;value2];<br>graph [splines&#x3D;true]; node [shape&#x3D;box];</p>
+</li>
+<li><p>示例<br>graph [rankdir&#x3D;LR, fontsize&#x3D;12];<br>node [shape&#x3D;ellipse, color&#x3D;”#333333”];</p>
+</li>
+<li><p>说明<br>graph、node、edge 的裸属性会作为默认值应用到图中相应元素。支持字符串、颜色、布尔值。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>不同渲染器对属性支持不同（如 HTML 标签、gradient），在跨环境渲染前验证。</p>
+</li>
+<li><p>常用属性速查  </p>
+<ul>
+<li>label: 显示文字  </li>
+<li>shape: box, ellipse, record, plaintext, circle, component 等  </li>
+<li>style: filled, dashed, bold, invis  </li>
+<li>color &#x2F; fillcolor &#x2F; fontcolor  </li>
+<li>fontsize &#x2F; fontname  </li>
+<li>rankdir: LR, TB, RL, BT（方向）  </li>
+<li>splines: true|false|curved|ortho（边路由）  </li>
+<li>rank: same|min|max（节点纵向对齐）</li>
+</ul>
+</li>
+<li><p>示例<br>edge [arrowhead&#x3D;vee, color&#x3D;gray];</p>
+</li>
+<li><p>停顿&#x2F;风险<br>颜色代码与字体在目标环境可能不可用或替换，最好指定安全的 web 颜色与常见字体。</p>
+</li>
+</ul>
+<hr>
+<h3 id="子图、Cluster-与层级布局"><a href="#子图、Cluster-与层级布局" class="headerlink" title="子图、Cluster 与层级布局"></a>子图、Cluster 与层级布局</h3><ul>
+<li><p>基本子图语法<br>subgraph name { … }  </p>
+</li>
+<li><p>示例<br>subgraph cluster_0 {<br>  label&#x3D;”Auth”;<br>  A; B;<br>  A -&gt; B;<br>}</p>
+</li>
+<li><p>说明<br>使用 cluster_ 前缀会把子图渲染为带边框的聚簇（cluster），常用于模块&#x2F;场域分组。子图可含属性（label、style）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>cluster 名称最好以 cluster_ 开头；错误的子图嵌套或属性放置会改变布局预期。</p>
+</li>
+<li><p>控制 rank（同层对齐）<br>语法<br>{ rank &#x3D; same; A; B; }</p>
+</li>
+<li><p>示例<br>{ rank &#x3D; same; UI; API; DB; }</p>
+</li>
+<li><p>说明<br>强制这些节点处于同一“等级”行&#x2F;列（受 rankdir 影响）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>过多 rank 约束会与自动布局冲突，使布局变形或不可读。</p>
+</li>
+</ul>
+<hr>
+<h3 id="端口、记录节点与-HTML-标签"><a href="#端口、记录节点与-HTML-标签" class="headerlink" title="端口、记录节点与 HTML 标签"></a>端口、记录节点与 HTML 标签</h3><ul>
+<li><p>端口语法（记录型节点）<br>语法<br>node:port 或 “node”:”port”<br>使用 record shape: {left|mid|right}</p>
+</li>
+<li><p>示例<br>node1 [shape&#x3D;record, label&#x3D;”{left|mid|right}”];<br>node1:left -&gt; node2;</p>
+</li>
+<li><p>说明<br>记录（record）节点允许分区并对准边的端口，适合显示结构化组件或数据字段。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>记录标签语法对引号、花括号敏感，复杂文本需用转义或 HTML 标签。</p>
+</li>
+<li><p>HTML-like 标签（富文本 label）<br>语法<br>label&#x3D;&lt;<table><tr><td>…</td></tr></table>&gt;  </p>
+</li>
+<li><p>示例<br>node [label&#x3D;&lt;<b>Service</b><br/>v1&gt;&gt;, shape&#x3D;plaintext];</p>
+</li>
+<li><p>说明<br>使用 HTML-like 标签进行复杂格式化（表格、粗体、换行）。并非所有输出&#x2F;渲染器对所有标签完全支持。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>HTML label 中的大小写或不闭合标签会导致解析错误；SVG 输出在不同渲染器下样式可能不同。</p>
+</li>
+</ul>
+<hr>
+<h3 id="布局引擎与高级控制"><a href="#布局引擎与高级控制" class="headerlink" title="布局引擎与高级控制"></a>布局引擎与高级控制</h3><ul>
+<li><p>常见布局引擎<br>dot（层次布局，适合有向图）<br>neato&#x2F;fdp&#x2F;sfdp（基于力导向，适合无向&#x2F;大图）<br>twopi（径向布局）<br>circo（圆形布局）</p>
+</li>
+<li><p>命令行示例<br>neato -Tpng graph.dot -o graph.png</p>
+</li>
+<li><p>说明<br>选对引擎能显著改善可读性：dot 适合流程&#x2F;层级，sfdp 适合数千节点的大图。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>不同引擎对相同 DOT 文件会产生完全不同的视觉结果；测试并选择最合适的引擎。</p>
+</li>
+<li><p>细粒度布局控制（pos &#x2F; constraint &#x2F; weight）  </p>
+<ul>
+<li>pos&#x3D;”x,y!”：固定节点位置（“!” 表示强制）  </li>
+<li>edge [constraint&#x3D;false]：忽略边在层级计算中的约束  </li>
+<li>weight：影响边在力导向布局中的牵引力</li>
+</ul>
+</li>
+<li><p>示例<br>A [pos&#x3D;”0,0!”]; B [pos&#x3D;”1,0!”]; A -&gt; B [constraint&#x3D;false];</p>
+</li>
+<li><p>说明<br>可用于在混合手工与自动布局时微调位置。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>使用固定位置会关闭布局引擎的自动优化，跨输出尺寸时位置可能失真；慎用“!”强制位置。</p>
+</li>
+</ul>
+<hr>
+<h3 id="子图可视化技巧与常见陷阱"><a href="#子图可视化技巧与常见陷阱" class="headerlink" title="子图可视化技巧与常见陷阱"></a>子图可视化技巧与常见陷阱</h3><ul>
+<li><p>分图（newpage &#x2F; compound 图）  </p>
+<ul>
+<li>newpage：将输出分页（仅部分工具支持）。  </li>
+<li>compound&#x3D;true：允许边跨 cluster 并使用 lhead&#x2F;ltail 指定附着点。</li>
+</ul>
+</li>
+<li><p>示例<br>graph [compound&#x3D;true]; A -&gt; B [lhead&#x3D;cluster_0];</p>
+</li>
+<li><p>说明<br>compound 有助于画跨模块的连接并把边附着到聚簇边界。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>compound 配置复杂，错误的 lhead&#x2F;ltail 会导致边不可见或布局混乱。</p>
+</li>
+<li><p>性能与规模考量  </p>
+<ul>
+<li>对于上千节点，优先 sfdp 并设置 overlap&#x3D;false、nodesep、ranksep 等缩放参数。  </li>
+<li>使用子图分层或分页导出以避免单图渲染失败。</li>
+</ul>
+</li>
+<li><p>停顿&#x2F;风险<br>大图渲染可能耗尽内存或超时，在 CI 中并行渲染需限速。</p>
+</li>
+</ul>
+<hr>
+<h3 id="常用属性速查列表（快速参考）"><a href="#常用属性速查列表（快速参考）" class="headerlink" title="常用属性速查列表（快速参考）"></a>常用属性速查列表（快速参考）</h3><ul>
+<li>graph: rankdir, bgcolor, splines, compound, overlap  </li>
+<li>node: shape, label, style, color, fillcolor, fontsize, fontname, width, height  </li>
+<li>edge: label, color, style, arrowhead, arrowtail, dir, minlen, constraint, weight, headlabel, taillabel  </li>
+<li>布局: pos, rank, rankdir, nodesep, ranksep, margin</li>
+</ul>
+<p>示例（组合）<br>digraph G {<br>  graph [rankdir&#x3D;LR, splines&#x3D;ortho];<br>  node [shape&#x3D;record, fontsize&#x3D;11];<br>  A [label&#x3D;”{Req|id:int|data}”];<br>  B [label&#x3D;”<f0>left|<f1>right”, shape&#x3D;record];<br>  A:f1 -&gt; B:f0 [label&#x3D;”map”, color&#x3D;”#0066cc”];<br>}</p>
+<p>停顿&#x2F;风险<br>属性相互作用复杂，先在小样例中验证每个属性的视觉效果再用于生产图。</p>
+<hr>
+<h3 id="常见坑与最佳实践"><a href="#常见坑与最佳实践" class="headerlink" title="常见坑与最佳实践"></a>常见坑与最佳实践</h3><ul>
+<li>坑：不同 Graphviz 版本&#x2F;平台对属性支持不同。<br>最佳实践：在目标渲染环境中锁定 Graphviz 版本并测试样式库。</li>
+<li>坑：使用外部字体或本地图片会导致渲染环境不可复现。<br>最佳实践：依赖通用字体或将资源内嵌&#x2F;打包到 CI。</li>
+<li>坑：过度使用 HTML labels 或复杂 record 导致可访问性差。<br>最佳实践：为复杂视图提供纯文本替代或生成说明文档。</li>
+<li>坑：在线嵌入（如 Markdown 渲染器）与本地 dot 行为不一致。<br>最佳实践：维护一套「可在目标平台直接渲染的最小 DOT 示例」。</li>
+</ul>
+<hr>
+]]></content>
+  </entry>
+  <entry>
+    <title>Mermaid cheatsheet</title>
+    <url>/Mermaid-cheatsheet/</url>
+    <content><![CDATA[<span id="more"></span>
+<h3 id="Mermaid-语法速查文档（语法-示例-说明-停顿-风险）"><a href="#Mermaid-语法速查文档（语法-示例-说明-停顿-风险）" class="headerlink" title="Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）"></a>Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）</h3><p>概览：Mermaid 是面向文档和前端渲染的轻量图表语言，常见于 Markdown、Wiki、Docs。支持 flowchart、sequence、class、state、gitgraph、pie、gantt、er 等图类型。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。</p>
+<hr>
+<h3 id="基本结构与渲染"><a href="#基本结构与渲染" class="headerlink" title="基本结构与渲染"></a>基本结构与渲染</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%% 开头可加注释</span><br><span class="line">graph LR</span><br><span class="line">  A--&gt;B</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph TD</span><br><span class="line">  A[Start] --&gt; B&#123;Is ok?&#125;</span><br><span class="line">  B -- Yes --&gt; C[Finish]</span><br><span class="line">  B -- No --&gt; D[Retry]</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>以图类型开头（graph, sequenceDiagram, classDiagram 等），随后的块为图定义。常见渲染环境：GitHub、GitLab、Mermaid Live Editor、Docs 工具链和 VSCode 插件。  </li>
+<li>停顿&#x2F;风险<br>不同平台的 Mermaid 版本差异较大（语法扩展与主题支持不同），在目标平台上验证非常必要。</li>
+</ul>
+<hr>
+<h3 id="流程图（flowchart-graph）"><a href="#流程图（flowchart-graph）" class="headerlink" title="流程图（flowchart &#x2F; graph）"></a>流程图（flowchart &#x2F; graph）</h3><ul>
+<li><p>语法（方向、节点、边）  </p>
+<ul>
+<li>方向：graph LR&#x2F;TD&#x2F;BT&#x2F;RL（Left→Right &#x2F; Top→Down 等）  </li>
+<li>节点：A[Label], A((Circle)), A&gt;parens], A[[database]]  </li>
+<li>边：A –&gt; B, A -.-&gt; B, A &#x3D;&#x3D;&gt; B, A — B</li>
+</ul>
+</li>
+<li><p>示例  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">  Start([Start]) --&gt; Step1&#123;Check?&#125;</span><br><span class="line">  Step1 -- yes --&gt; Step2[Do it]</span><br><span class="line">  Step1 -- no --&gt; End([End])</span><br><span class="line">  Step2 --&gt; End</span><br></pre></td></tr></table></figure></li>
+<li><p>说明<br>丰富的节点形状通过不同括号语法实现；边支持样式（实线、点线、加箭头样式）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>节点名称不能含空格（可用引号或方括号 label），过多节点会触发布局拥挤，建议拆分或使用 subgraph。</p>
+</li>
+<li><p>子图（分组）<br>语法&#x2F;示例  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">subgraph Auth</span><br><span class="line">  A --&gt; B</span><br><span class="line">end</span><br></pre></td></tr></table></figure></li>
+<li><p>说明<br>subgraph 用于视觉分组或模块化。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>subgraph 嵌套和方向继承可能导致布局与预期不同，注意写法与缩进。</p>
+</li>
+</ul>
+<hr>
+<h3 id="时序图（sequenceDiagram）"><a href="#时序图（sequenceDiagram）" class="headerlink" title="时序图（sequenceDiagram）"></a>时序图（sequenceDiagram）</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">  participant Alice</span><br><span class="line">  participant Bob</span><br><span class="line">  Alice-&gt;&gt;Bob: Hello</span><br><span class="line">  Bob--&gt;&gt;Alice: Hi</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">  Alice-&gt;&gt;+Bob: request</span><br><span class="line">  Bob--&gt;&gt;-Alice: response</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>支持参与者声明、同步&#x2F;异步箭头、激活（+ &#x2F; -）、注释、alt&#x2F;opt&#x2F;loop 分支等结构化控制。  </li>
+<li>停顿&#x2F;风险<br>复杂分支深度对渲染器要求高；不同实现对 alt&#x2F;opt 的支持细节不同，分支标签要简洁。</li>
+</ul>
+<hr>
+<h3 id="类图（classDiagram）"><a href="#类图（classDiagram）" class="headerlink" title="类图（classDiagram）"></a>类图（classDiagram）</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">  class A &#123;</span><br><span class="line">    +int id</span><br><span class="line">    +do()</span><br><span class="line">  &#125;</span><br><span class="line">  A &lt;|-- B</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">  Animal &lt;|-- Dog</span><br><span class="line">  Animal : +name</span><br><span class="line">  Dog : +bark()</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>表示类、属性、方法、继承和关联；支持接口与注释。  </li>
+<li>停顿&#x2F;风险<br>Mermaid 的类图功能较 PlantUML 简略，复杂 UML 表达可能无法覆盖，选择时确认需求。</li>
+</ul>
+<hr>
+<h3 id="状态图（stateDiagram-v2）"><a href="#状态图（stateDiagram-v2）" class="headerlink" title="状态图（stateDiagram-v2）"></a>状态图（stateDiagram-v2）</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">  [*] --&gt; Idle</span><br><span class="line">  Idle --&gt; Running : start</span><br><span class="line">  Running --&gt; Idle : stop</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">  state &quot;Processing&quot; as P &#123;</span><br><span class="line">    S1 --&gt; S2</span><br><span class="line">  &#125;</span><br><span class="line">  [*] --&gt; P</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>支持复合状态、并行、入口&#x2F;出口点与事件标注。  </li>
+<li>停顿&#x2F;风险<br>并行状态（fork&#x2F;merge）在不同渲染版本表现不同，注意测试。</li>
+</ul>
+<hr>
+<h3 id="ER-图与-Git-Graph、Gantt-等"><a href="#ER-图与-Git-Graph、Gantt-等" class="headerlink" title="ER 图与 Git Graph、Gantt 等"></a>ER 图与 Git Graph、Gantt 等</h3><ul>
+<li>ER 图（实体关系）语法示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">erDiagram</span><br><span class="line">  CUSTOMER ||--o&#123; ORDER : places</span><br><span class="line">  CUSTOMER &#123;</span><br><span class="line">    string name</span><br><span class="line">    int id</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>Git Graph 简单示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gitGraph</span><br><span class="line">  commit</span><br><span class="line">  branch develop</span><br><span class="line">  commit</span><br><span class="line">  checkout main</span><br></pre></td></tr></table></figure></li>
+<li>Gantt 示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gantt</span><br><span class="line">  title Project</span><br><span class="line">  section Dev</span><br><span class="line">  Task1 :a1, 2023-01-01, 7d</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>Mermaid 提供多种图类型，适合文档内快速表达不同视图。  </li>
+<li>停顿&#x2F;风险<br>各图类型语法差异大，某些高级属性在嵌入环境（如 GitHub）被限制或禁用。</li>
+</ul>
+<hr>
+<h3 id="labelling、样式与主题"><a href="#labelling、样式与主题" class="headerlink" title="labelling、样式与主题"></a>labelling、样式与主题</h3><ul>
+<li>文本与换行<br>使用 <br> 或 \n 在 label 中换行（平台支持差异）。  </li>
+<li>自定义样式（classDef &#x2F; class &#x2F; linkStyle）<br>示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">classDef green fill:#9f6,stroke:#333,stroke-width:2px;</span><br><span class="line">class A green;</span><br><span class="line">linkStyle 0 stroke:#ff3,stroke-width:2px;</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>classDef 可定义节点样式并通过 class 应用到节点，linkStyle 控制边样式。全局主题可通过配置或 CSS（在支持的平台）覆盖。  </li>
+<li>停顿&#x2F;风险<br>样式 API 随版本演进，建议将样式提取为可复用片段并在目标平台上验证。</li>
+</ul>
+<hr>
+<h3 id="交互、链接与-Click-事件"><a href="#交互、链接与-Click-事件" class="headerlink" title="交互、链接与 Click 事件"></a>交互、链接与 Click 事件</h3><ul>
+<li>超链接 &#x2F; 点击事件<br>语法示例  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">A[Node] --&gt; B</span><br><span class="line">click A &quot;https://example.com&quot; &quot;Open example&quot;</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>支持为节点&#x2F;边添加外部链接或 JavaScript 回调（在支持的平台）。  </li>
+<li>停顿&#x2F;风险<br>点击回调在静态导出（PNG&#x2F;SVG）中失效；在 web 渲染时注意安全与跨域限制。</li>
+</ul>
+<hr>
+<h3 id="调试、性能与兼容性注意"><a href="#调试、性能与兼容性注意" class="headerlink" title="调试、性能与兼容性注意"></a>调试、性能与兼容性注意</h3><ul>
+<li>版本兼容性<br>Mermaid 的语法与功能随版本变化频繁，GitHub&#x2F;GitLab&#x2F;VSCode&#x2F;Docs 的内置 Mermaid 版本可能滞后或差异化。  </li>
+<li>性能与大图<br>大图或大量样式会使浏览器渲染卡顿，建议分图或使用懒加载。  </li>
+<li>可访问性与文本替代<br>导出图像或嵌入时提供文本说明，复杂图在小屏幕上不可读时提供替代视图。  </li>
+<li>停顿&#x2F;风险<br>在 CI 或文档生成管道中使用 Mermaid 时锁定 mermaid-cli 或集成工具版本，避免线上渲染不一致。</li>
+</ul>
+<hr>
+<h3 id="常见坑与最佳实践"><a href="#常见坑与最佳实践" class="headerlink" title="常见坑与最佳实践"></a>常见坑与最佳实践</h3><ul>
+<li>坑：直接把复杂 PlantUML&#x2F;Graphviz 文件粘入 Mermaid 无法兼容。<br>最佳实践：按图类型重写为 Mermaid 语法或保持原工具链并在文档中嵌入渲染结果。</li>
+<li>坑：节点&#x2F;类名含空格或特殊字符导致解析失败。<br>最佳实践：使用短标识符并通过 label 展示可读文本或用引号包裹 label。</li>
+<li>坑：不同渲染环境对 classDef、linkStyle、click 的支持不一致。<br>最佳实践：在目标平台上验证并为不支持的场景提供降级样式或纯文本说明。</li>
+<li>坑：版本变更导致现有图渲染异常。<br>最佳实践：在项目中锁定 mermaid 版本并在 CI 中固定渲染工具。</li>
+</ul>
+<hr>
+<h3 id="快速示例合集（可直接复制到-Markdown）"><a href="#快速示例合集（可直接复制到-Markdown）" class="headerlink" title="快速示例合集（可直接复制到 Markdown）"></a>快速示例合集（可直接复制到 Markdown）</h3><ul>
+<li>流程图<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">graph LR</span><br><span class="line">  A[Start] --&gt; B&#123;Check&#125;</span><br><span class="line">  B -- yes --&gt; C[OK]</span><br><span class="line">  B -- no  --&gt; D[Fail]</span><br></pre></td></tr></table></figure></li>
+<li>时序图<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">  Alice-&gt;&gt;Bob: Hello</span><br><span class="line">  Bob--&gt;&gt;Alice: Hi</span><br></pre></td></tr></table></figure></li>
+<li>类图<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">  Class01 &lt;|-- Class02</span><br><span class="line">  Class01 : +int id</span><br><span class="line">  Class02 : +do()</span><br></pre></td></tr></table></figure></li>
+<li>ER 图<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">erDiagram</span><br><span class="line">  USER ||--o&#123; ORDER : places</span><br><span class="line">  USER &#123;</span><br><span class="line">    string name</span><br><span class="line">    int id</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+]]></content>
+  </entry>
 </search>

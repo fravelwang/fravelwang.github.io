@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Graphviz cheatsheet | JUST NOTE</title><meta name="author" content="Fravel Wang"><meta name="copyright" content="Fravel Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Graphviz 使用 DOT 语言描述图。核心是 graph&#x2F; digraph、node、edge、subgraph、attributes。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。  基本结构与启动 语法graph 名称 { … }digraph 名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Graphviz cheatsheet">
+<meta property="og:url" content="http://example.com/Graphviz-cheatsheet/index.html">
+<meta property="og:site_name" content="JUST NOTE">
+<meta property="og:description" content="Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Graphviz 使用 DOT 语言描述图。核心是 graph&#x2F; digraph、node、edge、subgraph、attributes。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。  基本结构与启动 语法graph 名称 { … }digraph 名">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/avatar.jpeg">
+<meta property="article:published_time" content="2025-10-18T04:41:55.000Z">
+<meta property="article:modified_time" content="2025-10-18T04:42:26.417Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpeg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Graphviz cheatsheet",
+  "url": "http://example.com/Graphviz-cheatsheet/",
+  "image": "http://example.com/img/avatar.jpeg",
+  "datePublished": "2025-10-18T04:41:55.000Z",
+  "dateModified": "2025-10-18T04:42:26.417Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fravel Wang",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="http://example.com/Graphviz-cheatsheet/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Graphviz cheatsheet',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/bg_img.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JUST NOTE</span></a><a class="nav-page-title" href="/"><span class="site-name">Graphviz cheatsheet</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div></div></nav><div id="post-info"><h1 class="post-title">Graphviz cheatsheet</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-18T04:41:55.000Z" title="Created 2025-10-18 12:41:55">2025-10-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-10-18T04:42:26.417Z" title="Updated 2025-10-18 12:42:26">2025-10-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><span id="more"></span>
+<h1 id="Graphviz-语法速查文档（语法-示例-说明-停顿-风险）"><a href="#Graphviz-语法速查文档（语法-示例-说明-停顿-风险）" class="headerlink" title="Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）"></a>Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）</h1><p>概览：Graphviz 使用 DOT 语言描述图。核心是 graph&#x2F; digraph、node、edge、subgraph、attributes。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。</p>
+<hr>
+<h3 id="基本结构与启动"><a href="#基本结构与启动" class="headerlink" title="基本结构与启动"></a>基本结构与启动</h3><ul>
+<li><p>语法<br>graph 名称 { … }<br>digraph 名称 { … }</p>
+</li>
+<li><p>示例<br>digraph G {<br>  A -&gt; B;<br>}</p>
+</li>
+<li><p>说明<br>graph 用于无向图（使用 –），digraph 用于有向图（使用 -&gt;）。块内放节点、边、属性与子图。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>忘记分号可能被允许但会引起解析歧义；严格遵守括号配对，缺少闭合会导致渲染失败。</p>
+</li>
+<li><p>命令行渲染<br>dot -Tpng in.dot -o out.png</p>
+</li>
+<li><p>示例<br>dot -Tsvg diagram.dot -o diagram.svg</p>
+</li>
+<li><p>说明<br>dot&#x2F;neato&#x2F;fdp&#x2F;twopi&#x2F;sfdp&#x2F;osage 等为不同布局引擎，-T 指定输出格式。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>选择错误布局引擎会使大图不可读或耗时显著，批量渲染注意资源限制。</p>
+</li>
+</ul>
+<hr>
+<h3 id="节点与边基础"><a href="#节点与边基础" class="headerlink" title="节点与边基础"></a>节点与边基础</h3><ul>
+<li><p>节点定义（隐式与显式）<br>语法<br>A;<br>A [label&#x3D;”User”, shape&#x3D;box];</p>
+</li>
+<li><p>示例<br>node1 [label&#x3D;”DB”, shape&#x3D;component];</p>
+</li>
+<li><p>说明<br>未显式定义的标识符在第一次用于边时自动创建。attributes 控制外观与行为。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>节点名含特殊字符或空格需用引号或用 label 保证可读性；大小写敏感。</p>
+</li>
+<li><p>边语法（无向&#x2F;有向）<br>语法<br>A – B;   (无向)<br>A -&gt; B;   (有向)</p>
+</li>
+<li><p>示例<br>A -&gt; B [label&#x3D;”req”, color&#x3D;blue];</p>
+</li>
+<li><p>说明<br>边可以带属性（label、color、style、taillabel&#x2F;headlabel、arrowhead 等）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>在 digraph 中使用 – 会被接受但语义混淆，保持一致使用 -&gt;。</p>
+</li>
+<li><p>多端&#x2F;复合边<br>语法<br>A -&gt; {B C D};  </p>
+</li>
+<li><p>示例<br>Service -&gt; {DB Cache};</p>
+</li>
+<li><p>说明<br>批量连接的简写，等价于多条独立边。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>对属性的作用域需注意：放在集合后面的属性通常应用到所有隐式生成的边。</p>
+</li>
+</ul>
+<hr>
+<h3 id="属性系统（节点-边-图）"><a href="#属性系统（节点-边-图）" class="headerlink" title="属性系统（节点&#x2F;边&#x2F;图）"></a>属性系统（节点&#x2F;边&#x2F;图）</h3><ul>
+<li><p>通用语法<br>target [attr1&#x3D;value1, attr2&#x3D;value2];<br>graph [splines&#x3D;true]; node [shape&#x3D;box];</p>
+</li>
+<li><p>示例<br>graph [rankdir&#x3D;LR, fontsize&#x3D;12];<br>node [shape&#x3D;ellipse, color&#x3D;”#333333”];</p>
+</li>
+<li><p>说明<br>graph、node、edge 的裸属性会作为默认值应用到图中相应元素。支持字符串、颜色、布尔值。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>不同渲染器对属性支持不同（如 HTML 标签、gradient），在跨环境渲染前验证。</p>
+</li>
+<li><p>常用属性速查  </p>
+<ul>
+<li>label: 显示文字  </li>
+<li>shape: box, ellipse, record, plaintext, circle, component 等  </li>
+<li>style: filled, dashed, bold, invis  </li>
+<li>color &#x2F; fillcolor &#x2F; fontcolor  </li>
+<li>fontsize &#x2F; fontname  </li>
+<li>rankdir: LR, TB, RL, BT（方向）  </li>
+<li>splines: true|false|curved|ortho（边路由）  </li>
+<li>rank: same|min|max（节点纵向对齐）</li>
+</ul>
+</li>
+<li><p>示例<br>edge [arrowhead&#x3D;vee, color&#x3D;gray];</p>
+</li>
+<li><p>停顿&#x2F;风险<br>颜色代码与字体在目标环境可能不可用或替换，最好指定安全的 web 颜色与常见字体。</p>
+</li>
+</ul>
+<hr>
+<h3 id="子图、Cluster-与层级布局"><a href="#子图、Cluster-与层级布局" class="headerlink" title="子图、Cluster 与层级布局"></a>子图、Cluster 与层级布局</h3><ul>
+<li><p>基本子图语法<br>subgraph name { … }  </p>
+</li>
+<li><p>示例<br>subgraph cluster_0 {<br>  label&#x3D;”Auth”;<br>  A; B;<br>  A -&gt; B;<br>}</p>
+</li>
+<li><p>说明<br>使用 cluster_ 前缀会把子图渲染为带边框的聚簇（cluster），常用于模块&#x2F;场域分组。子图可含属性（label、style）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>cluster 名称最好以 cluster_ 开头；错误的子图嵌套或属性放置会改变布局预期。</p>
+</li>
+<li><p>控制 rank（同层对齐）<br>语法<br>{ rank &#x3D; same; A; B; }</p>
+</li>
+<li><p>示例<br>{ rank &#x3D; same; UI; API; DB; }</p>
+</li>
+<li><p>说明<br>强制这些节点处于同一“等级”行&#x2F;列（受 rankdir 影响）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>过多 rank 约束会与自动布局冲突，使布局变形或不可读。</p>
+</li>
+</ul>
+<hr>
+<h3 id="端口、记录节点与-HTML-标签"><a href="#端口、记录节点与-HTML-标签" class="headerlink" title="端口、记录节点与 HTML 标签"></a>端口、记录节点与 HTML 标签</h3><ul>
+<li><p>端口语法（记录型节点）<br>语法<br>node:port 或 “node”:”port”<br>使用 record shape: {left|mid|right}</p>
+</li>
+<li><p>示例<br>node1 [shape&#x3D;record, label&#x3D;”{left|mid|right}”];<br>node1:left -&gt; node2;</p>
+</li>
+<li><p>说明<br>记录（record）节点允许分区并对准边的端口，适合显示结构化组件或数据字段。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>记录标签语法对引号、花括号敏感，复杂文本需用转义或 HTML 标签。</p>
+</li>
+<li><p>HTML-like 标签（富文本 label）<br>语法<br>label&#x3D;&lt;<table><tr><td>…</td></tr></table>&gt;  </p>
+</li>
+<li><p>示例<br>node [label&#x3D;&lt;<b>Service</b><br/>v1&gt;&gt;, shape&#x3D;plaintext];</p>
+</li>
+<li><p>说明<br>使用 HTML-like 标签进行复杂格式化（表格、粗体、换行）。并非所有输出&#x2F;渲染器对所有标签完全支持。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>HTML label 中的大小写或不闭合标签会导致解析错误；SVG 输出在不同渲染器下样式可能不同。</p>
+</li>
+</ul>
+<hr>
+<h3 id="布局引擎与高级控制"><a href="#布局引擎与高级控制" class="headerlink" title="布局引擎与高级控制"></a>布局引擎与高级控制</h3><ul>
+<li><p>常见布局引擎<br>dot（层次布局，适合有向图）<br>neato&#x2F;fdp&#x2F;sfdp（基于力导向，适合无向&#x2F;大图）<br>twopi（径向布局）<br>circo（圆形布局）</p>
+</li>
+<li><p>命令行示例<br>neato -Tpng graph.dot -o graph.png</p>
+</li>
+<li><p>说明<br>选对引擎能显著改善可读性：dot 适合流程&#x2F;层级，sfdp 适合数千节点的大图。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>不同引擎对相同 DOT 文件会产生完全不同的视觉结果；测试并选择最合适的引擎。</p>
+</li>
+<li><p>细粒度布局控制（pos &#x2F; constraint &#x2F; weight）  </p>
+<ul>
+<li>pos&#x3D;”x,y!”：固定节点位置（“!” 表示强制）  </li>
+<li>edge [constraint&#x3D;false]：忽略边在层级计算中的约束  </li>
+<li>weight：影响边在力导向布局中的牵引力</li>
+</ul>
+</li>
+<li><p>示例<br>A [pos&#x3D;”0,0!”]; B [pos&#x3D;”1,0!”]; A -&gt; B [constraint&#x3D;false];</p>
+</li>
+<li><p>说明<br>可用于在混合手工与自动布局时微调位置。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>使用固定位置会关闭布局引擎的自动优化，跨输出尺寸时位置可能失真；慎用“!”强制位置。</p>
+</li>
+</ul>
+<hr>
+<h3 id="子图可视化技巧与常见陷阱"><a href="#子图可视化技巧与常见陷阱" class="headerlink" title="子图可视化技巧与常见陷阱"></a>子图可视化技巧与常见陷阱</h3><ul>
+<li><p>分图（newpage &#x2F; compound 图）  </p>
+<ul>
+<li>newpage：将输出分页（仅部分工具支持）。  </li>
+<li>compound&#x3D;true：允许边跨 cluster 并使用 lhead&#x2F;ltail 指定附着点。</li>
+</ul>
+</li>
+<li><p>示例<br>graph [compound&#x3D;true]; A -&gt; B [lhead&#x3D;cluster_0];</p>
+</li>
+<li><p>说明<br>compound 有助于画跨模块的连接并把边附着到聚簇边界。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>compound 配置复杂，错误的 lhead&#x2F;ltail 会导致边不可见或布局混乱。</p>
+</li>
+<li><p>性能与规模考量  </p>
+<ul>
+<li>对于上千节点，优先 sfdp 并设置 overlap&#x3D;false、nodesep、ranksep 等缩放参数。  </li>
+<li>使用子图分层或分页导出以避免单图渲染失败。</li>
+</ul>
+</li>
+<li><p>停顿&#x2F;风险<br>大图渲染可能耗尽内存或超时，在 CI 中并行渲染需限速。</p>
+</li>
+</ul>
+<hr>
+<h3 id="常用属性速查列表（快速参考）"><a href="#常用属性速查列表（快速参考）" class="headerlink" title="常用属性速查列表（快速参考）"></a>常用属性速查列表（快速参考）</h3><ul>
+<li>graph: rankdir, bgcolor, splines, compound, overlap  </li>
+<li>node: shape, label, style, color, fillcolor, fontsize, fontname, width, height  </li>
+<li>edge: label, color, style, arrowhead, arrowtail, dir, minlen, constraint, weight, headlabel, taillabel  </li>
+<li>布局: pos, rank, rankdir, nodesep, ranksep, margin</li>
+</ul>
+<p>示例（组合）<br>digraph G {<br>  graph [rankdir&#x3D;LR, splines&#x3D;ortho];<br>  node [shape&#x3D;record, fontsize&#x3D;11];<br>  A [label&#x3D;”{Req|id:int|data}”];<br>  B [label&#x3D;”<f0>left|<f1>right”, shape&#x3D;record];<br>  A:f1 -&gt; B:f0 [label&#x3D;”map”, color&#x3D;”#0066cc”];<br>}</p>
+<p>停顿&#x2F;风险<br>属性相互作用复杂，先在小样例中验证每个属性的视觉效果再用于生产图。</p>
+<hr>
+<h3 id="常见坑与最佳实践"><a href="#常见坑与最佳实践" class="headerlink" title="常见坑与最佳实践"></a>常见坑与最佳实践</h3><ul>
+<li>坑：不同 Graphviz 版本&#x2F;平台对属性支持不同。<br>最佳实践：在目标渲染环境中锁定 Graphviz 版本并测试样式库。</li>
+<li>坑：使用外部字体或本地图片会导致渲染环境不可复现。<br>最佳实践：依赖通用字体或将资源内嵌&#x2F;打包到 CI。</li>
+<li>坑：过度使用 HTML labels 或复杂 record 导致可访问性差。<br>最佳实践：为复杂视图提供纯文本替代或生成说明文档。</li>
+<li>坑：在线嵌入（如 Markdown 渲染器）与本地 dot 行为不一致。<br>最佳实践：维护一套「可在目标平台直接渲染的最小 DOT 示例」。</li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Fravel Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/Graphviz-cheatsheet/">http://example.com/Graphviz-cheatsheet/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpeg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/Mermaid-cheatsheet/" title="Mermaid cheatsheet"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Mermaid cheatsheet</div></div><div class="info-2"><div class="info-item-1"> Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Mermaid 是面向文档和前端渲染的轻量图表语言，常见于 Markdown、Wiki、Docs。支持 flowchart、sequence、class、state、gitgraph、pie、gantt、er 等图类型。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。  基本结构与渲染 语法  123%% 开头可加注释graph LR  A--&gt;B 示例  1234graph TD  A[Start] --&gt; B&#123;Is ok?&#125;  B -- Yes --&gt; C[Finish]  B -- No --&gt; D[Retry] 说明以图类型开头（graph, sequenceDiagram, classDiagram 等），随后的块为图定义。常见渲染环境：GitHub、GitLab、Mermaid Live Editor、Docs 工具链和 VSCode 插件。   停顿&#x2F;风险不同平台的 Mermaid 版本...</div></div></div></a><a class="pagination-related" href="/PlantUML-cheatsheet/" title="PlantUML cheatsheet"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">PlantUML cheatsheet</div></div><div class="info-2"><div class="info-item-1"> PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险） 基础启动与退出 语法@startuml … @enduml  示例@startumlAlice -&gt; Bob: hello@enduml  说明定界一个 PlantUML 图块，渲染工具会识别 @startuml 到 @enduml 之间的内容并生成图像。  停顿&#x2F;风险忘记闭合 @enduml 会导致渲染失败或超时；在批量渲染脚本中务必校验每个文件完整性。  语法（文件包含）!include   示例!include common&#x2F;colors.puml  说明将外部 puml 文件或库包含进当前图，用于复用样式&#x2F;宏。  停顿&#x2F;风险包含不存在文件会报错；相对路径在渲染环境中可能不同，CI&#x2F;工具链中需使用绝对或一致的相对路径。    图类型与启动模板（快速索引） Sequence（时序图）语法participant A; participant B; A -&gt; B: msg示例@startumlAlice -&gt; Bob: Hello...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fravel Wang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fravelwang"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Graphviz-%E8%AF%AD%E6%B3%95%E9%80%9F%E6%9F%A5%E6%96%87%E6%A1%A3%EF%BC%88%E8%AF%AD%E6%B3%95-%E7%A4%BA%E4%BE%8B-%E8%AF%B4%E6%98%8E-%E5%81%9C%E9%A1%BF-%E9%A3%8E%E9%99%A9%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E4%B8%8E%E5%90%AF%E5%8A%A8"><span class="toc-number">1.0.1.</span> <span class="toc-text">基本结构与启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E4%B8%8E%E8%BE%B9%E5%9F%BA%E7%A1%80"><span class="toc-number">1.0.2.</span> <span class="toc-text">节点与边基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%8A%82%E7%82%B9-%E8%BE%B9-%E5%9B%BE%EF%BC%89"><span class="toc-number">1.0.3.</span> <span class="toc-text">属性系统（节点&#x2F;边&#x2F;图）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%9B%BE%E3%80%81Cluster-%E4%B8%8E%E5%B1%82%E7%BA%A7%E5%B8%83%E5%B1%80"><span class="toc-number">1.0.4.</span> <span class="toc-text">子图、Cluster 与层级布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E3%80%81%E8%AE%B0%E5%BD%95%E8%8A%82%E7%82%B9%E4%B8%8E-HTML-%E6%A0%87%E7%AD%BE"><span class="toc-number">1.0.5.</span> <span class="toc-text">端口、记录节点与 HTML 标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B1%80%E5%BC%95%E6%93%8E%E4%B8%8E%E9%AB%98%E7%BA%A7%E6%8E%A7%E5%88%B6"><span class="toc-number">1.0.6.</span> <span class="toc-text">布局引擎与高级控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%9B%BE%E5%8F%AF%E8%A7%86%E5%8C%96%E6%8A%80%E5%B7%A7%E4%B8%8E%E5%B8%B8%E8%A7%81%E9%99%B7%E9%98%B1"><span class="toc-number">1.0.7.</span> <span class="toc-text">子图可视化技巧与常见陷阱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B1%9E%E6%80%A7%E9%80%9F%E6%9F%A5%E5%88%97%E8%A1%A8%EF%BC%88%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83%EF%BC%89"><span class="toc-number">1.0.8.</span> <span class="toc-text">常用属性速查列表（快速参考）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.0.9.</span> <span class="toc-text">常见坑与最佳实践</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Mermaid-cheatsheet/" title="Mermaid cheatsheet">Mermaid cheatsheet</a><time datetime="2025-10-18T04:44:55.000Z" title="Created 2025-10-18 12:44:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet">Graphviz cheatsheet</a><time datetime="2025-10-18T04:41:55.000Z" title="Created 2025-10-18 12:41:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/PlantUML-cheatsheet/" title="PlantUML cheatsheet">PlantUML cheatsheet</a><time datetime="2025-10-18T04:28:52.000Z" title="Created 2025-10-18 12:28:52">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/linux%E5%86%85%E6%A0%B8%E6%8E%A2%E7%A7%98pdf/" title="linux内核探秘pdf">linux内核探秘pdf</a><time datetime="2025-10-14T00:42:49.000Z" title="Created 2025-10-14 08:42:49">2025-10-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E4%BD%A0%E5%A5%BD%E5%B9%B6%E5%8F%91%E4%B8%96%E7%95%8C%E6%96%87%E6%91%98/" title="你好并发世界文摘">你好并发世界文摘</a><time datetime="2025-10-13T16:51:43.000Z" title="Created 2025-10-14 00:51:43">2025-10-14</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Fravel Wang</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

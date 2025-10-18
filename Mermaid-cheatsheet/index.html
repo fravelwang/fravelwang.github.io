@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Mermaid cheatsheet | JUST NOTE</title><meta name="author" content="Fravel Wang"><meta name="copyright" content="Fravel Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Mermaid 是面向文档和前端渲染的轻量图表语言，常见于 Markdown、Wiki、Docs。支持 flowchart、sequence、class、state、gitgraph、pie、gantt、er 等图类型。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mermaid cheatsheet">
+<meta property="og:url" content="http://example.com/Mermaid-cheatsheet/index.html">
+<meta property="og:site_name" content="JUST NOTE">
+<meta property="og:description" content="Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Mermaid 是面向文档和前端渲染的轻量图表语言，常见于 Markdown、Wiki、Docs。支持 flowchart、sequence、class、state、gitgraph、pie、gantt、er 等图类型。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/avatar.jpeg">
+<meta property="article:published_time" content="2025-10-18T04:44:55.000Z">
+<meta property="article:modified_time" content="2025-10-18T04:45:32.272Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpeg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mermaid cheatsheet",
+  "url": "http://example.com/Mermaid-cheatsheet/",
+  "image": "http://example.com/img/avatar.jpeg",
+  "datePublished": "2025-10-18T04:44:55.000Z",
+  "dateModified": "2025-10-18T04:45:32.272Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fravel Wang",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="http://example.com/Mermaid-cheatsheet/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Mermaid cheatsheet',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/bg_img.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JUST NOTE</span></a><a class="nav-page-title" href="/"><span class="site-name">Mermaid cheatsheet</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div></div></nav><div id="post-info"><h1 class="post-title">Mermaid cheatsheet</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-18T04:44:55.000Z" title="Created 2025-10-18 12:44:55">2025-10-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-10-18T04:45:32.272Z" title="Updated 2025-10-18 12:45:32">2025-10-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><span id="more"></span>
+<h3 id="Mermaid-语法速查文档（语法-示例-说明-停顿-风险）"><a href="#Mermaid-语法速查文档（语法-示例-说明-停顿-风险）" class="headerlink" title="Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）"></a>Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）</h3><p>概览：Mermaid 是面向文档和前端渲染的轻量图表语言，常见于 Markdown、Wiki、Docs。支持 flowchart、sequence、class、state、gitgraph、pie、gantt、er 等图类型。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。</p>
+<hr>
+<h3 id="基本结构与渲染"><a href="#基本结构与渲染" class="headerlink" title="基本结构与渲染"></a>基本结构与渲染</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%% 开头可加注释</span><br><span class="line">graph LR</span><br><span class="line">  A--&gt;B</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph TD</span><br><span class="line">  A[Start] --&gt; B&#123;Is ok?&#125;</span><br><span class="line">  B -- Yes --&gt; C[Finish]</span><br><span class="line">  B -- No --&gt; D[Retry]</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>以图类型开头（graph, sequenceDiagram, classDiagram 等），随后的块为图定义。常见渲染环境：GitHub、GitLab、Mermaid Live Editor、Docs 工具链和 VSCode 插件。  </li>
+<li>停顿&#x2F;风险<br>不同平台的 Mermaid 版本差异较大（语法扩展与主题支持不同），在目标平台上验证非常必要。</li>
+</ul>
+<hr>
+<h3 id="流程图（flowchart-graph）"><a href="#流程图（flowchart-graph）" class="headerlink" title="流程图（flowchart &#x2F; graph）"></a>流程图（flowchart &#x2F; graph）</h3><ul>
+<li><p>语法（方向、节点、边）  </p>
+<ul>
+<li>方向：graph LR&#x2F;TD&#x2F;BT&#x2F;RL（Left→Right &#x2F; Top→Down 等）  </li>
+<li>节点：A[Label], A((Circle)), A&gt;parens], A[[database]]  </li>
+<li>边：A –&gt; B, A -.-&gt; B, A &#x3D;&#x3D;&gt; B, A — B</li>
+</ul>
+</li>
+<li><p>示例  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">  Start([Start]) --&gt; Step1&#123;Check?&#125;</span><br><span class="line">  Step1 -- yes --&gt; Step2[Do it]</span><br><span class="line">  Step1 -- no --&gt; End([End])</span><br><span class="line">  Step2 --&gt; End</span><br></pre></td></tr></table></figure></li>
+<li><p>说明<br>丰富的节点形状通过不同括号语法实现；边支持样式（实线、点线、加箭头样式）。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>节点名称不能含空格（可用引号或方括号 label），过多节点会触发布局拥挤，建议拆分或使用 subgraph。</p>
+</li>
+<li><p>子图（分组）<br>语法&#x2F;示例  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">subgraph Auth</span><br><span class="line">  A --&gt; B</span><br><span class="line">end</span><br></pre></td></tr></table></figure></li>
+<li><p>说明<br>subgraph 用于视觉分组或模块化。  </p>
+</li>
+<li><p>停顿&#x2F;风险<br>subgraph 嵌套和方向继承可能导致布局与预期不同，注意写法与缩进。</p>
+</li>
+</ul>
+<hr>
+<h3 id="时序图（sequenceDiagram）"><a href="#时序图（sequenceDiagram）" class="headerlink" title="时序图（sequenceDiagram）"></a>时序图（sequenceDiagram）</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">  participant Alice</span><br><span class="line">  participant Bob</span><br><span class="line">  Alice-&gt;&gt;Bob: Hello</span><br><span class="line">  Bob--&gt;&gt;Alice: Hi</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">  Alice-&gt;&gt;+Bob: request</span><br><span class="line">  Bob--&gt;&gt;-Alice: response</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>支持参与者声明、同步&#x2F;异步箭头、激活（+ &#x2F; -）、注释、alt&#x2F;opt&#x2F;loop 分支等结构化控制。  </li>
+<li>停顿&#x2F;风险<br>复杂分支深度对渲染器要求高；不同实现对 alt&#x2F;opt 的支持细节不同，分支标签要简洁。</li>
+</ul>
+<hr>
+<h3 id="类图（classDiagram）"><a href="#类图（classDiagram）" class="headerlink" title="类图（classDiagram）"></a>类图（classDiagram）</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">  class A &#123;</span><br><span class="line">    +int id</span><br><span class="line">    +do()</span><br><span class="line">  &#125;</span><br><span class="line">  A &lt;|-- B</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">  Animal &lt;|-- Dog</span><br><span class="line">  Animal : +name</span><br><span class="line">  Dog : +bark()</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>表示类、属性、方法、继承和关联；支持接口与注释。  </li>
+<li>停顿&#x2F;风险<br>Mermaid 的类图功能较 PlantUML 简略，复杂 UML 表达可能无法覆盖，选择时确认需求。</li>
+</ul>
+<hr>
+<h3 id="状态图（stateDiagram-v2）"><a href="#状态图（stateDiagram-v2）" class="headerlink" title="状态图（stateDiagram-v2）"></a>状态图（stateDiagram-v2）</h3><ul>
+<li>语法  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">  [*] --&gt; Idle</span><br><span class="line">  Idle --&gt; Running : start</span><br><span class="line">  Running --&gt; Idle : stop</span><br></pre></td></tr></table></figure></li>
+<li>示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">  state &quot;Processing&quot; as P &#123;</span><br><span class="line">    S1 --&gt; S2</span><br><span class="line">  &#125;</span><br><span class="line">  [*] --&gt; P</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>支持复合状态、并行、入口&#x2F;出口点与事件标注。  </li>
+<li>停顿&#x2F;风险<br>并行状态（fork&#x2F;merge）在不同渲染版本表现不同，注意测试。</li>
+</ul>
+<hr>
+<h3 id="ER-图与-Git-Graph、Gantt-等"><a href="#ER-图与-Git-Graph、Gantt-等" class="headerlink" title="ER 图与 Git Graph、Gantt 等"></a>ER 图与 Git Graph、Gantt 等</h3><ul>
+<li>ER 图（实体关系）语法示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">erDiagram</span><br><span class="line">  CUSTOMER ||--o&#123; ORDER : places</span><br><span class="line">  CUSTOMER &#123;</span><br><span class="line">    string name</span><br><span class="line">    int id</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+<li>Git Graph 简单示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gitGraph</span><br><span class="line">  commit</span><br><span class="line">  branch develop</span><br><span class="line">  commit</span><br><span class="line">  checkout main</span><br></pre></td></tr></table></figure></li>
+<li>Gantt 示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gantt</span><br><span class="line">  title Project</span><br><span class="line">  section Dev</span><br><span class="line">  Task1 :a1, 2023-01-01, 7d</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>Mermaid 提供多种图类型，适合文档内快速表达不同视图。  </li>
+<li>停顿&#x2F;风险<br>各图类型语法差异大，某些高级属性在嵌入环境（如 GitHub）被限制或禁用。</li>
+</ul>
+<hr>
+<h3 id="labelling、样式与主题"><a href="#labelling、样式与主题" class="headerlink" title="labelling、样式与主题"></a>labelling、样式与主题</h3><ul>
+<li>文本与换行<br>使用 <br> 或 \n 在 label 中换行（平台支持差异）。  </li>
+<li>自定义样式（classDef &#x2F; class &#x2F; linkStyle）<br>示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">classDef green fill:#9f6,stroke:#333,stroke-width:2px;</span><br><span class="line">class A green;</span><br><span class="line">linkStyle 0 stroke:#ff3,stroke-width:2px;</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>classDef 可定义节点样式并通过 class 应用到节点，linkStyle 控制边样式。全局主题可通过配置或 CSS（在支持的平台）覆盖。  </li>
+<li>停顿&#x2F;风险<br>样式 API 随版本演进，建议将样式提取为可复用片段并在目标平台上验证。</li>
+</ul>
+<hr>
+<h3 id="交互、链接与-Click-事件"><a href="#交互、链接与-Click-事件" class="headerlink" title="交互、链接与 Click 事件"></a>交互、链接与 Click 事件</h3><ul>
+<li>超链接 &#x2F; 点击事件<br>语法示例  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A[Node] --&gt; B</span><br><span class="line">click A &quot;https://example.com&quot; &quot;Open example&quot;</span><br></pre></td></tr></table></figure></li>
+<li>说明<br>支持为节点&#x2F;边添加外部链接或 JavaScript 回调（在支持的平台）。  </li>
+<li>停顿&#x2F;风险<br>点击回调在静态导出（PNG&#x2F;SVG）中失效；在 web 渲染时注意安全与跨域限制。</li>
+</ul>
+<hr>
+<h3 id="调试、性能与兼容性注意"><a href="#调试、性能与兼容性注意" class="headerlink" title="调试、性能与兼容性注意"></a>调试、性能与兼容性注意</h3><ul>
+<li>版本兼容性<br>Mermaid 的语法与功能随版本变化频繁，GitHub&#x2F;GitLab&#x2F;VSCode&#x2F;Docs 的内置 Mermaid 版本可能滞后或差异化。  </li>
+<li>性能与大图<br>大图或大量样式会使浏览器渲染卡顿，建议分图或使用懒加载。  </li>
+<li>可访问性与文本替代<br>导出图像或嵌入时提供文本说明，复杂图在小屏幕上不可读时提供替代视图。  </li>
+<li>停顿&#x2F;风险<br>在 CI 或文档生成管道中使用 Mermaid 时锁定 mermaid-cli 或集成工具版本，避免线上渲染不一致。</li>
+</ul>
+<hr>
+<h3 id="常见坑与最佳实践"><a href="#常见坑与最佳实践" class="headerlink" title="常见坑与最佳实践"></a>常见坑与最佳实践</h3><ul>
+<li>坑：直接把复杂 PlantUML&#x2F;Graphviz 文件粘入 Mermaid 无法兼容。<br>最佳实践：按图类型重写为 Mermaid 语法或保持原工具链并在文档中嵌入渲染结果。</li>
+<li>坑：节点&#x2F;类名含空格或特殊字符导致解析失败。<br>最佳实践：使用短标识符并通过 label 展示可读文本或用引号包裹 label。</li>
+<li>坑：不同渲染环境对 classDef、linkStyle、click 的支持不一致。<br>最佳实践：在目标平台上验证并为不支持的场景提供降级样式或纯文本说明。</li>
+<li>坑：版本变更导致现有图渲染异常。<br>最佳实践：在项目中锁定 mermaid 版本并在 CI 中固定渲染工具。</li>
+</ul>
+<hr>
+<h3 id="快速示例合集（可直接复制到-Markdown）"><a href="#快速示例合集（可直接复制到-Markdown）" class="headerlink" title="快速示例合集（可直接复制到 Markdown）"></a>快速示例合集（可直接复制到 Markdown）</h3><ul>
+<li>流程图<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">  A[Start] --&gt; B&#123;Check&#125;</span><br><span class="line">  B -- yes --&gt; C[OK]</span><br><span class="line">  B -- no  --&gt; D[Fail]</span><br></pre></td></tr></table></figure></li>
+<li>时序图<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">  Alice-&gt;&gt;Bob: Hello</span><br><span class="line">  Bob--&gt;&gt;Alice: Hi</span><br></pre></td></tr></table></figure></li>
+<li>类图<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">  Class01 &lt;|-- Class02</span><br><span class="line">  Class01 : +int id</span><br><span class="line">  Class02 : +do()</span><br></pre></td></tr></table></figure></li>
+<li>ER 图<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">erDiagram</span><br><span class="line">  USER ||--o&#123; ORDER : places</span><br><span class="line">  USER &#123;</span><br><span class="line">    string name</span><br><span class="line">    int id</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Fravel Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/Mermaid-cheatsheet/">http://example.com/Mermaid-cheatsheet/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpeg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Graphviz cheatsheet</div></div><div class="info-2"><div class="info-item-1"> Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Graphviz 使用 DOT 语言描述图。核心是 graph&#x2F; digraph、node、edge、subgraph、attributes。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。  基本结构与启动 语法graph 名称 { … }digraph 名称 { … }  示例digraph G {  A -&gt; B;}  说明graph 用于无向图（使用 –），digraph 用于有向图（使用 -&gt;）。块内放节点、边、属性与子图。    停顿&#x2F;风险忘记分号可能被允许但会引起解析歧义；严格遵守括号配对，缺少闭合会导致渲染失败。  命令行渲染dot -Tpng in.dot -o out.png  示例dot -Tsvg diagram.dot -o diagram.svg  说明dot&#x2F;neato&#x2F;fdp&#x2F;twopi&#x2F;sfdp&#x2F;osage 等为不同布局引擎，-T 指定输...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fravel Wang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fravelwang"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mermaid-%E8%AF%AD%E6%B3%95%E9%80%9F%E6%9F%A5%E6%96%87%E6%A1%A3%EF%BC%88%E8%AF%AD%E6%B3%95-%E7%A4%BA%E4%BE%8B-%E8%AF%B4%E6%98%8E-%E5%81%9C%E9%A1%BF-%E9%A3%8E%E9%99%A9%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Mermaid 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%E4%B8%8E%E6%B8%B2%E6%9F%93"><span class="toc-number">2.</span> <span class="toc-text">基本结构与渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE%EF%BC%88flowchart-graph%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">流程图（flowchart &#x2F; graph）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E5%BA%8F%E5%9B%BE%EF%BC%88sequenceDiagram%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">时序图（sequenceDiagram）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9B%BE%EF%BC%88classDiagram%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">类图（classDiagram）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%9B%BE%EF%BC%88stateDiagram-v2%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">状态图（stateDiagram-v2）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ER-%E5%9B%BE%E4%B8%8E-Git-Graph%E3%80%81Gantt-%E7%AD%89"><span class="toc-number">7.</span> <span class="toc-text">ER 图与 Git Graph、Gantt 等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#labelling%E3%80%81%E6%A0%B7%E5%BC%8F%E4%B8%8E%E4%B8%BB%E9%A2%98"><span class="toc-number">8.</span> <span class="toc-text">labelling、样式与主题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92%E3%80%81%E9%93%BE%E6%8E%A5%E4%B8%8E-Click-%E4%BA%8B%E4%BB%B6"><span class="toc-number">9.</span> <span class="toc-text">交互、链接与 Click 事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B3%A8%E6%84%8F"><span class="toc-number">10.</span> <span class="toc-text">调试、性能与兼容性注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%9D%91%E4%B8%8E%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">11.</span> <span class="toc-text">常见坑与最佳实践</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E7%A4%BA%E4%BE%8B%E5%90%88%E9%9B%86%EF%BC%88%E5%8F%AF%E7%9B%B4%E6%8E%A5%E5%A4%8D%E5%88%B6%E5%88%B0-Markdown%EF%BC%89"><span class="toc-number">12.</span> <span class="toc-text">快速示例合集（可直接复制到 Markdown）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Mermaid-cheatsheet/" title="Mermaid cheatsheet">Mermaid cheatsheet</a><time datetime="2025-10-18T04:44:55.000Z" title="Created 2025-10-18 12:44:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet">Graphviz cheatsheet</a><time datetime="2025-10-18T04:41:55.000Z" title="Created 2025-10-18 12:41:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/PlantUML-cheatsheet/" title="PlantUML cheatsheet">PlantUML cheatsheet</a><time datetime="2025-10-18T04:28:52.000Z" title="Created 2025-10-18 12:28:52">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/linux%E5%86%85%E6%A0%B8%E6%8E%A2%E7%A7%98pdf/" title="linux内核探秘pdf">linux内核探秘pdf</a><time datetime="2025-10-14T00:42:49.000Z" title="Created 2025-10-14 08:42:49">2025-10-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E4%BD%A0%E5%A5%BD%E5%B9%B6%E5%8F%91%E4%B8%96%E7%95%8C%E6%96%87%E6%91%98/" title="你好并发世界文摘">你好并发世界文摘</a><time datetime="2025-10-13T16:51:43.000Z" title="Created 2025-10-14 00:51:43">2025-10-14</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Fravel Wang</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>

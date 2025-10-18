@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PlantUML cheatsheet | JUST NOTE</title><meta name="author" content="Fravel Wang"><meta name="copyright" content="Fravel Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险） 基础启动与退出 语法@startuml … @enduml  示例@startumlAlice -&gt; Bob: hello@enduml  说明定界一个 PlantUML 图块，渲染工具会识别 @startuml 到 @enduml 之间的内容并生成图像。  停顿&#x2F;风险忘记闭合 @enduml 会导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PlantUML cheatsheet">
+<meta property="og:url" content="http://example.com/PlantUML-cheatsheet/index.html">
+<meta property="og:site_name" content="JUST NOTE">
+<meta property="og:description" content="PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险） 基础启动与退出 语法@startuml … @enduml  示例@startumlAlice -&gt; Bob: hello@enduml  说明定界一个 PlantUML 图块，渲染工具会识别 @startuml 到 @enduml 之间的内容并生成图像。  停顿&#x2F;风险忘记闭合 @enduml 会导">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/avatar.jpeg">
+<meta property="article:published_time" content="2025-10-18T04:28:52.000Z">
+<meta property="article:modified_time" content="2025-10-18T04:29:59.160Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpeg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PlantUML cheatsheet",
+  "url": "http://example.com/PlantUML-cheatsheet/",
+  "image": "http://example.com/img/avatar.jpeg",
+  "datePublished": "2025-10-18T04:28:52.000Z",
+  "dateModified": "2025-10-18T04:29:59.160Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fravel Wang",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="http://example.com/PlantUML-cheatsheet/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PlantUML cheatsheet',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/bg_img.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JUST NOTE</span></a><a class="nav-page-title" href="/"><span class="site-name">PlantUML cheatsheet</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div></div></nav><div id="post-info"><h1 class="post-title">PlantUML cheatsheet</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-10-18T04:28:52.000Z" title="Created 2025-10-18 12:28:52">2025-10-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-10-18T04:29:59.160Z" title="Updated 2025-10-18 12:29:59">2025-10-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><span id="more"></span>
+<h3 id="PlantUML-语法说明（语法-示例-说明-停顿-风险）"><a href="#PlantUML-语法说明（语法-示例-说明-停顿-风险）" class="headerlink" title="PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险）"></a>PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险）</h3><hr>
+<h3 id="基础启动与退出"><a href="#基础启动与退出" class="headerlink" title="基础启动与退出"></a>基础启动与退出</h3><ul>
+<li><p>语法<br>@startuml … @enduml</p>
+</li>
+<li><p>示例<br>@startuml<br>Alice -&gt; Bob: hello<br>@enduml</p>
+</li>
+<li><p>说明<br>定界一个 PlantUML 图块，渲染工具会识别 @startuml 到 @enduml 之间的内容并生成图像。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>忘记闭合 @enduml 会导致渲染失败或超时；在批量渲染脚本中务必校验每个文件完整性。</p>
+</li>
+<li><p>语法（文件包含）<br>!include <file></p>
+</li>
+<li><p>示例<br>!include common&#x2F;colors.puml</p>
+</li>
+<li><p>说明<br>将外部 puml 文件或库包含进当前图，用于复用样式&#x2F;宏。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>包含不存在文件会报错；相对路径在渲染环境中可能不同，CI&#x2F;工具链中需使用绝对或一致的相对路径。</p>
+</li>
+</ul>
+<hr>
+<h3 id="图类型与启动模板（快速索引）"><a href="#图类型与启动模板（快速索引）" class="headerlink" title="图类型与启动模板（快速索引）"></a>图类型与启动模板（快速索引）</h3><ul>
+<li><p>Sequence（时序图）<br>语法<br>participant A; participant B; A -&gt; B: msg<br>示例<br>@startuml<br>Alice -&gt; Bob: Hello<br>@enduml<br>说明<br>描述消息流与交互顺序。<br>停顿&#x2F;风险<br>大量消息会造成图像拥挤，必要时分片或用 note&#x2F;alt 分支简化。</p>
+</li>
+<li><p>Class（类图）<br>语法<br>class Name { +field; -method() }<br>示例<br>@startuml<br>class User {<br>  +id: int<br>  +login()<br>}<br>@enduml<br>说明<br>定义类、属性与方法，支持继承、接口、组合关系。<br>停顿&#x2F;风险<br>过度细化属性&#x2F;方法会使类图难读，按关注点抽象即可。</p>
+</li>
+<li><p>Activity（活动图）<br>语法<br>start; :action; if (cond) then (yes) :do; else (no) :skip; endif; stop<br>示例<br>@startuml<br>start<br>:initialize;<br>if (ok?) then (yes)<br>  :process;<br>else (no)<br>  :abort;<br>endif<br>stop<br>@enduml<br>说明<br>描述流程控制、分支与并行（fork&#x2F;merge）。<br>停顿&#x2F;风险<br>并行分支（fork&#x2F;merge）滥用会复杂化视图，需标注同步点。</p>
+</li>
+<li><p>State（状态图）<br>语法<br>[<em>] –&gt; State; State –&gt; AnotherState : event<br>示例<br>@startuml<br>[</em>] –&gt; Idle<br>Idle –&gt; Running : start<br>Running –&gt; Idle : stop<br>@enduml<br>说明<br>表示实体生命周期与事件触发的状态变迁。<br>停顿&#x2F;风险<br>状态过多要分层（state inside）以保持可读性。</p>
+</li>
+<li><p>Component &#x2F; Deployment（组件与部署）<br>语法<br>component A; node N; A -[#]-&gt; B;<br>示例<br>@startuml<br>node “Server” {<br>  component WebApp<br>}<br>component Database<br>WebApp –&gt; Database : JDBC<br>@enduml<br>说明<br>展示系统组件、网络与部署位置。<br>停顿&#x2F;风险<br>部署图含环境信息可能泄露敏感架构，发布前审查。</p>
+</li>
+<li><p>Usecase（用例图）<br>语法<br>actor User; usecase “Login” as UC1; User –&gt; UC1<br>示例<br>@startuml<br>actor Customer<br>Customer –&gt; (Place order)<br>@enduml<br>说明<br>高层次用户与系统功能映射。<br>停顿&#x2F;风险<br>用例图不适合展示实现细节，避免混用类图语义。</p>
+</li>
+</ul>
+<hr>
+<h3 id="元素语法与关系（常用速查）"><a href="#元素语法与关系（常用速查）" class="headerlink" title="元素语法与关系（常用速查）"></a>元素语法与关系（常用速查）</h3><ul>
+<li><p>元素定义（参与者 &#x2F; 对象）<br>语法<br>participant Name; actor Name; object Name; boundary Name<br>示例<br>participant Service</p>
+</li>
+<li><p>说明<br>不同关键字影响图语义与样式（actor 常带人形图标）。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>名称含空格时用引号或别名；重复定义会被合并或覆盖。</p>
+</li>
+<li><p>关系箭头（方向、类型、文本）<br>语法<br>A -&gt; B : msg ; A &lt;– B ; A -[#color]-&gt; B ; A ..&gt; B : note<br>示例<br>A –&gt; B : request</p>
+</li>
+<li><p>说明<br>箭头可表示同步&#x2F;异步调用、依赖、泛化（–|&gt;）等；可加颜色与样式。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>复杂箭头嵌套会影响布局，必要时拆图或使用 left&#x2F;right 指令微调。</p>
+</li>
+<li><p>继承 &#x2F; 实现 &#x2F; 关联<br>语法<br>Child –|&gt; Parent; Impl ..|&gt; Interface</p>
+</li>
+<li><p>示例<br>Dog –|&gt; Animal</p>
+</li>
+<li><p>说明<br>使用 UML 标准箭头表示类之间的继承或实现关系。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>误用箭头方向会导致语义反转，保持一致的方向约定。</p>
+</li>
+<li><p>注释与说明（note）<br>语法<br>note left of A : text ; note right of A ; note as N: text</p>
+</li>
+<li><p>示例<br>A -&gt; B : call<br>note right of B : validate input</p>
+</li>
+<li><p>说明<br>用于补充说明、注释或折叠复杂逻辑。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>太多 note 会遮挡元素，优先用外部文档链接或图例。</p>
+</li>
+</ul>
+<hr>
+<h3 id="样式、布局与配置"><a href="#样式、布局与配置" class="headerlink" title="样式、布局与配置"></a>样式、布局与配置</h3><ul>
+<li><p>全局皮肤参数（skinparam）<br>语法<br>skinparam Parameter Value</p>
+</li>
+<li><p>示例<br>skinparam backgroundColor #F8F8F8<br>skinparam classFontSize 12</p>
+</li>
+<li><p>说明<br>控制颜色、字体、边距、节点圆角等全局外观。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>不同渲染器或版本对参数支持不一致；在团队中固定一套样式文件避免差异。</p>
+</li>
+<li><p>主题与样式表（!theme &#x2F; skinparam include）<br>语法<br>!include &lt;theme.puml&gt;</p>
+</li>
+<li><p>示例<br>!include <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/xxx/theme.puml">https://raw.githubusercontent.com/xxx/theme.puml</a></p>
+</li>
+<li><p>说明<br>使用共享主题确保跨图一致性。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>远程包含依赖网络，CI 环境中应缓存或 vendor 本地副本。</p>
+</li>
+<li><p>分组与包（package &#x2F; rectangle）<br>语法<br>package “Name” { … } ; rectangle “box” { … }</p>
+</li>
+<li><p>示例<br>package “Auth” {<br>  class Login<br>  class Token<br>}</p>
+</li>
+<li><p>说明<br>用于逻辑分组、模块边界或可视化分箱。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>过深嵌套影响可读性；优先扁平化或拆分子图。</p>
+</li>
+<li><p>布局控制（left to right direction &#x2F; newpage）<br>语法<br>left to right direction ; top to bottom direction ; newpage</p>
+</li>
+<li><p>示例<br>left to right direction</p>
+</li>
+<li><p>说明<br>强制图元素主要排列方向或分页。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>布局指令可能被局部元素大小覆盖，需配合组件分组调整。</p>
+</li>
+</ul>
+<hr>
+<h3 id="高级功能与脚本化"><a href="#高级功能与脚本化" class="headerlink" title="高级功能与脚本化"></a>高级功能与脚本化</h3><ul>
+<li><p>条件 &#x2F; 分支（alt &#x2F; else &#x2F; end）——时序图分支<br>语法<br>alt condition1<br>  A -&gt; B: x<br>else<br>  A -&gt; B: y<br>end</p>
+</li>
+<li><p>示例<br>@startuml<br>Alice -&gt; Bob: request<br>alt success<br>  Bob -&gt; Alice: ok<br>else failure<br>  Bob -&gt; Alice: error<br>end<br>@enduml</p>
+</li>
+<li><p>说明<br>表示分支路径或替代流程。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>嵌套太深会导致视觉复杂，考虑合并或拆图。</p>
+</li>
+<li><p>循环与重复（loop）<br>语法<br>loop description</p>
+</li>
+<li><p>示例<br>loop every second<br>  A -&gt; B: tick<br>end</p>
+</li>
+<li><p>说明<br>表示重复行为或周期性交互。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>用于抽象，不要试图展示真实无限循环细节。</p>
+</li>
+<li><p>皮肤参数条件化&#x2F;宏（!define &#x2F; !if &#x2F; !endif）<br>语法<br>!define NAME value<br>!if NAME<br>!endif</p>
+</li>
+<li><p>示例<br>!define PROD<br>!if PROD<br>  skinparam backgroundColor #fff<br>!endif</p>
+</li>
+<li><p>说明<br>在生成时切换主题或启用选项，适合 CI 多环境渲染。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>宏扩展错误会导致解析失败，先在本地验证。</p>
+</li>
+<li><p>布局微调（<backspace/> &#x2F; <size> &#x2F; order）<br>语法与示例<br>使用 skinparam 或隐藏标签调整元素尺寸、顺序或间距（具体参数见官方文档）。</p>
+</li>
+<li><p>说明<br>对复杂图必需进行微调。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>各版本对微调支持不同，版本不一致会导致图像差异。</p>
+</li>
+<li><p>导出与命令行渲染<br>语法<br>plantuml -tsvg file.puml ; plantuml -tpng file.puml</p>
+</li>
+<li><p>示例<br>plantuml -tsvg diagram.puml</p>
+</li>
+<li><p>说明<br>在 CI&#x2F;脚本中常用命令行生成 PNG&#x2F;SVG&#x2F;PDF，支持并行渲染。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>大量并发渲染可能耗尽内存&#x2F;CPU；加队列或并发限制。</p>
+</li>
+</ul>
+<hr>
+<h3 id="常用-alias、快捷组合与高危命令清单（模仿-GDB-Cheat-Sheet）"><a href="#常用-alias、快捷组合与高危命令清单（模仿-GDB-Cheat-Sheet）" class="headerlink" title="常用 alias、快捷组合与高危命令清单（模仿 GDB Cheat Sheet）"></a>常用 alias、快捷组合与高危命令清单（模仿 GDB Cheat Sheet）</h3><ul>
+<li><p>常用快捷片段（可放入 .puml 或模板）  </p>
+<ul>
+<li>组件模板<br>skinparam componentStyle rectangle</li>
+<li>标准页眉与版权<br>‘ Header: auto-generated</li>
+<li>标注图例<br>legend left<br>  |&#x3D; Symbol |&#x3D; Meaning |<br>  | –&gt; | call |<br>endlegend</li>
+</ul>
+</li>
+<li><p>说明<br>把常用片段抽成 include 文件便于复用。</p>
+</li>
+<li><p>停顿&#x2F;风险<br>模板变化会影响大量图，变更需审查。</p>
+</li>
+<li><p>高危指令（需谨慎）  </p>
+<ul>
+<li>!include 指向外部 URL：依赖网络和第三方代码，可能带来不受控变化或安全风险。  </li>
+<li>过度宏定义（!define）与条件编译：增加调试复杂度与可维护性风险。  </li>
+<li>绝对路径（!include &#x2F; skinparam 指向本地绝对路径）：在跨机器&#x2F;CI 中失效。  </li>
+<li>大型单图（数千节点）：会导致渲染卡死或输出巨大文件，建议拆图或分层图。</li>
+</ul>
+</li>
+<li><p>停顿&#x2F;风险<br>在生产文档中使用外部 include 前执行安全与版本审计；在 CI 中锁定模板版本。</p>
+</li>
+</ul>
+<hr>
+<h3 id="学习与心法附注（如何高效使用-PlantUML）"><a href="#学习与心法附注（如何高效使用-PlantUML）" class="headerlink" title="学习与心法附注（如何高效使用 PlantUML）"></a>学习与心法附注（如何高效使用 PlantUML）</h3><ul>
+<li>先画大结构再细化：先确认图的目的与受众，避免把所有细节塞进一张图。  </li>
+<li>抽象优先于精确：设计交付物是沟通工具而非精确模型，保留必要细节。  </li>
+<li>模板化与复用：把皮肤参数、图例、常用组件抽成共享 include，保证风格一致性与维护性。  </li>
+<li>自动化渲染：在 CI 中加入 lint 与渲染步骤，发现语法错误与样式回归。  </li>
+<li>版本锁定：对外部 include 与主题进行版本管理，避免“今天可渲染、明天报错”的情况。  </li>
+<li>安全与隐私：部署&#x2F;网络&#x2F;环境图请先脱敏，发布前审查所有外部依赖。</li>
+</ul>
+<hr>
+<p>附：快速示例集合（可直接复制到 .puml）<br>@startuml<br>skinparam backgroundColor #F8F8F8<br>left to right direction</p>
+<p>actor Customer<br>rectangle “WebApp” {<br>  component UI<br>  component “Auth Service” as Auth<br>}<br>database DB</p>
+<p>Customer -&gt; UI: open page<br>UI -&gt; Auth: login(credentials)<br>Auth -&gt; DB: query user<br>Auth –&gt; UI: token<br>UI –&gt; Customer: success</p>
+<p>@enduml</p>
+<p>说明：复合示例包含 actor、component、database、箭头与全局 skinparam。停顿&#x2F;风险：示例为演示，不适合直接展示生产部署细节，请脱敏与分图表达。</p>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Fravel Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/PlantUML-cheatsheet/">http://example.com/PlantUML-cheatsheet/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpeg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Graphviz cheatsheet</div></div><div class="info-2"><div class="info-item-1"> Graphviz 语法速查文档（语法 + 示例 + 说明 + 停顿&#x2F;风险）概览：Graphviz 使用 DOT 语言描述图。核心是 graph&#x2F; digraph、node、edge、subgraph、attributes。下面按主题给出常用语法条目，每条包含「语法」「示例」「说明」「停顿&#x2F;风险」。  基本结构与启动 语法graph 名称 { … }digraph 名称 { … }  示例digraph G {  A -&gt; B;}  说明graph 用于无向图（使用 –），digraph 用于有向图（使用 -&gt;）。块内放节点、边、属性与子图。    停顿&#x2F;风险忘记分号可能被允许但会引起解析歧义；严格遵守括号配对，缺少闭合会导致渲染失败。  命令行渲染dot -Tpng in.dot -o out.png  示例dot -Tsvg diagram.dot -o diagram.svg  说明dot&#x2F;neato&#x2F;fdp&#x2F;twopi&#x2F;sfdp&#x2F;osage 等为不同布局引擎，-T 指定输...</div></div></div></a><a class="pagination-related" href="/linux%E5%86%85%E6%A0%B8%E6%8E%A2%E7%A7%98pdf/" title="linux内核探秘pdf"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">linux内核探秘pdf</div></div><div class="info-2"><div class="info-item-1">    </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fravel Wang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fravelwang"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#PlantUML-%E8%AF%AD%E6%B3%95%E8%AF%B4%E6%98%8E%EF%BC%88%E8%AF%AD%E6%B3%95-%E7%A4%BA%E4%BE%8B-%E8%AF%B4%E6%98%8E-%E5%81%9C%E9%A1%BF-%E9%A3%8E%E9%99%A9%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">PlantUML 语法说明（语法 + 示例 + 说明 + 停顿&#x2F;风险）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%90%AF%E5%8A%A8%E4%B8%8E%E9%80%80%E5%87%BA"><span class="toc-number">2.</span> <span class="toc-text">基础启动与退出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%90%AF%E5%8A%A8%E6%A8%A1%E6%9D%BF%EF%BC%88%E5%BF%AB%E9%80%9F%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">图类型与启动模板（快速索引）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E7%B4%A0%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%85%B3%E7%B3%BB%EF%BC%88%E5%B8%B8%E7%94%A8%E9%80%9F%E6%9F%A5%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">元素语法与关系（常用速查）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B7%E5%BC%8F%E3%80%81%E5%B8%83%E5%B1%80%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">样式、布局与配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD%E4%B8%8E%E8%84%9A%E6%9C%AC%E5%8C%96"><span class="toc-number">6.</span> <span class="toc-text">高级功能与脚本化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8-alias%E3%80%81%E5%BF%AB%E6%8D%B7%E7%BB%84%E5%90%88%E4%B8%8E%E9%AB%98%E5%8D%B1%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95%EF%BC%88%E6%A8%A1%E4%BB%BF-GDB-Cheat-Sheet%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">常用 alias、快捷组合与高危命令清单（模仿 GDB Cheat Sheet）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%BF%83%E6%B3%95%E9%99%84%E6%B3%A8%EF%BC%88%E5%A6%82%E4%BD%95%E9%AB%98%E6%95%88%E4%BD%BF%E7%94%A8-PlantUML%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">学习与心法附注（如何高效使用 PlantUML）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Mermaid-cheatsheet/" title="Mermaid cheatsheet">Mermaid cheatsheet</a><time datetime="2025-10-18T04:44:55.000Z" title="Created 2025-10-18 12:44:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet">Graphviz cheatsheet</a><time datetime="2025-10-18T04:41:55.000Z" title="Created 2025-10-18 12:41:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/PlantUML-cheatsheet/" title="PlantUML cheatsheet">PlantUML cheatsheet</a><time datetime="2025-10-18T04:28:52.000Z" title="Created 2025-10-18 12:28:52">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/linux%E5%86%85%E6%A0%B8%E6%8E%A2%E7%A7%98pdf/" title="linux内核探秘pdf">linux内核探秘pdf</a><time datetime="2025-10-14T00:42:49.000Z" title="Created 2025-10-14 08:42:49">2025-10-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E4%BD%A0%E5%A5%BD%E5%B9%B6%E5%8F%91%E4%B8%96%E7%95%8C%E6%96%87%E6%91%98/" title="你好并发世界文摘">你好并发世界文摘</a><time datetime="2025-10-13T16:51:43.000Z" title="Created 2025-10-14 00:51:43">2025-10-14</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Fravel Wang</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
