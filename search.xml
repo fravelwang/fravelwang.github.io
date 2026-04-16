@@ -4569,4 +4569,59 @@
 </ul>
 ]]></content>
   </entry>
+  <entry>
+    <title>arch_linux配置代理(纯终端)(mihomo clash kernal)</title>
+    <url>/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>默认wget在没有代理时从github下载东西经常失败，所以第一步安装axel下载器</p>
+<p>我的是arch linux,用pacman</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S axel</span><br></pre></td></tr></table></figure>
+
+<p>下载代理工具mihomo解压安装到自定义位置，我选择&#x2F;usr&#x2F;local&#x2F;bin目录<br>地址<code>https://github.com/MetaCubeX/mihomo/releases</code></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">axel https://github.com/MetaCubeX/mihomo/releases/download/v1.19.23/mihomo-linux-amd64-v1-v1.19.23.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">gunzip mihomo-linux-amd64-v1-v1.19.23.gz</span><br></pre></td></tr></table></figure>
+
+<p>得到<br><code>gunzip mihomo-linux-amd64-v1-v1.19.23</code>可执行文件</p>
+<p>添加执行权限</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x gunzip mihomo-linux-amd64-v1-v1.19.23</span><br></pre></td></tr></table></figure>
+
+<p>移动文件到&#x2F;usr&#x2F;local&#x2F;bin</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mv</span> mihomo-linux-amd64-v1-v1.19.23 /usr/local/bin/mihomo-clash</span><br></pre></td></tr></table></figure>
+
+<p>创建配置文件</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/clash</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> ~/.config/clash/config.yaml</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim ~/.config/clash/config.yaml</span><br></pre></td></tr></table></figure>
+
+<p>编辑配置, 我用vim, 不习惯的可以用nano</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> ~/.config/clash/config.yaml</span><br></pre></td></tr></table></figure>
+
+<p>如下是配置内容</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># ~/.config/clash/config.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mixed-port:</span> <span class="number">7890</span></span><br><span class="line"><span class="attr">allow-lan:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">mode:</span> <span class="string">Rule</span></span><br><span class="line"><span class="attr">log-level:</span> <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="attr">external-controller:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9090</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 订阅地址</span></span><br><span class="line"><span class="attr">proxy-providers:</span></span><br><span class="line">  <span class="attr">mysub:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">&quot;填写机场订阅地址&quot;</span></span><br><span class="line">    <span class="attr">interval:</span> <span class="number">3600</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">./mysub.yaml</span></span><br><span class="line">    <span class="attr">health-check:</span></span><br><span class="line">      <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">interval:</span> <span class="number">600</span></span><br><span class="line">      <span class="attr">lazy:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">url:</span> <span class="string">http://www.gstatic.com/generate_204</span></span><br><span class="line"></span><br><span class="line"><span class="attr">proxy-groups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;Proxy&quot;</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">select</span></span><br><span class="line">    <span class="attr">use:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysub</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">GEOIP,CN,DIRECT</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">MATCH,Proxy</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置额外说明：<br>mixed-port: 7890 → 本地代理端口，HTTP&#x2F;HTTPS&#x2F;SOCKS 共用。<br>external-controller: 127.0.0.1:9090 → 控制接口端口，可以用 Clash Dashboard 管理。<br>proxy-providers → 引用你的订阅地址，自动拉取节点。<br>proxy-groups → 定义一个选择组，把订阅里的节点放进去。<br>rules → 简单规则：国内直连，其他走代理。</p>
+<p>手动下载Country.mmdb文件, geoip.metadb文件比较小会自动下载<br>github地址</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://github.com/Dreamacro/maxmind-geoip/releases</span><br></pre></td></tr></table></figure>
+<p>执行</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">axel https://github.com/Dreamacro/maxmind-geoip/releases/download/20260412/Country.mmdb</span><br></pre></td></tr></table></figure>
+
+<p>shell添加环境变量，我的是bash</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">export http_proxy=http://127.0.0.1:7890</span><br><span class="line">export https_proxy=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mihomo-clash -d ~/.config/clash</span><br></pre></td></tr></table></figure>
+
+<p>INFO日志出现match using proxy[compatible]算配置成功,开始转发代理数据</p>
+<p>切后台执行<br>切后台命令<br>按组合键ctrl + z<br>然后</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">bg</span> %1</span><br></pre></td></tr></table></figure>
+<p>或者再开一个终端<br>ctrl + alt + f2</p>
+<p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl www.google.com</span><br></pre></td></tr></table></figure>
+
+<p>显示google主页数据算配置完成,类似如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!doctype html&gt;&lt;html itemscope=&quot;&quot; itemtype=&quot;http://schema.org/WebPage&quot; lang=&quot;zh-HK&quot;&gt;&lt;head&gt;&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;&lt;meta content=&quot;/images/branding/googleg/1x/googleg_standard_color_128dp.png&quot; itemprop=&quot;image&quot;&gt;&lt;title&gt;Google&lt;/title&gt;&lt;script nonce=&quot;Jea7939auYt7GIZUlAUC3Q&quot;&gt;(function()&#123;var _g=&#123;kEI:&#x27;GcfgaZ-0A6-O2roP6LOmyQ8&#x27;,kEXPI:&#x27;0,825046,479157,2935842,48791,46127,201864,142932,270476,5249860,12259,12,341,36811420,25228681,217548,39773,136376,28339,18499,30399,38125,33385,26230,25591,46339,20676,11885,16179,42780,4,1514,3355,197,5813,2,5533,466,16,1406,7726,5159,2,876,21,2208,5089,19,3007,21,775,36623,5337,845,2047,1574,3,6953,1745,4,12116,3077,4,2780,5,1113,389,4,2647,5,5568,298,9253,1275,7,8775,6436,2,5724,9,602,1649,4,9909,1,2,2522,242,3,4980,10,215,441,158,2,1645,2123,2,1636,544,4,1567,2433,187,2105,5,461,3925,4,2364,360,3,2000,5,1988,4470,4,2421,5,1944,5,1125,3,2,2648,1102,4,32,4,448,385,1870,4,40,4,1855,255,4,438,323,1,4258,5,1185,4,467,4,207,4,519,5,75,4,1940,4,1431,218,4,770,571,1,1093,264,2701,4,4703,508,824,989,41,1452,14,315,695,10,814,1713,264,342,222,254,2115,546,18,4,2,531,352,144,3305,4,480,4498,1845,149,1,21010878,4,2433,527,3,8491,2,1562,3,391,11480,4193,3,1827,74,3,2862,918,1798,4,1969,2,641,52,2,6495414,2107,3146,2,1636,1641,6,3090,3,696,1813,2,835,157,650,99758,3516074,915034,12406997,2,361638,329917,3051465,590,5,1023,2387,277,616,4,65,388,2,1015,152,4,489,61,1837,5,1568,5,3361,7,7,7,865,126,10195,5,1594,5,142,4,228,2483,351,4,110,563,170,10,422,815,582,4,523,1819,842,1260,5,2,10,957,2042,1536,60,1647,645,377,1442,1608,4,957,5,18,222,3,860,12,4,521,2329,3864,331,4,126,1541,1564,4,294,252,578,2502,4,1740,2,280,459,5,764,4,949,268,28,1017,55,508,501,224,1374,659,1047,4,2246,5,17,4,140,14,1710,419,145,64,4,235,1004,4,40,998,2492,360,204,4,59,4,1221,611,883,124,5,1152,9,126,559,235,5,116,1029,106,4,4.............省略</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
 </search>

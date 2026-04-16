@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>arch_linux配置代理(纯终端)(mihomo clash kernal) | JUST NOTE</title><meta name="author" content="Fravel Wang"><meta name="copyright" content="Fravel Wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="默认wget在没有代理时从github下载东西经常失败，所以第一步安装axel下载器 我的是arch linux,用pacman 1sudo pacman -S axel  下载代理工具mihomo解压安装到自定义位置，我选择&#x2F;usr&#x2F;local&#x2F;bin目录地址https:&#x2F;&#x2F;github.com&#x2F;MetaCubeX&#x2F;mihomo&#x2F;releases 1axel h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="arch_linux配置代理(纯终端)(mihomo clash kernal)">
+<meta property="og:url" content="http://example.com/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/index.html">
+<meta property="og:site_name" content="JUST NOTE">
+<meta property="og:description" content="默认wget在没有代理时从github下载东西经常失败，所以第一步安装axel下载器 我的是arch linux,用pacman 1sudo pacman -S axel  下载代理工具mihomo解压安装到自定义位置，我选择&#x2F;usr&#x2F;local&#x2F;bin目录地址https:&#x2F;&#x2F;github.com&#x2F;MetaCubeX&#x2F;mihomo&#x2F;releases 1axel h">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/avatar.jpeg">
+<meta property="article:published_time" content="2026-04-16T11:00:03.000Z">
+<meta property="article:modified_time" content="2026-04-16T11:38:45.479Z">
+<meta property="article:author" content="Fravel Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpeg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "arch_linux配置代理(纯终端)(mihomo clash kernal)",
+  "url": "http://example.com/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/",
+  "image": "http://example.com/img/avatar.jpeg",
+  "datePublished": "2026-04-16T11:00:03.000Z",
+  "dateModified": "2026-04-16T11:38:45.479Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Fravel Wang",
+      "url": "http://example.com"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/avatar.jpeg"><link rel="canonical" href="http://example.com/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'arch_linux配置代理(纯终端)(mihomo clash kernal)',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/img/bg_img.jpg);"></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent;"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">JUST NOTE</span></a><a class="nav-page-title" href="/"><span class="site-name">arch_linux配置代理(纯终端)(mihomo clash kernal)</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div></div></nav><div id="post-info"><h1 class="post-title">arch_linux配置代理(纯终端)(mihomo clash kernal)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-04-16T11:00:03.000Z" title="Created 2026-04-16 19:00:03">2026-04-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-04-16T11:38:45.479Z" title="Updated 2026-04-16 19:38:45">2026-04-16</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><span id="more"></span>
+
+<p>默认wget在没有代理时从github下载东西经常失败，所以第一步安装axel下载器</p>
+<p>我的是arch linux,用pacman</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S axel</span><br></pre></td></tr></table></figure>
+
+<p>下载代理工具mihomo解压安装到自定义位置，我选择&#x2F;usr&#x2F;local&#x2F;bin目录<br>地址<code>https://github.com/MetaCubeX/mihomo/releases</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axel https://github.com/MetaCubeX/mihomo/releases/download/v1.19.23/mihomo-linux-amd64-v1-v1.19.23.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gunzip mihomo-linux-amd64-v1-v1.19.23.gz</span><br></pre></td></tr></table></figure>
+
+<p>得到<br><code>gunzip mihomo-linux-amd64-v1-v1.19.23</code>可执行文件</p>
+<p>添加执行权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x gunzip mihomo-linux-amd64-v1-v1.19.23</span><br></pre></td></tr></table></figure>
+
+<p>移动文件到&#x2F;usr&#x2F;local&#x2F;bin</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> mihomo-linux-amd64-v1-v1.19.23 /usr/local/bin/mihomo-clash</span><br></pre></td></tr></table></figure>
+
+<p>创建配置文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/clash</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> ~/.config/clash/config.yaml</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.config/clash/config.yaml</span><br></pre></td></tr></table></figure>
+
+<p>编辑配置, 我用vim, 不习惯的可以用nano</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> ~/.config/clash/config.yaml</span><br></pre></td></tr></table></figure>
+
+<p>如下是配置内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ~/.config/clash/config.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mixed-port:</span> <span class="number">7890</span></span><br><span class="line"><span class="attr">allow-lan:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">mode:</span> <span class="string">Rule</span></span><br><span class="line"><span class="attr">log-level:</span> <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="attr">external-controller:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9090</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 订阅地址</span></span><br><span class="line"><span class="attr">proxy-providers:</span></span><br><span class="line">  <span class="attr">mysub:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">&quot;填写机场订阅地址&quot;</span></span><br><span class="line">    <span class="attr">interval:</span> <span class="number">3600</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">./mysub.yaml</span></span><br><span class="line">    <span class="attr">health-check:</span></span><br><span class="line">      <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">interval:</span> <span class="number">600</span></span><br><span class="line">      <span class="attr">lazy:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">url:</span> <span class="string">http://www.gstatic.com/generate_204</span></span><br><span class="line"></span><br><span class="line"><span class="attr">proxy-groups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;Proxy&quot;</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">select</span></span><br><span class="line">    <span class="attr">use:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysub</span></span><br><span class="line"></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">GEOIP,CN,DIRECT</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">MATCH,Proxy</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>配置额外说明：<br>mixed-port: 7890 → 本地代理端口，HTTP&#x2F;HTTPS&#x2F;SOCKS 共用。<br>external-controller: 127.0.0.1:9090 → 控制接口端口，可以用 Clash Dashboard 管理。<br>proxy-providers → 引用你的订阅地址，自动拉取节点。<br>proxy-groups → 定义一个选择组，把订阅里的节点放进去。<br>rules → 简单规则：国内直连，其他走代理。</p>
+<p>手动下载Country.mmdb文件, geoip.metadb文件比较小会自动下载<br>github地址</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/Dreamacro/maxmind-geoip/releases</span><br></pre></td></tr></table></figure>
+<p>执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axel https://github.com/Dreamacro/maxmind-geoip/releases/download/20260412/Country.mmdb</span><br></pre></td></tr></table></figure>
+
+<p>shell添加环境变量，我的是bash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=http://127.0.0.1:7890</span><br><span class="line">export https_proxy=http://127.0.0.1:7890</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mihomo-clash -d ~/.config/clash</span><br></pre></td></tr></table></figure>
+
+<p>INFO日志出现match using proxy[compatible]算配置成功,开始转发代理数据</p>
+<p>切后台执行<br>切后台命令<br>按组合键ctrl + z<br>然后</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">bg</span> %1</span><br></pre></td></tr></table></figure>
+<p>或者再开一个终端<br>ctrl + alt + f2</p>
+<p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl www.google.com</span><br></pre></td></tr></table></figure>
+
+<p>显示google主页数据算配置完成,类似如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;&lt;html itemscope=&quot;&quot; itemtype=&quot;http://schema.org/WebPage&quot; lang=&quot;zh-HK&quot;&gt;&lt;head&gt;&lt;meta content=&quot;text/html; charset=UTF-8&quot; http-equiv=&quot;Content-Type&quot;&gt;&lt;meta content=&quot;/images/branding/googleg/1x/googleg_standard_color_128dp.png&quot; itemprop=&quot;image&quot;&gt;&lt;title&gt;Google&lt;/title&gt;&lt;script nonce=&quot;Jea7939auYt7GIZUlAUC3Q&quot;&gt;(function()&#123;var _g=&#123;kEI:&#x27;GcfgaZ-0A6-O2roP6LOmyQ8&#x27;,kEXPI:&#x27;0,825046,479157,2935842,48791,46127,201864,142932,270476,5249860,12259,12,341,36811420,25228681,217548,39773,136376,28339,18499,30399,38125,33385,26230,25591,46339,20676,11885,16179,42780,4,1514,3355,197,5813,2,5533,466,16,1406,7726,5159,2,876,21,2208,5089,19,3007,21,775,36623,5337,845,2047,1574,3,6953,1745,4,12116,3077,4,2780,5,1113,389,4,2647,5,5568,298,9253,1275,7,8775,6436,2,5724,9,602,1649,4,9909,1,2,2522,242,3,4980,10,215,441,158,2,1645,2123,2,1636,544,4,1567,2433,187,2105,5,461,3925,4,2364,360,3,2000,5,1988,4470,4,2421,5,1944,5,1125,3,2,2648,1102,4,32,4,448,385,1870,4,40,4,1855,255,4,438,323,1,4258,5,1185,4,467,4,207,4,519,5,75,4,1940,4,1431,218,4,770,571,1,1093,264,2701,4,4703,508,824,989,41,1452,14,315,695,10,814,1713,264,342,222,254,2115,546,18,4,2,531,352,144,3305,4,480,4498,1845,149,1,21010878,4,2433,527,3,8491,2,1562,3,391,11480,4193,3,1827,74,3,2862,918,1798,4,1969,2,641,52,2,6495414,2107,3146,2,1636,1641,6,3090,3,696,1813,2,835,157,650,99758,3516074,915034,12406997,2,361638,329917,3051465,590,5,1023,2387,277,616,4,65,388,2,1015,152,4,489,61,1837,5,1568,5,3361,7,7,7,865,126,10195,5,1594,5,142,4,228,2483,351,4,110,563,170,10,422,815,582,4,523,1819,842,1260,5,2,10,957,2042,1536,60,1647,645,377,1442,1608,4,957,5,18,222,3,860,12,4,521,2329,3864,331,4,126,1541,1564,4,294,252,578,2502,4,1740,2,280,459,5,764,4,949,268,28,1017,55,508,501,224,1374,659,1047,4,2246,5,17,4,140,14,1710,419,145,64,4,235,1004,4,40,998,2492,360,204,4,59,4,1221,611,883,124,5,1152,9,126,559,235,5,116,1029,106,4,4.............省略</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://example.com">Fravel Wang</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://example.com/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/">http://example.com/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/avatar.jpeg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/DDS%E6%A6%82%E5%BF%B5/" title="DDS概念"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">DDS概念</div></div><div class="info-2"><div class="info-item-1"> 概要DDS 中用于区分实体与通信范围的主要唯一标识有：DomainId、Participant GUID、Topic 名称与类型、DataWriter&#x2F;DataReader（或 RTPS writer&#x2F;reader）GUID、以及 Topic 实例的 key 字段等.  主要标识项 DomainId    一个无符号整数（通常 32 位）用来划分独立的通信域，只有相同 DomainId 的 Participant 才会发现彼此与通信.   DomainParticipant 标识（GUID）    每个 DomainParticipant 在底层有唯一的标识（通常为 GUID&#x2F;ParticipantId），由实现（RTPS 层）生成并用于发现与路由.   Topic 标识（name + type）    Topic 的唯一性由 TopicName 决定，通常还需要配合 typeName（数据类型名）来唯一识别一个主题；不同 type 或不同 name 的 Topic 被视为不同实体.   DataWriter &#x2F; DataReader（R...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Fravel Wang</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/fravelwang"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/arch-linux%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-%E7%BA%AF%E7%BB%88%E7%AB%AF-mihomo-clash-kernal/" title="arch_linux配置代理(纯终端)(mihomo clash kernal)">arch_linux配置代理(纯终端)(mihomo clash kernal)</a><time datetime="2026-04-16T11:00:03.000Z" title="Created 2026-04-16 19:00:03">2026-04-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/DDS%E6%A6%82%E5%BF%B5/" title="DDS概念">DDS概念</a><time datetime="2025-10-18T16:03:34.000Z" title="Created 2025-10-19 00:03:34">2025-10-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Ntp%E5%90%8C%E6%AD%A5%E5%AE%A2%E6%88%B7%E7%AB%AF/" title="Ntp同步客户端">Ntp同步客户端</a><time datetime="2025-10-18T13:28:13.000Z" title="Created 2025-10-18 21:28:13">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Mermaid-cheatsheet/" title="Mermaid cheatsheet">Mermaid cheatsheet</a><time datetime="2025-10-18T04:44:55.000Z" title="Created 2025-10-18 12:44:55">2025-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/Graphviz-cheatsheet/" title="Graphviz cheatsheet">Graphviz cheatsheet</a><time datetime="2025-10-18T04:41:55.000Z" title="Created 2025-10-18 12:41:55">2025-10-18</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent;"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Fravel Wang</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.1"></script><script src="/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.1"></script></div></div></body></html>
